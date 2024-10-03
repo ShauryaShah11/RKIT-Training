@@ -1,0 +1,26 @@
+h1{
+    color: blue;
+}
+
+/* Default styles for large screens */
+body {
+    font-size: 18px;
+}
+input{
+    display: block;
+    padding-left: 10px;
+}
+
+/* Styles for tablets and smaller devices */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+}
+
+/* Styles for mobile phones */
+@media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+}

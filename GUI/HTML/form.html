@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+</head>
+    <h1>Registration Form</h1>
+    <form action="www.api.com/upload" method="POST" enctype="multipart/form-data">
+        <!-- Name Input -->
+        <label for="name">Full Name:</label><br>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required><br><br>
+
+        <!-- Email Input -->
+        <label for="email">Email Address:</label><br>
+        <input type="email" id="email" name="email" placeholder="Enter your email address" required><br><br>
+
+        <!-- Password Input -->
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required><br><br>
+
+        <!-- Address Textarea -->
+        <label for="address">Address:</label><br>
+        <textarea id="address" name="address" rows="4" cols="30" placeholder="Enter your address"></textarea><br><br>
+
+        <!-- Single Car Selection -->
+        <label for="car">Choose a Car:</label>
+        <select id="car" name="car">
+            <option value="BMW">BMW</option>
+            <option value="Mercedes">Mercedes</option>
+            <option value="Audi">Audi</option>
+            <option value="Toyota">Toyota</option>
+        </select><br><br>
+
+        <!-- Multiple Car Selection -->
+        <label for="cars">Select Your Favorite Cars (Multiple):</label>
+        <select id="cars" name="cars[]" multiple>
+            <option value="BMW">BMW</option>
+            <option value="Mercedes">Mercedes</option>
+            <option value="Audi">Audi</option>
+            <option value="Toyota">Toyota</option>
+        </select><br><br>
+
+        <!-- cheakbox -->
+        <label>Hobbies:</label>
+        <input type="checkbox" id="hobby1" name="reading" value="Reading" checked>reading</input>
+        <input type="checkbox" id="hobby2" name="writing" value="Writing">writing</input>
+        <input type="checkbox" id="hobby3" name="coding" value="Coding">coding</input>
+        <br><br>
+
+
+        <!-- Gender Radio Buttons -->
+        <label>Gender:</label><br>
+        <input type="radio" id="male" name="gender" value="male" checked>
+        <label for="male">Male</label><br>
+
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label><br>
+
+        <input type="radio" id="other" name="gender" value="other">
+        <label for="other">Other</label><br><br>
+
+        <label for="fileupload">Upload a file:</label><br>
+        <input type="file" id="fileupload" name="file"><br><br>
+
+        <!-- accept specific file types -->
+        <label for="fileupload1">Upload a multiple image or pdf:</label><br>
+        <input type="file" id="fileupload1" name="image" accept="image/*, .pdf" multiple><br><br>
+
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+
+    </form>
+</body>
+</html>

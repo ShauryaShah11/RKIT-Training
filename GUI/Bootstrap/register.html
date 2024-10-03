@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+
+    <!-- start navbar  section -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand ms-3" href="./index.html">My Site</a>
+
+        <div class="ms-auto">
+          <a class="btn btn-primary me-3" href="./register.html">Signup</a>
+          <a class="btn btn-outline-secondary" href="./login.html">Login</a>
+        </div>
+      </div>
+    </nav>
+    <!-- end navbar section -->
+
+    <!-- start Registration Form section -->
+    <div class="container mt-5" style="width: 60%">
+      <div class="card shadow-sm">
+        <div class="card-header text-center">
+          <h1 class="h3">Registration Form</h1>
+        </div>
+        <div class="card-body">
+          <form
+            action="./login.html"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <!--  start Input section -->
+            <div class="mb-3">
+              <label for="name" class="form-label">Full Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="form-control"
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+
+            <!-- Email Input -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+                placeholder="Enter your email address"
+                required
+              />
+            </div>
+
+            <!-- Password Input -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <!-- Address Textarea -->
+            <div class="mb-3">
+              <label for="address" class="form-label">Address:</label>
+              <textarea
+                id="address"
+                name="address"
+                class="form-control"
+                rows="4"
+                placeholder="Enter your address"
+              ></textarea>
+            </div>
+            <!-- end input section -->
+
+            <!-- start dropdown section -->
+            <div class="mb-3">
+              <label for="car" class="form-label">Choose a Car:</label>
+              <select id="car" name="car" class="form-select">
+                <option value="BMW">BMW</option>
+                <option value="Mercedes">Mercedes</option>
+                <option value="Audi">Audi</option>
+                <option value="Toyota">Toyota</option>
+              </select>
+            </div>
+
+            <!-- Multiple Car Selection -->
+            <div class="mb-3">
+              <label for="cars" class="form-label"
+                >Select Your Favorite Cars (Multiple):</label
+              >
+              <select id="cars" name="cars[]" multiple class="form-select">
+                <option value="BMW">BMW</option>
+                <option value="Mercedes">Mercedes</option>
+                <option value="Audi">Audi</option>
+                <option value="Toyota">Toyota</option>
+              </select>
+            </div>
+            <!-- end dropdown section -->
+
+            <!-- start Checkbox section-->
+            <div class="mb-3">
+              <label class="form-label">Hobbies:</label>
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  id="hobby1"
+                  name="reading"
+                  value="Reading"
+                  class="form-check-input"
+                  checked
+                />
+                <label class="form-check-label" for="hobby1">Reading</label>
+              </div>
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  id="hobby2"
+                  name="writing"
+                  value="Writing"
+                  class="form-check-input"
+                />
+                <label class="form-check-label" for="hobby2">Writing</label>
+              </div>
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  id="hobby3"
+                  name="coding"
+                  value="Coding"
+                  class="form-check-input"
+                />
+                <label class="form-check-label" for="hobby3">Coding</label>
+              </div>
+            </div>
+            <!-- end checkbox section -->
+
+            <!-- start Radio Buttons section-->
+            <div class="mb-3">
+              <label class="form-label">Gender:</label><br />
+              <div class="form-check form-check-inline">
+                <input
+                  type="radio"
+                  id="male"
+                  name="gender"
+                  value="male"
+                  class="form-check-input"
+                  checked
+                />
+                <label class="form-check-label" for="male">Male</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  type="radio"
+                  id="female"
+                  name="gender"
+                  value="female"
+                  class="form-check-input"
+                />
+                <label class="form-check-label" for="female">Female</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  type="radio"
+                  id="other"
+                  name="gender"
+                  value="other"
+                  class="form-check-input"
+                />
+                <label class="form-check-label" for="other">Other</label>
+              </div>
+            </div>
+            <!-- end radio button section -->
+
+            <!-- start File Upload section-->
+            <div class="mb-3">
+              <label for="fileupload" class="form-label">Upload a file:</label>
+              <input
+                type="file"
+                id="fileupload"
+                name="file"
+                class="form-control"
+              />
+            </div>
+
+            <!-- Accept specific file types -->
+            <div class="mb-3">
+              <label for="fileupload1" class="form-label"
+                >Upload multiple images or PDFs:</label
+              >
+              <input
+                type="file"
+                id="fileupload1"
+                name="image"
+                accept="image/*, .pdf"
+                multiple
+                class="form-control"
+              />
+            </div>
+            <!-- end file upload section -->
+
+            <!-- Submit Button -->
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary w-100">
+                Submit
+              </button>
+            </div>
+
+            <div class="text-center">
+              <a href="login.html" class="text-decoration-none"
+                >Already have an account? Login</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- end Registration form section -->
+
+    <!-- start footer section -->
+    <footer class="bg-light text-center text-lg-start mt-5">
+      <div class="container p-3">
+        <div class="row">
+          <div class="col-md-6 text-md-start">
+            <p class="mb-0">&copy; 2024 My Site. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <a href="#" class="text-decoration-none me-3">Privacy Policy</a>
+            <a href="#" class="text-decoration-none">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- end footer section -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

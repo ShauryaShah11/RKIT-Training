@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="myButton">Click me</button>
+    <form id="myForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" />
+      <input type="submit" value="Submit" />
+    </form>
+    <script>
+      document
+        .getElementById("myButton")
+        .addEventListener("click", function () {
+          alert("Button clicked!");
+        });
+      document.getElementById("myForm").onsubmit = function () {
+        const username = document.getElementById("username").value;
+        if (username === "") {
+          alert("Username cannot be empty!");
+          return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+      };
+    </script>
+
+  </body>
+</html>

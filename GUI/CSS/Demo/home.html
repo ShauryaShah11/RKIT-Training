@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="home.css" type="text/css" />
+    <style>
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #333;
+        color: white;
+        padding: 10px 20px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+      }
+
+      .navbar-logo {
+        font-size: 1.5em;
+        font-weight: bold;
+        padding-left: 40px;
+      }
+
+      .navbar-content {
+        display: flex;
+        padding-right: 40px;
+      }
+
+      .navbar-item {
+        margin-left: 20px;
+        cursor: pointer;
+      }
+
+      .navbar-item:hover {
+        color: #ddd;
+      }
+
+      .footer {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background-color: #333;
+        color: white;
+        padding: 20px 0;
+        border-top: 1px solid #444;
+      }
+
+      .footer-column {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 40px;
+      }
+
+      .footer-item {
+        margin: 5px 0;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .footer-item:hover {
+        color: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="navbar-logo">Logo</div>
+      <div class="navbar-content">
+        <div class="navbar-item">
+          <a href="register.html">Register</a>
+        </div>
+        <div class="navbar-item">
+          <a href="login.html">Login</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="main-section">This is Main section</div>
+
+    <footer class="footer">
+      <div class="footer-column">
+        <div class="footer-item">Contact Us</div>
+        <div class="footer-item">Refund Policy</div>
+      </div>
+      <div class="footer-column">
+        <div class="footer-item">Contact Us</div>
+        <div class="footer-item">Refund Policy</div>
+      </div>
+      <div class="footer-column">
+        <div class="footer-item">Contact Us</div>
+        <div class="footer-item">Refund Policy</div>
+      </div>
+      <div class="footer-column">
+        <div class="footer-item">Contact Us</div>
+        <div class="footer-item">Refund Policy</div>
+      </div>
+    </footer>
+  </body>
+</html>

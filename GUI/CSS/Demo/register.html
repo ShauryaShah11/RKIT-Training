@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <link href="register.css" rel="stylesheet" type="text/css" />
+    <style>
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #333;
+        color: white;
+        padding: 10px 20px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+      }
+
+      .navbar-logo {
+        font-size: 1.5em;
+        font-weight: bold;
+        padding-left: 40px;
+      }
+
+      .navbar-content {
+        display: flex;
+        padding-right: 40px;
+      }
+
+      .navbar-item {
+        margin-left: 20px;
+        cursor: pointer;
+      }
+
+      .navbar-item:hover {
+        color: #ddd;
+      }
+
+      .footer {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background-color: #333;
+        color: white;
+        padding: 20px 0;
+        border-top: 1px solid #444;
+      }
+
+      .footer-column {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 40px;
+      }
+
+      .footer-item {
+        margin: 5px 0;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .footer-item:hover {
+        color: #ddd;
+      }
+    </style>
+  </head>
+  <body class="body-class">
+    <!-- start navbar section -->
+    <header class="navbar">
+      <div class="navbar-logo">Logo</div>
+      <div class="navbar-content">
+        <div class="navbar-item">
+          <a href="register.html">Register</a>
+        </div>
+        <div class="navbar-item">
+          <a href="login.html">Login</a>
+        </div>
+      </div>
+    </header>
+    <!-- end navbar section -->
+
+    <div class="outer-div">
+      <div class="box">
+        <div class="header">
+          <h1 class="h1-class">Registration Form</h1>
+        </div>
+        <div class="form-container">
+          <!-- start Registration form section -->
+          <form
+            action="www.api.com/upload"
+            method="POST"
+            enctype="multipart/form-data"
+            class="form-class"
+          >
+            <!-- start Input  section-->
+            <div class="form-group">
+              <label for="name" class="label-class">Full Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your name"
+                required
+                class="input-class"
+              />
+            </div>
+
+            <!-- Email Input -->
+            <div class="form-group">
+              <label for="email" class="label-class">Email Address:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email address"
+                required
+                class="input-class"
+              />
+            </div>
+
+            <!-- Password Input -->
+            <div class="form-group">
+              <label for="password" class="label-class">Password:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+                class="input-class"
+              />
+            </div>
+            <!-- end input section -->
+
+            <!-- start Textarea section -->
+            <div class="form-group">
+              <label for="address" class="label-class">Address:</label>
+              <textarea
+                id="address"
+                name="address"
+                rows="4"
+                cols="30"
+                placeholder="Enter your address"
+                class="textarea-class"
+              ></textarea>
+            </div>
+            <!-- end textArea section -->
+
+            <!-- start dropdown section -->
+            <!-- Single Car Selection -->
+            <div class="form-group">
+              <label for="car" class="label-class">Choose a Car:</label>
+              <select id="car" name="car" class="select-class">
+                <option value="BMW" class="option-class">BMW</option>
+                <option value="Mercedes" class="option-class">Mercedes</option>
+                <option value="Audi" class="option-class">Audi</option>
+                <option value="Toyota" class="option-class">Toyota</option>
+              </select>
+            </div>
+
+            <!-- Multiple Car Selection -->
+            <div class="form-group">
+              <label for="cars" class="label-class"
+                >Select Your Favorite Cars (Multiple):</label
+              >
+              <select id="cars" name="cars[]" multiple class="select-class">
+                <option value="BMW" class="option-class">BMW</option>
+                <option value="Mercedes" class="option-class">Mercedes</option>
+                <option value="Audi" class="option-class">Audi</option>
+                <option value="Toyota" class="option-class">Toyota</option>
+              </select>
+            </div>
+            <!-- end dropdown section -->
+
+            <!-- start Checkbox  section-->
+            <div class="form-group">
+              <label class="label-class">Hobbies:</label>
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="hobby1"
+                  name="reading"
+                  value="Reading"
+                  checked
+                  class="checkbox-class"
+                />
+                Reading
+                <input
+                  type="checkbox"
+                  id="hobby2"
+                  name="writing"
+                  value="Writing"
+                  class="checkbox-class"
+                />
+                Writing
+                <input
+                  type="checkbox"
+                  id="hobby3"
+                  name="coding"
+                  value="Coding"
+                  class="checkbox-class"
+                />
+                Coding
+              </div>
+            </div>
+            <!-- end checkbox section -->
+
+            <!-- start Radio Button section -->
+            <div class="form-group">
+              <label class="label-class">Gender:</label><br />
+              <input
+                type="radio"
+                id="male"
+                name="gender"
+                value="male"
+                checked
+                class="radio-class"
+              />
+              <label for="male" class="label-class">Male</label><br />
+
+              <input
+                type="radio"
+                id="female"
+                name="gender"
+                value="female"
+                class="radio-class"
+              />
+              <label for="female" class="label-class">Female</label><br />
+
+              <input
+                type="radio"
+                id="other"
+                name="gender"
+                value="other"
+                class="radio-class"
+              />
+              <label for="other" class="label-class">Other</label>
+            </div>
+            <!-- end radio button section -->
+             
+            <!-- start File Upload section-->
+            <div class="form-group">
+              <label for="fileupload" class="label-class">Upload a file:</label
+              ><br />
+              <input
+                type="file"
+                id="fileupload"
+                name="file"
+                class="file-class"
+              />
+            </div>
+
+            <!-- Accept specific file types -->
+            <div class="form-group">
+              <label for="fileupload1" class="label-class"
+                >Upload multiple images or PDFs:</label
+              ><br />
+              <input
+                type="file"
+                id="fileupload1"
+                name="image"
+                accept="image/*, .pdf"
+                multiple
+                class="file-class"
+              />
+            </div>
+            <!-- end file Upload section -->
+
+            <!-- Submit Button -->
+            <div class="form-group">
+              <button type="submit" class="button-class">Submit</button>
+            </div>
+            <div class="form-group">
+              <a
+                href="login.html"
+                class="a-class"
+                style="display: flex; justify-content: center"
+                >Already have an account? Login</a
+              >
+            </div>
+          </form>
+          <!-- end Registration form section -->
+        </div>
+      </div>
+    </div>
+
+    <!-- start footer section -->
+    <footer class="footer">
+      <div class="footer-column">
+        <div class="footer-item">Contact Us</div>
+        <div class="footer-item">Refund Policy</div>
+      </div>
+      <div class="footer-column">
+        <div class="footer-item">Contact Us</div>
+        <div class="footer-item">Refund Policy</div>
+      </div>
+      <div class="footer-column">
+        <div class="footer-item">Contact Us</div>
+        <div class="footer-item">Refund Policy</div>
+      </div>
+      <div class="footer-column">
+        <div class="footer-item">Contact Us</div>
+        <div class="footer-item">Refund Policy</div>
+      </div>
+    </footer>
+    <!-- end footer section -->
+  </body>
+</html>
