@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Custom Event Logic</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(document).keydown(function (event) {
+          if (event.which == 65) {
+            // If 'A' key is pressed
+            $("#output").text("You pressed 'A'!");
+          } else if (event.which == 66) {
+            // If 'B' key is pressed
+            $("#output").text("You pressed 'B'!");
+          } else {
+            $("#output").text("You pressed another key.");
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <p id="output">Press 'A' or 'B' on the keyboard.</p>
+  </body>
+</html>
