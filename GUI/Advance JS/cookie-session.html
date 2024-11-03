@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Cookies vs Session Storage Demo</title>
+    </head>
+    <body>
+        <h1 id="welcomeMessage"></h1>
+
+        <div>
+            <label for="username">Enter your name:</label>
+            <input type="text" id="username" placeholder="Your Name" />
+        </div>
+        <div>
+            <button id="btnCookie">Save with Cookie</button>
+            <button id="btnSession">Save with Session Storage</button>
+        </div>
+        <br />
+        <div>
+            <button id="clearBtn">Clear Data</button>
+        </div>
+
+        <script>
+            document
+                .getElementById("clearBtn")
+                .addEventListener("click", clearData);
+            document
+                .getElementById("btnSession")
+                .addEventListener("click", saveWithSession);
+            document
+                .getElementById("btnCookie")
+                .addEventListener("click", saveWithCookie);
+
+            // Function to set a cookie
+            function setCookie(name, value, days) {
+                const d = new Date();
+                d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000); // expiration time in days
+                let expires = "expires=" + d.toUTCString();
+                document.cookie =
+                    name + "=" + value + ";" + expires + ";path=/";
+            }
+
+            // Function to get a cookie
+            function getCookie(name) {
+                let decodedCookie = decodeURIComponent(document.cookie);
+                let ca = decodedCookie.split(";");
+                let cookieName = name + "=";
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) === " ") {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(cookieName) === 0) {
+                        return c.substring(cookieName.length, c.length);
+                    }
+                }
+                return "";
+            }
+
+            // Save data using Cookies
+            function saveWithCookie() {
+                const username = document.getElementById("username").value;
+                if (username) {
+                    setCookie("username", username, 8);
+                    document.getElementById("welcomeMessage").innerText =
+                        "Welcome " + username + " (from Cookie)";
+                }
+            }
+
+            // Save data using Session Storage
+            function saveWithSession() {
+                const username = document.getElementById("username").value;
+                if (username) {
+                    sessionStorage.setItem("username", username); // Store username in session storage
+                    document.getElementById("welcomeMessage").innerText =
+                        "Welcome " + username + " (from Session Storage)";
+                }
+            }
+
+            // Display data from cookies or session storage when page loads
+            function displayWelcomeMessage() {
+                const cookieUsername = getCookie("username");
+                const sessionUsername = sessionStorage.getItem("username");
+
+                if (cookieUsername) {
+                    document.getElementById("welcomeMessage").innerText =
+                        "Welcome back, " + cookieUsername + " (from Cookie)";
+                } else if (sessionUsername) {
+                    document.getElementById("welcomeMessage").innerText =
+                        "Welcome back, " +
+                        sessionUsername +
+                        " (from Session Storage)";
+                } else {
+                    document.getElementById("welcomeMessage").innerText =
+                        "Welcome, please enter your name.";
+                }
+            }
+
+            // Clear both session storage and cookies
+            function clearData() {
+                // Clear session storage
+                sessionStorage.removeItem("username");
+
+                // Clear cookie by setting an expiration date in the past
+                document.cookie =
+                    "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+                // Clear welcome message
+                document.getElementById("welcomeMessage").innerText =
+                    "Data Cleared. Enter your name again!";
+            }
+
+            // Call the function when the page loads
+            displayWelcomeMessage();
+        </script>
+    </body>
+</html>

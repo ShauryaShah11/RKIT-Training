@@ -1,0 +1,15 @@
+{
+    "categories": [
+        { "id": 1, "name": "Food" },
+        { "id": 2, "name": "Transport" },
+        { "id": 3, "name": "Entertainment" },
+        { "id": 4, "name": "Utilities" },
+        { "id": 5, "name": "Health" },
+        { "id": 6, "name": "Education" },
+        { "id": 7, "name": "Housing" },
+        { "id": 8, "name": "Clothing" },
+        { "id": 9, "name": "Travel" },
+        { "id": 10, "name": "Savings" },
+        { "id": 11, "name": "Other" }
+    ]
+}

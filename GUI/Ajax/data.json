@@ -1,0 +1,34 @@
+{
+    "data": [
+        {
+            "name": "Shaurya shah",
+            "age": 25,
+            "email": "shaurya.shah@example.com",
+            "city": "New York"
+        },
+        {
+            "name": "John Smith",
+            "age": 30,
+            "email": "john.smith@example.com",
+            "city": "Los Angeles"
+        },
+        {
+            "name": "Emily Johnson",
+            "age": 28,
+            "email": "emily.johnson@example.com",
+            "city": "Chicago"
+        },
+        {
+            "name": "Michael Brown",
+            "age": 32,
+            "email": "michael.brown@example.com",
+            "city": "Houston"
+        },
+        {
+            "name": "Jessica Davis",
+            "age": 27,
+            "email": "jessica.davis@example.com",
+            "city": "San Francisco"
+        }
+    ]
+}

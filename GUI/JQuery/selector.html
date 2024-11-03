@@ -1,20 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>jQuery Selectors Example</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>JQuery Selector example</title>
+    </head>
+    <body>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, at?
+        </p>
+        <p id="para">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
+            itaque ad at culpa neque commodi facilis doloremque harum magni
+            laborum?
+        </p>
+        <p class="odd">Lorem ipsum dolor sit amet.</p>
+        <p class="even">Lorem ipsum dolor sit amet consectetur.</p>
+        <p class="odd">Lorem ipsum dolor sit amet.</p>
+        <p class="even">Lorem ipsum dolor sit amet consectetur.</p>
+    </body>
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function(){
-            $("#changeColor").click(function(){
-                $("p").css("color", "blue"); // Changes color of all <p> elements
+        $(document).ready(function () {
+            console.log("we are ready");
+
+            //Elemment selector
+            $("p").click(function () {
+                alert("you clicked on p element");
+            });
+
+            //2 id selector  :- select tag with id para
+            $("#para").click(function () {
+                alert("you clicked on para element");
+            });
+
+            //3 class selector :- select class with name odd
+            $(".odd").click(function () {
+                alert("you clicked on odd element");
+            });
+
+            // other selector :- select any element
+            $("*").click(function () {
+                alert("you clicked on any element");
             });
         });
     </script>
-</head>
-<body>
-    <p>This is a paragraph.</p>
-    <p>This is another paragraph.</p>
-    <button id="changeColor">Change Color</button>
-</body>
 </html>

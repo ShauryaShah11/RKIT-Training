@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Basic jQuery Validation</title>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Basic jQuery Validation</title>
+    </head>
+    <body>
+        <form id="myForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" /><br /><br />
+
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" /><br /><br />
+
+            <input type="submit" value="Submit" />
+        </form>
+    </body>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      $(document).ready(function () {
-        $("#myForm").submit(function (event) {
-          var isValid = true;
+        $(document).ready(function () {
+            $("#myForm").submit(function (event) {
+                var isValid = true;
 
-          // Check if the name field is empty
-          if ($("#name").val().trim() === "") {
-            isValid = false;
-            alert("Name field is required.");
-          }
+                // Check if the name field is empty
+                if ($("#name").val().trim() === "") {
+                    isValid = false;
+                    alert("Name field is required.");
+                }
 
-          // Check if the email field is empty
-          var email = $("#email").val().trim();
-          if (email === "") {
-            isValid = false;
-            alert("Email field is required.");
-          } else if (!validateEmail(email)) {
-            isValid = false;
-            alert("Please enter a valid email address.");
-          }
+                // Check if the email field is empty
+                var email = $("#email").val().trim();
+                if (email === "") {
+                    isValid = false;
+                    alert("Email field is required.");
+                } else if (!validateEmail(email)) {
+                    isValid = false;
+                    alert("Please enter a valid email address.");
+                }
 
-          // Prevent form submission if validation fails
-          if (!isValid) {
-            event.preventDefault();
-          }
+                // Prevent form submission if validation fails
+                if (!isValid) {
+                    event.preventDefault();
+                }
+            });
+
+            // Basic email validation function
+            function validateEmail(email) {
+                var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return regex.test(email);
+            }
         });
-
-        // Basic email validation function
-        function validateEmail(email) {
-          var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          return regex.test(email);
-        }
-      });
     </script>
-  </head>
-  <body>
-    <form id="myForm">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" /><br /><br />
-
-      <label for="email">Email:</label>
-      <input type="text" id="email" name="email" /><br /><br />
-
-      <input type="submit" value="Submit" />
-    </form>
-  </body>
 </html>

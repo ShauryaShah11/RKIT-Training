@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Callback Function</title>
+    </head>
+    <body>
+        <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic
+            perferendis minus natus, impedit nisi ipsa officiis quam dolorum
+            aliquid non. Dolore dolor dicta quae. Qui fuga unde repudiandae
+            fugiat mollitia.
+        </p>
+        <button id="btn">Submit</button>
+    </body>
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let btn = $("#btn");
+            btn.click(function () {
+                $("p").hide(1000, function () {
+                    alert("The paragraph is now hidden.");
+                });
+            });
+        });
+    </script>
+    <script src="deferred.js"></script>
+    <!-- <script src="promise.js"></script> -->
+</html>

@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Basic Evnets</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Basic Evnets</title>
+    </head>
+    <body>
+        <div id="myDiv">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat,
+            repellat.
+        </div>
+        <input type="text" class="myInput" /><br />
+        <button id="myButton" type="button">Click me!</button>
+    </body>
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      $(document).ready(function () {
-        // Attach click event to button
-        $("#myButton").click(function () {
-          alert("Button was clicked!");
+        $(document).ready(function () {
+            // Attach click event to button
+            $("#myButton").click(function () {
+                alert("Button was clicked!");
+            });
+
+            $("#myButton").dblclick(function () {
+                alert("Button double-clicked!");
+            });
+
+            $("#myDiv")
+                .mouseenter(function () {
+                    $(this).css("background-color", "yellow");
+                })
+                .mouseleave(function () {
+                    $(this).css("background-color", "white");
+                });
+
+            // $(document).keydown(function () {
+            //   alert("A key was pressed!");
+            // });
+
+            $(".myInput")
+                .focus(function () {
+                    $(this).css("border", "2px solid green");
+                })
+                .blur(function () {
+                    $(this).css("border", "1px solid black");
+                });
         });
-
-        $("#myButton").dblclick(function () {
-          alert("Button double-clicked!");
-        });
-
-        $("#myDiv")
-          .mouseenter(function () {
-            $(this).css("background-color", "yellow");
-          })
-          .mouseleave(function () {
-            $(this).css("background-color", "white");
-          });
-
-        // $(document).keydown(function () {
-        //   alert("A key was pressed!");
-        // });
-
-        $(".myInput")
-          .focus(function () {
-            $(this).css("border", "2px solid green");
-          })
-          .blur(function () {
-            $(this).css("border", "1px solid black");
-          });
-      });
     </script>
-  </head>
-  <body>
-    <div id="myDiv">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat,
-      repellat.
-    </div>
-    <input type="text" class="myInput" /><br >
-    <button id="myButton" type="button">Click me!</button>
-  </body>
 </html>

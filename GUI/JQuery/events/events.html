@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Events in JQuery</title>
+    </head>
+    <body>
+        <p id="firstPara">Lorem ipsum dolor sit amet.</p>
+        <p id="secondPara">Lorem ipsum dolor sit amet.</p>
+        <div id="firstDiv">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, odit!
+        </div>
+        <br />
+        <div id="secondDiv">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, eaque.
+        </div>
+        <br />
+        <div id="thirdPara">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima
+            quos quod quasi nihil animi dolorum tempore nobis praesentium. Sint
+            impedit eveniet ducimus doloremque qui ex corrupti laudantium
+            aspernatur possimus quo. Vero mollitia magnam, unde ab consequatur
+            aliquam quos nemo sapiente optio odio rem magni facilis possimus
+            maiores. Inventore incidunt minima, nesciunt pariatur quae libero
+            enim nisi dolorem consequuntur eius temporibus? Nisi dignissimos
+            minus beatae sapiente aperiam corporis unde iste corrupti maxime
+            deleniti eum ullam vel illo, blanditiis repudiandae ex doloremque
+            optio magni a. Provident impedit quae, laboriosam fugit
+            reprehenderit soluta? Assumenda dignissimos minus dolor
+            exercitationem architecto corporis tenetur velit dolorum similique
+            pariatur sit nostrum molestias eius corrupti necessitatibus beatae
+            soluta animi perspiciatis, eum molestiae quam nihil hic! Unde,
+            praesentium mollitia. Temporibus incidunt eligendi ratione soluta,
+            quod velit impedit veritatis, quaerat accusamus suscipit est
+            mollitia facilis quam fugiat iste, sint explicabo nobis id
+            voluptatibus molestiae ipsa beatae facere expedita. Ipsa, dolor!
+            Quas autem earum molestias provident! Adipisci expedita sunt
+            repellendus, nam incidunt ab, repudiandae ipsa officiis vitae iste
+            totam quo labore eveniet eligendi aliquam pariatur, nostrum
+            praesentium veritatis molestias voluptatem libero. Necessitatibus
+            magni tempora sequi optio fuga repellat quisquam vero voluptatibus?
+            Corrupti quo nostrum aut magni unde sint. Consectetur labore
+            corrupti mollitia repudiandae accusamus doloribus, ipsam deserunt
+            totam, dolor expedita quod? Officia provident odio quam voluptas
+            quos, illum neque. Quia consequuntur commodi eius sequi recusandae
+            aspernatur possimus? Officia ullam facilis dolor accusantium
+            provident qui corrupti hic dicta iste cum, deleniti praesentium.
+            Inventore recusandae totam accusantium temporibus dolorem maxime
+            culpa, laboriosam sint. Ullam distinctio provident pariatur, eveniet
+            quia libero possimus repellendus ducimus? Qui blanditiis laborum
+            alias enim quas hic esse vel omnis. Adipisci pariatur explicabo odit
+            corrupti deserunt, architecto fuga aut veritatis laudantium enim,
+            praesentium ut cumque sed assumenda repellat repudiandae nemo
+            tempora repellendus impedit? Enim quidem praesentium perspiciatis
+            quasi? Nam, dolore.
+        </div>
+        <button type="button" id="toggle">Toggle</button>
+    </body>
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let firstPara = $("#firstPara");
+            let secondPara = $("#secondPara");
+            let para = $("p");
+            let firstDiv = $("#firstDiv");
+            let secondDiv = $("#secondDiv");
+            let thirdPara = $("#thirdPara");
+            let toggle = $("#toggle");
+
+            firstPara.click(function () {
+                alert("you clicked on para element");
+            });
+
+            secondPara.dblclick(function () {
+                alert("you double clicked on para element");
+            });
+
+            para.hover(function () {
+                console.log("you hover on p tag");
+            });
+
+            // attach single event to element
+            firstDiv.on("click", function () {
+                alert("you clicked on div element");
+            });
+
+            // attach multiple event to element
+            secondDiv.on({
+                click: function () {
+                    alert("you clicked on div element");
+                },
+                dblclick: function () {
+                    alert("you double clicked on div element");
+                },
+                mouseleave: function () {
+                    console.log("you leave div tag");
+                },
+            });
+
+            // thirdPara.hide(1000, function(){
+            //     console.log("hidden");
+            // });
+
+            // thirdPara.show(1000, function(){
+            //     console.log("show");
+            // });
+
+            // different way to animate element
+            toggle.click(function () {
+                thirdPara.fadeToggle(   , function () {
+                    console.log("toggle");
+                });
+            });
+
+            // thirdPara.slideUp(1000);
+            // thirdPara.slideDown(1000);
+
+            thirdPara.slideToggle(1000);
+        });
+    </script>
+</html>

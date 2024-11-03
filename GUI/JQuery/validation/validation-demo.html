@@ -1,47 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>jQuery Validation Plugin Example</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.3/jquery.validate.min.js"></script>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Bootstrap Validation Example</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div class="container mt-5">
+            <form id="myForm">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-control"
+                    />
+                    <div class="invalid-feedback">
+                        Name is required and must be at least 3 characters long.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-control"
+                    />
+                    <div class="invalid-feedback">
+                        Please enter a valid email address.
+                    </div>
+                </div>
+
+                <input type="submit" class="btn btn-primary" value="Submit" />
+            </form>
+        </div>
+    </body>
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+        src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js"
+        integrity="sha512-KFHXdr2oObHKI9w4Hv1XPKc898mE4kgYx58oqsc/JqqdLMDI4YjOLzom+EMlW8HFUd0QfjfAvxSL6sEq/a42fQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    ></script>
     <script>
-      $(document).ready(function () {
-        // Initialize validation
-        $("#myForm").validate({
-          rules: {
-            name: {
-              required: true,
-              minlength: 3,
-            },
-            email: {
-              required: true,
-              email: true,
-            },
-          },
-          messages: {
-            name: {
-              required: "Name is required.",
-              minlength: "Name must be at least 3 characters long.",
-            },
-            email: {
-              required: "Email is required.",
-              email: "Please enter a valid email address.",
-            },
-          },
+        $(document).ready(function () {
+            $("#myForm").validate({
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 3,
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                    },
+                },
+                messages: {
+                    name: {
+                        required: "Name is required.",
+                        minlength: "Name must be at least 3 characters long.",
+                    },
+                    email: {
+                        required: "Email is required.",
+                        email: "Please enter a valid email address.",
+                    },
+                },
+                errorClass: "is-invalid", // Bootstrap class for error state
+                validClass: "is-valid", // Bootstrap class for valid state
+                errorElement: "div", // Element to wrap the error message
+                highlight: function (element, errorClass, validClass) {
+                    $(element).removeClass(validClass).addClass(errorClass); // Add error class
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass(errorClass).addClass(validClass); // Add valid class
+                },
+                submitHandler: function (form) {
+                    alert("Form is valid! Submitting...");
+                    form.submit(); // Or handle AJAX submission here
+                },
+                invalidHandler: function (event, validator) {
+                    alert("Please fix the errors in the form.");
+                },
+            });
         });
-      });
     </script>
-  </head>
-  <body>
-    <form id="myForm">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" /><br /><br />
-
-      <label for="email">Email:</label>
-      <input type="text" id="email" name="email" /><br /><br />
-
-      <input type="submit" value="Submit" />
-    </form>
-  </body>
 </html>

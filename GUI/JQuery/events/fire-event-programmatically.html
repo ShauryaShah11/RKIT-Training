@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Programmatically Fire Event</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Programmatically Fire Event</title>
+    </head>
+    <body>
+        <button id="myButton">Click Me</button>
+    </body>
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             // Attach click event to button
-            $("#myButton").click(function(){
+            $("#myButton").click(function () {
                 alert("Button was clicked!");
             });
-            
+
             // Fire the click event programmatically after 2 seconds
-            setTimeout(function(){
+            setTimeout(function () {
                 $("#myButton").trigger("click");
             }, 2000);
         });
     </script>
-</head>
-<body>
-    <button id="myButton">Click Me</button>
-</body>
 </html>

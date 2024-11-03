@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <form id="myForm">
+            <input type="text" id="email" placeholder="Enter your email" />
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+            />
+            <button type="submit">Submit</button>
+        </form>
+    </body>
+
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#myForm").submit(function (event) {
+                event.preventDefault();
+
+                let emailPattern =
+                    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                let passwordPattern =
+                    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+                let email = $("#email").val();
+                let password = $("#password").val();
+
+                if (!emailPattern.test(email)) {
+                    alert("Invalid email!");
+                    return;
+                }
+
+                if (!passwordPattern.test(password)) {
+                    alert(
+                        "Password must contain uppercase, lowercase, digit, special character, and be at least 8 characters long!"
+                    );
+                    return;
+                }
+
+                alert("Form submitted successfully!");
+            });
+        });
+    </script>
+</html>
