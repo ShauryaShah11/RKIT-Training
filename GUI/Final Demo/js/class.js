@@ -1,5 +1,12 @@
 class PersonalInfo {
-    constructor(fullName, userName, email, phoneNumber, password, confirmPassword) {
+    constructor(
+        fullName,
+        userName,
+        email,
+        phoneNumber,
+        password,
+        confirmPassword
+    ) {
         this.fullName = fullName;
         this.userName = userName;
         this.email = email;
@@ -39,4 +46,3 @@ class User {
         this.contactDetails = contactDetails;
     }
 }
-

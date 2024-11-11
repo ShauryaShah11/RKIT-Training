@@ -1,10 +1,5 @@
 $(document).ready(function () {
-    $("#menu-toggle").click(toggleMenu);
-
     $("#btn-submit").click(onSubmit);
-    function toggleMenu() {
-        $(".custom-nav-menu").toggleClass("active");
-    }
 
     $("#nextStep").click(nextStep);
     $("#prevStep").click(prevStep);
