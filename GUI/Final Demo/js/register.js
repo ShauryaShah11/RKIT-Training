@@ -1,100 +1,124 @@
 $(document).ready(function () {
-    $("#btn-submit").click(onSubmit);
+    // When the submit button is clicked, prevent the default form submission behavior
+    $("#btn-submit").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+        if ($("#multi-step-form").valid()) {
+            // Check if the form is valid
+            onSubmit(event); // Call the onSubmit function only if the form is valid
+        }
+    });
 
-    $("#nextStep").click(nextStep);
-    $("#prevStep").click(prevStep);
+    // Assign click event handlers to next and previous step buttons
+    $(".nextStep").click(nextStep);
+    $(".prevStep").click(prevStep);
 
-    function onSubmit(event) {
-        event.preventDefault();
+    let personalInfo, businessInfo, financialDetails, contactDetails;
 
-        // Gather personal information
-        let fullname = $("#name").val();
-        let username = $("#username").val();
-        let email = $("#email").val();
-        let password = $("#password").val();
-        let cpassword = $("#cpassword").val();
-        let phoneNumber = $("#phonenumber").val();
+    function storePersonalInfo() {
+        let fullname, username, email, password, phoneNumber;
+        fullname = $("#name").val();
+        username = $("#username").val();
+        email = $("#email").val();
+        password = $("#password").val();
+        phoneNumber = $("#phonenumber").val();
 
-        // Gather business information
-        let businessName = $("#business_name").val();
-        let businessType = $("input[name='business_type']:checked").val();
-
-        // Gather financial details
-        let currency = $("#currency").val();
-        let accountingMethod = $("#accounting_method").val();
-        let startDate = $("#start_date").val();
-
-        // Gather contact details
-        let address = $("#address").val();
-        let city = $("#city").val();
-        let businessCertificate = $("#fileupload").val();
-
-        // Create instances of the classes
-        const personalInfo = new PersonalInfo(
+        personalInfo = PersonalInfo.create(
             fullname,
             username,
             email,
             phoneNumber,
             password
         );
-        const businessInfo = new BusinessInfo(businessName, businessType);
-        const financialDetails = new FinancialDetails(
+    }
+
+    function storeBusinessInfo() {
+        let businessName, businessType;
+        businessName = $("#business_name").val();
+        businessType = $("input[name='business_type']:checked").val();
+
+        businessInfo = BusinessInfo.create(businessName, businessType);
+    }
+
+    function storeFinancialDetails() {
+        let currency, accountingMethod, startDate;
+        currency = $("#currency").val();
+        accountingMethod = $("#accounting_method").val();
+        startDate = $("#start_date").val();
+
+        financialDetails = FinancialDetails.create(
             currency,
             accountingMethod,
             startDate
         );
-        const contactDetails = new ContactDetails(
+    }
+
+    function onSubmit(event) {
+        // Gather contact details from form fields
+        let address, city, businessCertificate;
+        address = $("#address").val();
+        city = $("#city").val();
+        businessCertificate = $("#fileupload").val();
+
+        contactDetails = ContactDetails.create(
             address,
             city,
             businessCertificate
         );
 
-        // Create an instance of the User class
-        const user = new User(
-            personalInfo,
-            businessInfo,
-            financialDetails,
-            contactDetails
-        );
-
-        localStorage.setItem('user', JSON.stringify(personalInfo));
-        alert("Registered Successfully");
-        window.location.href = "./login.html";
-        console.log(user);
+        // Save data to localStorage and check if registration is successful
+        localStorage.setItem("user", JSON.stringify(personalInfo));
+        if (localStorage.getItem("user")) {
+            alert("Registered Successfully");
+            window.location.href = "./login.html"; // Redirect to login page on success
+        } else {
+            alert("Registration Failed");
+        }
     }
 
-    let currentStep = 0;
-    const formSteps = $(".form-step");
+    let currentStep = 0; // Initialize the current step to 0 (first step)
+    const formSteps = $(".form-step"); // Get all form steps
 
+    // Function to show the current step in the multi-step form
     function showStep(step) {
         formSteps.each(function (index) {
+            // Toggle the 'active' class based on the current step
             $(this).toggleClass("active", index === step);
         });
     }
 
-    // Expose nextStep and prevStep to the global scope
+    // Move to the next step in the multi-step form
     function nextStep() {
         const form = $("#multi-step-form");
         if (form.valid()) {
             if (currentStep < formSteps.length - 1) {
+                // Store data based on the current step
+                if (currentStep === 0) {
+                    storePersonalInfo();
+                    storeBusinessInfo();
+                } else if (currentStep === 1) {
+                    storeFinancialDetails();
+                }
                 currentStep++;
                 showStep(currentStep);
             }
         } else {
             form.validate().focusInvalid();
         }
-    };
+    }
 
-   function prevStep() {
+    // Move to the previous step in the multi-step form
+    function prevStep() {
         if (currentStep > 0) {
-            currentStep--;
-            showStep(currentStep);
+            // Ensure we're not at the first step
+            currentStep--; // Decrement the step counter
+            showStep(currentStep); // Show the previous step
         }
-    };
+    }
 
     // Initialize the form by showing the first step
     showStep(currentStep);
 
+    // Custom validator method to check file type and size
     $.validator.addMethod(
         "fileType",
         function (value, element, param) {
@@ -106,62 +130,32 @@ $(document).ready(function () {
                 var maxSize = param.maxSize;
                 return validTypes.includes(fileType) && fileSize <= maxSize;
             }
-            return true;
+            return false;
         },
-        "Please upload a valid file (PDF, max 2MB)."
+        "Please upload a valid file (PDF, max 2MB)." // Error message for invalid files
     );
 
+    // Initialize form validation on the multi-step form
     $("#multi-step-form").validate({
         rules: {
-            name: {
-                required: true,
-                minlength: 3,
-            },
-            username: {
-                required: true,
-                minlength: 3,
-            },
-            email: {
-                required: true,
-                email: true,
-            },
-            phonenumber: {
-                required: true,
-                minlength: 10,
-            },
-            password: {
-                required: true,
-                minlength: 8,
-            },
-            cpassword: {
-                equalTo: "#password",
-            },
-            business_name: {
-                required: true,
-            },
-            business_type: {
-                required: true,
-            },
-            currency: {
-                required: true,
-            },
-            accounting_method: {
-                required: true,
-            },
-            start_date: {
-                required: true,
-            },
-            address: {
-                required: true,
-            },
-            city: {
-                required: true,
-            },
+            name: { required: true, minlength: 3 },
+            username: { required: true, minlength: 3 },
+            email: { required: true, email: true },
+            phonenumber: { required: true, minlength: 10 },
+            password: { required: true, minlength: 8 },
+            cpassword: { equalTo: "#password" },
+            business_name: { required: true },
+            business_type: { required: true },
+            currency: { required: true },
+            accounting_method: { required: true },
+            start_date: { required: true },
+            address: { required: true },
+            city: { required: true },
             business_certificate: {
                 required: true,
                 fileType: {
-                    types: ["application/pdf"],
-                    maxSize: 2 * 1024 * 1024, // 2MB
+                    types: ["application/pdf"], // Allowed file types
+                    maxSize: 2 * 1024 * 1024, // 2MB in bytes
                 },
             },
         },
@@ -186,50 +180,39 @@ $(document).ready(function () {
                 required: "Please provide a password.",
                 minlength: "Your password must be at least 8 characters long.",
             },
-            cpassword: {
-                equalTo: "Please enter the same password as above",
-            },
-            business_name: {
-                required: "Please enter your business name.",
-            },
-            business_type: {
-                required: "Please select your business type.",
-            },
-            currency: {
-                required: "Please select your currency.",
-            },
+            cpassword: { equalTo: "Please enter the same password as above" },
+            business_name: { required: "Please enter your business name." },
+            business_type: { required: "Please select your business type." },
+            currency: { required: "Please select your currency." },
             accounting_method: {
                 required: "Please select your accounting method.",
             },
-            start_date: {
-                required: "Please enter the business start date.",
-                validDate: "Please enter a valid date.",
-            },
-            address: {
-                required: "Please enter your address.",
-            },
-            city: {
-                required: "Please enter your city.",
-            },
+            start_date: { required: "Please enter the business start date." },
+            address: { required: "Please enter your address." },
+            city: { required: "Please enter your city." },
             business_certificate: {
                 required:
                     "Please upload your business registration certificate.",
                 fileType: "Please upload a valid file (PDF, max 2MB).",
             },
         },
-        errorClass: "is-invalid", // Bootstrap class for error state
-        validClass: "is-valid", // Bootstrap class for valid state
-        errorElement: "div", // Element to wrap the error message
+        errorClass: "is-invalid",
+        validClass: "is-valid",
+        errorElement: "div",
         highlight: function (element, errorClass, validClass) {
-            $(element).removeClass(validClass).addClass(errorClass); // Add error class
+            // Highlight invalid fields
+            $(element).removeClass(validClass).addClass(errorClass);
         },
         unhighlight: function (element, errorClass, validClass) {
-            $(element).removeClass(errorClass).addClass(validClass); // Add valid class
+            // Remove highlight from valid fields
+            $(element).removeClass(errorClass).addClass(validClass);
         },
         submitHandler: function (form) {
+            // Submit the form if all fields are valid
             form.submit();
         },
         invalidHandler: function (event, validator) {
+            // Show alert if there are validation errors
             alert("Please fix the errors in the form.");
         },
     });

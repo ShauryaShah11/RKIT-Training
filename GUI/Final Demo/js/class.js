@@ -5,7 +5,6 @@ class PersonalInfo {
         email,
         phoneNumber,
         password,
-        confirmPassword
     ) {
         this.fullName = fullName;
         this.userName = userName;
@@ -13,12 +12,26 @@ class PersonalInfo {
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
+
+    static create(fullName, userName, email, phoneNumber, password) {
+        return new PersonalInfo(
+            fullName,
+            userName,
+            email,
+            phoneNumber,
+            password
+        );
+    }
 }
 
 class BusinessInfo {
     constructor(businessName, businessType) {
         this.businessName = businessName;
         this.businessType = businessType;
+    }
+
+    static create(businessName, businessType){
+        return new BusinessInfo(businessName, businessType);
     }
 }
 
@@ -28,6 +41,9 @@ class FinancialDetails {
         this.accountingMethod = accountingMethod;
         this.startDate = startDate;
     }
+    static create(currency, accountingMethod, startDate){
+        return new FinancialDetails(currency, accountingMethod, startDate);
+    }
 }
 
 class ContactDetails {
@@ -35,6 +51,9 @@ class ContactDetails {
         this.address = address;
         this.city = city;
         this.businessCertificate = businessCertificate;
+    }
+    static create(address, city, businessCertificate){
+        return new ContactDetails(address, city, businessCertificate);
     }
 }
 

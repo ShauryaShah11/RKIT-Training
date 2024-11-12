@@ -70,8 +70,11 @@ $(document).ready(function () {
         const amounts = $.map(data, function (expense) {
             return expense.amount; // Extract the amount
         });
-        const total = amounts.reduce((sum, amount) => sum + amount, 0);
-        $("#totalExpense").text(`$${total.toFixed(2)}`);
+        const total = amounts.reduce(
+            (totalSum, amount) => totalSum + amount,
+            0
+        );
+        $("#totalExpense").text(`$${total}`);
     }
 
     // Sort function with flexibility to sort by any field
@@ -85,9 +88,13 @@ $(document).ready(function () {
             }
             if (typeof a[field] === "string") {
                 return isAscending[field]
-                    ? (a[field] > b[field] ? 1 : -1)
-                    : (a[field] < b[field] ? 1 : -1);
-            }            
+                    ? a[field] > b[field]
+                        ? 1
+                        : -1
+                    : a[field] < b[field]
+                    ? 1
+                    : -1;
+            }
             if (field === "date") {
                 return isAscending[field]
                     ? new Date(a[field]) - new Date(b[field])
@@ -102,7 +109,6 @@ $(document).ready(function () {
         const filteredExpenses = $.grep(expenses, function (expense) {
             return expense.amount > settings.thresholdAmount; // Filter based on threshold
         });
-        expenses = filteredExpenses; // Update the global expenses array
         renderExpenses(filteredExpenses);
         updateTotalExpense(filteredExpenses);
     }
@@ -157,8 +163,12 @@ $(document).ready(function () {
         }
 
         // Update the filter icon based on state
-        const iconClass = isFiltered ? "fa-filter" : "fa-filter";
-        $("#valueFilterIcon").removeClass("fa-filter").addClass(iconClass);
+        const iconClass = isFiltered
+            ? "fa-filter-active"
+            : "fa-filter-inactive";
+        $("#valueFilterIcon")
+            .removeClass("fa-filter-active fa-filter-inactive")
+            .addClass(iconClass);
     });
 
     // Merge additional fetched data (if any) with existing expenses using $.merge()
