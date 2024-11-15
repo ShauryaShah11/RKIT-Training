@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    // Function to validate form data
     function validateData(formData) {
         // Regular expression for email validation
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -26,8 +27,8 @@ $(document).ready(function () {
 
         // Gather form data
         let formData = {
-            email: $("#email").val(),
-            message: $("#message").val(),
+            email: $("#email").val(), // Get email value from input field
+            message: $("#message").val(), // Get message value from textarea
         };
 
         // Validate form data
@@ -36,10 +37,11 @@ $(document).ready(function () {
         if (isValidFormData) {
             // Send AJAX POST request
             $.ajax({
-                url: "https://example.com/api/contact",
+                url: "https://run.mocky.io/v3/2bedc58a-bc53-4326-83a3-f27758609b90", // API endpoint for contact form submission
                 type: "POST",
                 data: JSON.stringify(formData), // Send data as JSON
                 contentType: "application/json", // Set content type to JSON
+                dataType: "json", // Expect a plain text response
                 success: function (data) {
                     // Handle successful response
                     alert("Message sent successfully!");

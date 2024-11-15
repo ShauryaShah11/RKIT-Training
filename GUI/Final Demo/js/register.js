@@ -12,16 +12,19 @@ $(document).ready(function () {
     $(".nextStep").click(nextStep);
     $(".prevStep").click(prevStep);
 
+    // Variables to store form data
     let personalInfo, businessInfo, financialDetails, contactDetails;
 
+    // Function to store personal information from form fields
     function storePersonalInfo() {
         let fullname, username, email, password, phoneNumber;
-        fullname = $("#name").val();
-        username = $("#username").val();
-        email = $("#email").val();
-        password = $("#password").val();
-        phoneNumber = $("#phonenumber").val();
+        fullname = $("#name").val(); // Get full name from input field
+        username = $("#username").val(); // Get username from input field
+        email = $("#email").val(); // Get email from input field
+        password = $("#password").val(); // Get password from input field
+        phoneNumber = $("#phonenumber").val(); // Get phone number from input field
 
+        // Create a PersonalInfo object with the gathered data
         personalInfo = PersonalInfo.create(
             fullname,
             username,
@@ -31,20 +34,24 @@ $(document).ready(function () {
         );
     }
 
+    // Function to store business information from form fields
     function storeBusinessInfo() {
         let businessName, businessType;
-        businessName = $("#business_name").val();
-        businessType = $("input[name='business_type']:checked").val();
+        businessName = $("#business_name").val(); // Get business name from input field
+        businessType = $("input[name='business_type']:checked").val(); // Get selected business type
 
+        // Create a BusinessInfo object with the gathered data
         businessInfo = BusinessInfo.create(businessName, businessType);
     }
 
+    // Function to store financial details from form fields
     function storeFinancialDetails() {
         let currency, accountingMethod, startDate;
-        currency = $("#currency").val();
-        accountingMethod = $("#accounting_method").val();
-        startDate = $("#start_date").val();
+        currency = $("#currency").val(); // Get currency from input field
+        accountingMethod = $("#accounting_method").val(); // Get accounting method from input field
+        startDate = $("#start_date").val(); // Get start date from input field
 
+        // Create a FinancialDetails object with the gathered data
         financialDetails = FinancialDetails.create(
             currency,
             accountingMethod,
@@ -52,13 +59,15 @@ $(document).ready(function () {
         );
     }
 
+    // Function to handle form submission
     function onSubmit(event) {
         // Gather contact details from form fields
         let address, city, businessCertificate;
-        address = $("#address").val();
-        city = $("#city").val();
-        businessCertificate = $("#fileupload").val();
+        address = $("#address").val(); // Get address from input field
+        city = $("#city").val(); // Get city from input field
+        businessCertificate = $("#fileupload").val(); // Get business certificate file path
 
+        // Create a ContactDetails object with the gathered data
         contactDetails = ContactDetails.create(
             address,
             city,
