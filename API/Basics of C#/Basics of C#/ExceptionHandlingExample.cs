@@ -75,7 +75,7 @@ class ExceptionHandlingExample
         catch (InLegalAgeException ex)
         {
             // Catch and handle the custom exception
-            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using AssemblyReferencePractice;
+using System.IO;
 namespace BasicCSharp
 {
     class Program
@@ -26,7 +27,9 @@ namespace BasicCSharp
             //st.PracticeStatements();
 
             //ArrayPractice ap = new ArrayPractice();
-            //ap.Practice();
+            //ap.PracticeSingleDimensionArray();
+            //ap.PracticeMultiDimensionArray();
+            //ap.PracticeJaggedArray();
 
             //Car c = new Car("BMW", 100);
             //c.Accelerate(50);
@@ -46,6 +49,21 @@ namespace BasicCSharp
             //Cat cat = new Cat();
             //cat.MakeSound();
 
+            //ScopeModifier sm = new ScopeModifier();
+            //sm.Display();
+            //sm.ShowAge();
+            //DerivedClass dc = new DerivedClass();
+            //dc.Display();
+
+            //MyNamespace.NameSpaceClass nsc = new MyNamespace.NameSpaceClass();
+            //nsc.Display();
+
+            //MathOperations mathOperations = new MathOperations();
+            //Console.WriteLine("Addition is :" + mathOperations.add(2, 3));
+            //Console.WriteLine("Addition is :" + mathOperations.sub(20, 10));
+            //Console.WriteLine("Addition is :" + mathOperations.mul(10, 2));
+            //Console.WriteLine("Addition is :" + mathOperations.div(10, 2));
+
             //CollectionFramework cf = new CollectionFramework();
             //cf.ListPractice();
             //cf.DictionaryPractice();
@@ -59,26 +77,39 @@ namespace BasicCSharp
             //DataTableClass dataTableClass = new DataTableClass();
             //dataTableClass.DataTablePractice();
 
+            //ExceptionHandlingExample exceptionHandlingExample = new ExceptionHandlingExample();
+            //exceptionHandlingExample.HandleExceptionWithTryCatchFinally();
+            //try
+            //{
+            //    exceptionHandlingExample.HandleExceptionWithThrow(15);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
+            //exceptionHandlingExample.CustomException();
+
             //StringClass sc = new StringClass();
             //sc.StringPractice();
 
+            //DataTimeClass dataTimeClass = new DataTimeClass();
+            //dataTimeClass.DatePractice();
+
+            //string fileName = "test.txt";
+            //string filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
             //FileUtility fileUtility = new FileUtility();
-            //string fiePath = @"D:/Training/API/Basics of C#/Basics of C#/File Operation/test.txt";
-            //fileUtility.CreateFile(fiePath);
-            //fileUtility.ReadFile(fiePath);
+            //fileUtility.CreateFile(filePath);
+            //fileUtility.ReadFile(filePath);
 
-            //fileUtility.AppendToFile(fiePath);
-            //fileUtility.ReadFile(fiePath);
+            //fileUtility.AppendToFile(filePath);
+            //fileUtility.ReadFile(filePath);
+            //fileUtility.CopyFile(filePath, destinationPath: Path.Combine(Directory.GetCurrentDirectory(), "test2.txt"));
+            //fileUtility.DeleteFile(filePath);
 
-            //fileUtility.DeleteFile(fiePath);
-
-            //MathOperations mathOperations = new MathOperations();
-            //Console.WriteLine("Addition is :"+ mathOperations.add(2, 3));
-            //Console.WriteLine("Addition is :" + mathOperations.sub(20, 10));
-            //Console.WriteLine("Addition is :" + mathOperations.mul(10, 2));
-            //Console.WriteLine("Addition is :" + mathOperations.div(10, 0));
-
-            Console.ReadLine();
+            //Miscellaneous m = new Miscellaneous();
+            //m.Boxing();
+            //m.UnBoxing();
+            //m.StringToArray();
 
         }
     }

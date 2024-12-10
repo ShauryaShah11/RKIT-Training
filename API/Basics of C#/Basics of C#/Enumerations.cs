@@ -42,6 +42,16 @@ class Enumerations
         Friday,
         Saturday
     }
+    /// <summary>
+    /// Represents file access permissions.
+    /// </summary>
+    [Flags]
+    enum FileAccess
+    {
+        Read = 1,
+        Write = 2,
+        Execute = 4
+    }
 
     /// <summary>
     /// Demonstrates the usage of enumerations.
@@ -79,6 +89,15 @@ class Enumerations
         foreach (Days day in Enum.GetValues(typeof(Days)))
         {
             Console.WriteLine(day);
+        }
+
+        FileAccess permissions = FileAccess.Read | FileAccess.Write;
+        Console.WriteLine($"Permissions: {permissions}");
+
+        // Check if a specific flag is set
+        if (permissions.HasFlag(FileAccess.Read))
+        {
+            Console.WriteLine("Read access is granted.");
         }
     }
 }

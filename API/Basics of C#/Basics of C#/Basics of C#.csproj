@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="ArrayPractice.cs" />
     <Compile Include="FileUtility.cs" />
+    <Compile Include="Miscellaneous.cs" />
     <Compile Include="NameSpaceClass.cs" />
     <Compile Include="OOPS\Animal.cs" />
     <Compile Include="OOPS\BankAccount.cs" />
