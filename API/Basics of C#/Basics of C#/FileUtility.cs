@@ -61,7 +61,7 @@ class FileUtility
         {
             Console.WriteLine("Enter text to append to file: ");
             string text = Console.ReadLine();
-            File.AppendAllText(filePath, text);
+            File.AppendAllText(filePath, Environment.NewLine+text);
             Console.WriteLine("Text appended successfully.");
         }
         catch (Exception ex)
@@ -120,6 +120,46 @@ class FileUtility
         catch (Exception ex)
         {
             Console.WriteLine($"Error copying file: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// The CreateDirectory method creates a directory and any subdirectories at the specified path.
+    /// </summary>
+    /// <param name="directoryPath">The directory path where the directory and subdirectories will be created.</param>
+    public void CreateDirectory(string directoryPath)
+    {
+        try
+        {
+            // Create the directory and any subdirectories.
+            Directory.CreateDirectory(directoryPath);
+            Console.WriteLine($"Directory '{directoryPath}' created successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating directory: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// The CreateSubdirectory method creates a subdirectory within a parent directory.
+    /// </summary>
+    /// <param name="parentDirectory">The parent directory where the subdirectory will be created.</param>
+    /// <param name="subDirectoryName">The name of the subdirectory to create within the parent directory.</param>
+    public void CreateSubdirectory(string parentDirectory, string subDirectoryName)
+    {
+        try
+        {
+            // Combine the parent directory path with the subdirectory name
+            string subdirectoryPath = Path.Combine(parentDirectory, subDirectoryName);
+
+            // Create the subdirectory (and the parent directory if it doesn't exist)
+            Directory.CreateDirectory(subdirectoryPath);
+            Console.WriteLine($"Subdirectory '{subDirectoryName}' created successfully at {subdirectoryPath}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating subdirectory: {ex.Message}");
         }
     }
 }

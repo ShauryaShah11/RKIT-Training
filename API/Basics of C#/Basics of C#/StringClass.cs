@@ -55,6 +55,7 @@ class StringClass
         string message = string.Format("Name: {0}, Age: {1}", name, age);
         Console.WriteLine(message);  // Output: Name: shaurya, Age: 25
 
+
         // Concatenating strings
         string firstName = "John";
         string lastName = "Doe";
@@ -77,5 +78,7 @@ class StringClass
         // Using string interpolation
         message = $"Name: {name}, Age: {age}";
         Console.WriteLine(message);  // Output: Name: shaurya, Age: 25
+
+
     }
 }

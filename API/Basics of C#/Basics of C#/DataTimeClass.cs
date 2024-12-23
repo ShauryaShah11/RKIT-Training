@@ -53,6 +53,12 @@ class DataTimeClass
         Console.WriteLine("Minute: " + date.Minute);    // Output: Minute: 30
         Console.WriteLine("Second: " + date.Second);    // Output: Second: 0
         Console.WriteLine("Millisecond: " + date.Millisecond); // Output: Millisecond: 0
+
+        // Example of using Subtract to find the difference between two dates
+        DateTime date2 = new DateTime(2024, 12, 5);
+        TimeSpan difference = date2.Subtract(date1);  // date2 - date1
+        Console.WriteLine("Difference between dates: " + difference.Days + " days");  // Output: Difference between dates: 2 days
+
     }
 }
 

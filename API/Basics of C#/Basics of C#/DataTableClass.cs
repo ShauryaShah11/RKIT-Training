@@ -35,6 +35,9 @@ class DataTableClass
         // Add the DataTable to the DataSet
         ds.Tables.Add(dt);
 
+        // Find the number of rows in the Employee table
+        Console.WriteLine($"Number of rows in Employee table: {dt.Rows.Count}");
+
         // Accessing data through DataSet
         Console.WriteLine("Data in the DataSet:");
         foreach (DataRow row in ds.Tables["Employee"].Rows)
@@ -68,6 +71,8 @@ class DataTableClass
         {
             Console.WriteLine($"DeptID: {row["DeptID"]}, DeptName: {row["DeptName"]}");
         }
+
+        //Console.WriteLine(ds.Tables);
 
         // Example: Handling constraint violations
         try

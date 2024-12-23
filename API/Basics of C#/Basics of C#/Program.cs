@@ -1,5 +1,4 @@
 ﻿using System;
-using AssemblyReferencePractice;
 using System.IO;
 namespace BasicCSharp
 {
@@ -46,8 +45,28 @@ namespace BasicCSharp
             //Circle c = new Circle(24.50D);
             //Console.WriteLine("Area of circle is :"+string.Format("{0:0.00}",c.GetArea()));
 
-            //Cat cat = new Cat();
-            //cat.MakeSound();
+            //IAnimal myCat = new Cat();
+            //IAnimal myCow = new Cow();
+            //myCat.MakeSound();
+            //myCow.MakeSound();
+
+            // Interface
+            //MuiltiLevelInheritance.Dog dog = new MuiltiLevelInheritance.Dog();
+            //dog.Bark();
+            //dog.Eat();
+            //dog.Breathe();
+
+            //Horse horse = new Horse();
+            //horse.MakeSound();
+            //horse.Move();
+
+            //BaseKeywordExample.Dog myDog = new BaseKeywordExample.Dog("Buddy");
+            //myDog.Describe();
+            //myDog.MakeSound();
+
+            //BankAccount ba = new BankAccount();
+            //ba.Deposit(100);
+            //ba.Withdraw(50);
 
             //ScopeModifier sm = new ScopeModifier();
             //sm.Display();
@@ -60,9 +79,9 @@ namespace BasicCSharp
 
             //MathOperations mathOperations = new MathOperations();
             //Console.WriteLine("Addition is :" + mathOperations.add(2, 3));
-            //Console.WriteLine("Addition is :" + mathOperations.sub(20, 10));
-            //Console.WriteLine("Addition is :" + mathOperations.mul(10, 2));
-            //Console.WriteLine("Addition is :" + mathOperations.div(10, 2));
+            //Console.WriteLine("Subtraction is :" + mathOperations.sub(20, 10));
+            //Console.WriteLine("Multiplication is :" + mathOperations.mul(10, 2));
+            //Console.WriteLine("Divison is :" + mathOperations.div(10, 2));
 
             //CollectionFramework cf = new CollectionFramework();
             //cf.ListPractice();
@@ -70,12 +89,14 @@ namespace BasicCSharp
             //cf.StackPractice();
             //cf.QueuePractice();
             //cf.HashSetPractice();
+            //cf.DictionaryWithListPractice();
+            //cf.ListWithDictionaryPractice();
 
-            Enumerations em = new Enumerations();
-            em.EnumPractice();
+            //Enumerations em = new Enumerations();
+            //em.EnumPractice();
 
-            //DataTableClass dataTableClass = new DataTableClass();
-            //dataTableClass.DataTablePractice();
+            DataTableClass dataTableClass = new DataTableClass();
+            dataTableClass.DataTablePractice();
 
             //ExceptionHandlingExample exceptionHandlingExample = new ExceptionHandlingExample();
             //exceptionHandlingExample.HandleExceptionWithTryCatchFinally();
@@ -103,13 +124,18 @@ namespace BasicCSharp
 
             //fileUtility.AppendToFile(filePath);
             //fileUtility.ReadFile(filePath);
-            //fileUtility.CopyFile(filePath, destinationPath: Path.Combine(Directory.GetCurrentDirectory(), "test2.txt"));
+            //fileUtility.CopyFile(filePath, destinationPath: Path.Combine(Directory.GetCurrentDirectory(), "test2.txt"), true);
             //fileUtility.DeleteFile(filePath);
+            //fileUtility.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "TestFolder"));
+            //fileUtility.CreateSubdirectory(Path.Combine(Directory.GetCurrentDirectory(), "TestFolder"), "SubFolder");
 
             //Miscellaneous m = new Miscellaneous();
             //m.Boxing();
             //m.UnBoxing();
             //m.StringToArray();
+
+            //string temp = "1, 22";
+            //Console.WriteLine(temp.Contains("2"));
 
         }
     }

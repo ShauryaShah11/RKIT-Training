@@ -7,7 +7,7 @@ public class BankAccount
 {
     #region Private Members
     // Encapsulated field to store the balance
-    private double balance;
+    private double _balance;
     #endregion 
 
     #region Public Methods
@@ -17,7 +17,7 @@ public class BankAccount
     /// <returns>The balance value in double datatype.</returns>
     public double GetBalance() // Public method to access private field
     {
-        return balance;
+        return _balance;
     }
 
     /// <summary>
@@ -28,8 +28,8 @@ public class BankAccount
     {
         if (amount > 0)
         {
-            balance += amount;
-            Console.WriteLine($"Deposited {amount}, New Balance: {balance}");
+            _balance += amount;
+            Console.WriteLine($"Deposited {amount}, New Balance: {_balance}");
         }
         else
         {
@@ -43,10 +43,10 @@ public class BankAccount
     /// <param name="amount">The amount to be withdrawn from the bank account.</param>
     public void Withdraw(double amount)
     {
-        if (amount > 0 && amount <= balance)
+        if (amount > 0 && amount <= _balance)
         {
-            balance -= amount;
-            Console.WriteLine($"Withdrew {amount}, New Balance: {balance}");
+            _balance -= amount;
+            Console.WriteLine($"Withdrew {amount}, New Balance: {_balance}");
         }
         else
         {

@@ -47,10 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayPractice.cs" />
+    <Compile Include="BaseKeywordExample.cs" />
     <Compile Include="FileUtility.cs" />
     <Compile Include="Miscellaneous.cs" />
     <Compile Include="NameSpaceClass.cs" />
     <Compile Include="OOPS\Animal.cs" />
+    <Compile Include="OOPS\Animals.cs" />
     <Compile Include="OOPS\BankAccount.cs" />
     <Compile Include="OOPS\Car.cs" />
     <Compile Include="OOPS\Cat.cs" />
@@ -73,6 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

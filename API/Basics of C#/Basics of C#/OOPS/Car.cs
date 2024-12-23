@@ -3,7 +3,7 @@
 /// <summary>
 /// The Vehicle class is the parent class, and Car is a child class.
 /// The Car class inherits from the Vehicle class.
-/// It helps to demonstrate the concept of inheritance.
+/// It helps to demonstrate the concept of simple inheritance.
 /// In Inhertiance, the child class inherits the properties and methods of the parent class.
 /// </summary>
 public class Vehicle

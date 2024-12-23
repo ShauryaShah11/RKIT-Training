@@ -14,3 +14,17 @@ public class Cat : IAnimal
         Console.WriteLine("Meow Meow");
     }
 }
+
+/// <summary>
+/// The Cow class implements the IAnimal interface to provide a specific implementation of the MakeSound method.
+/// </summary>
+public class Cow : IAnimal
+{
+    /// <summary>
+    /// The MakeSound method outputs the sound of a cow makes.
+    /// </summary>
+    public void MakeSound()
+    {
+        Console.WriteLine("Moo Moo");
+    }
+}

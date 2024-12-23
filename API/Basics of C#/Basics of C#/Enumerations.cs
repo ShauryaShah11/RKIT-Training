@@ -92,7 +92,7 @@ class Enumerations
         }
 
         FileAccess permissions = FileAccess.Read | FileAccess.Write;
-        Console.WriteLine($"Permissions: {permissions}");
+        Console.WriteLine($"Permissions: {permissions}"); 
 
         // Check if a specific flag is set
         if (permissions.HasFlag(FileAccess.Read))

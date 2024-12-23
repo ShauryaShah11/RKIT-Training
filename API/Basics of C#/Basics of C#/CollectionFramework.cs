@@ -28,6 +28,7 @@ class CollectionFramework
         Console.Write("After modifications: ");
         numbers.ForEach(n => Console.Write(n + " ")); // Print elements with space
         Console.WriteLine(); // New line for better readability
+       
     }
 
     /// <summary>
@@ -123,4 +124,80 @@ class CollectionFramework
         Console.WriteLine();
         Console.WriteLine(numbers.Contains(3));
     }
+
+    /// <summary>
+    /// The DictionaryWithListPractice method demonstrates how to create a Dictionary.
+    /// Adds a List as a value to the Dictionary and performs operations.
+    /// </summary>
+    public void DictionaryWithListPractice()
+    {
+        // Create a Dictionary with a string key and List<int> as the value.
+        Dictionary<string, List<int>> dataDict = new Dictionary<string, List<int>>();
+
+        // Check if key exists, if not, add a new list.
+        string key = "Numbers";
+        if (!dataDict.ContainsKey(key))
+        {
+            dataDict[key] = new List<int>();
+        }
+        // Append new elements to the list.
+        dataDict[key].AddRange(new List<int> { 10, 20, 30 });
+
+        // Add another entry to the dictionary for demonstration.
+        dataDict["InitialNumbers"] = new List<int> { 1, 2, 3, 4, 5 };
+
+        // Display the contents of the dictionary.
+        Console.WriteLine("Dictionary contents:");
+        foreach (var kvp in dataDict)
+        {
+            Console.Write($"Key: {kvp.Key}, Values: ");
+            kvp.Value.ForEach(value => Console.Write(value + " "));
+            Console.WriteLine();
+        }
+    }
+
+    /// <summary>
+    /// The ListWithDictionaryPractice method demonstrates how to use a List containing multiple Dictionary objects.
+    /// Performs operations like adding, updating, and displaying data.
+    /// </summary>
+    public void ListWithDictionaryPractice()
+    {
+        // Create a List of Dictionary<string, int>.
+        List<Dictionary<string, int>> listOfDictionaries = new List<Dictionary<string, int>>();
+
+        // Add a dictionary to the list.
+        Dictionary<string, int> firstDict = new Dictionary<string, int>
+        {
+            { "Apple", 50 },
+            { "Banana", 20 }
+        };
+        listOfDictionaries.Add(firstDict);
+
+        // Add another dictionary to the list.
+        Dictionary<string, int> secondDict = new Dictionary<string, int>
+        {
+            { "Carrot", 30 },
+            { "Tomato", 40 }
+        };
+        listOfDictionaries.Add(secondDict);
+
+        // Modify an existing dictionary in the list.
+        if (listOfDictionaries.Count > 0)
+        {
+            listOfDictionaries[0]["Apple"] = 60; // Update value for "Apple" in the first dictionary.
+            listOfDictionaries[0]["Orange"] = 15; // Add a new key-value pair.
+        }
+
+        // Display the contents of the List of Dictionaries.
+        Console.WriteLine("List of Dictionaries:");
+        for (int i = 0; i < listOfDictionaries.Count; i++)
+        {
+            Console.WriteLine($"Dictionary {i + 1}:");
+            foreach (KeyValuePair<string,int> kvp in listOfDictionaries[i])
+            {
+                Console.WriteLine("Key: {0}, Value: {1}", kvp.Key, kvp.Value);
+            }
+        }
+    }
+
 }
