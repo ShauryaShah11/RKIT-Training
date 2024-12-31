@@ -96,7 +96,7 @@ namespace LibraryManagement.Services
                 List<Book> books = LoadBooksFromFile();
 
                 // Remove the specified book
-                var bookToDelete = books.FirstOrDefault(b => b.Id == id);
+                Book bookToDelete = books.FirstOrDefault(b => b.Id == id);
                 if (bookToDelete != null)
                 {
                     books.Remove(bookToDelete);

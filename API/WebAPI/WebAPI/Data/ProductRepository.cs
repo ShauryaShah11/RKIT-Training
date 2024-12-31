@@ -31,14 +31,20 @@ namespace WebAPI.Data
         /// Retrieves a list of all products in the repository.
         /// </summary>
         /// <returns>A list containing all products.</returns>
-        public List<Product> GetAll() => products;
+        public List<Product> GetAll()
+        {
+            return products;
+        }
 
         /// <summary>
         /// Finds a product by its unique identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the product to retrieve.</param>
         /// <returns>The product if found; otherwise, null.</returns>
-        public Product GetById(int id) => products.FirstOrDefault(p => p.Id == id);
+        public Product GetById(int id)
+        {
+            return products.FirstOrDefault(p => p.Id == id);
+        }
 
         /// <summary>
         /// Adds a new product to the repository.
@@ -69,6 +75,9 @@ namespace WebAPI.Data
         /// Deletes a product from the repository based on its unique identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the product to delete.</param>
-        public void Delete(int id) => products.RemoveAll(p => p.Id == id);
+        public void Delete(int id)
+        {
+            products.RemoveAll(p => p.Id == id);
+        }
     }
 }

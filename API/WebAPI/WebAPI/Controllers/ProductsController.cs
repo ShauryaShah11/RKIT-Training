@@ -15,13 +15,17 @@ namespace WebAPI.Controllers
 
         // GET api/products
         [HttpGet]
-        public IEnumerable<Product> Get() => _repository.GetAll();
+        public IEnumerable<Product> Get()
+        {
+            return _repository.GetAll();
+        }
 
         // GET api/products/5
         [HttpGet]
+        //[Route("api/products/info/{id}")]
         public IHttpActionResult Get(int id)
         {
-            var product = _repository.GetById(id);
+            Product product = _repository.GetById(id);
             if (product == null) return NotFound();
             return Ok(product);
         }
@@ -48,7 +52,7 @@ namespace WebAPI.Controllers
         [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
-            var product = _repository.GetById(id);
+            Product product = _repository.GetById(id);
             if (product == null) return NotFound();
             _repository.Delete(id);
             return Ok();

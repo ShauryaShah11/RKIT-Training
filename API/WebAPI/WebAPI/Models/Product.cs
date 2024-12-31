@@ -5,6 +5,7 @@
     /// </summary>
     public class Product
     {
+        #region Public Properties
         /// <summary>
         /// The Id property represents the product's unique identifier.
         /// </summary>
@@ -17,6 +18,7 @@
         /// The Price property represents the product's price.
         /// </summary>
         public decimal Price { get; set; }
+        #endregion
     }
 
 }
