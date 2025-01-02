@@ -5,71 +5,71 @@ USE practiceDB;
 
 -- Step 1: INNER JOIN - Fetch staff and their transactions (only those who have made transactions)
 SELECT 
-    Staff.EmployeeID,
-    Staff.FirstName,
-    Staff.LastName,
-    Transactions.Amount,
-    Transactions.TransactionDate
+    Sta.EmployeeID,
+    Sta.FirstName,
+    Sta.LastName,
+    Tra.Amount,
+    Tra.TransactionDate
 FROM
-    Staff
+    Staff AS Sta
         INNER JOIN
-    Transactions ON Staff.EmployeeID = Transactions.StaffID;
+    Transactions AS Tra ON Sta.EmployeeID = Tra.StaffID;
 
 -- Step 2: LEFT JOIN - Fetch all staff and their transactions (including staff with no transactions)
 SELECT 
-    Staff.EmployeeID,
-    Staff.FirstName,
-    Staff.LastName,
-    Transactions.Amount,
-    Transactions.TransactionDate
+    Sta.EmployeeID,
+    Sta.FirstName,
+    Sta.LastName,
+    Tra.Amount,
+    Tra.TransactionDate
 FROM
-    Staff
+    Staff AS Sta
         LEFT JOIN
-    Transactions ON Staff.EmployeeID = Transactions.StaffID;
+    Transactions AS Tra ON Sta.EmployeeID = Tra.StaffID;
 
 -- Step 3: RIGHT JOIN - Fetch all transactions and their staff details (including transactions without staff)
 SELECT 
-    Transactions.TransactionID,
-    Transactions.Amount,
-    Transactions.TransactionDate,
-    Staff.FirstName,
-    Staff.LastName
+    Tra.TransactionID,
+    Tra.Amount,
+    Tra.TransactionDate,
+    Sta.FirstName,
+    Sta.LastName
 FROM
-    Transactions
+    Transactions AS Tra
         RIGHT JOIN
-    Staff ON Transactions.StaffID = Staff.EmployeeID;
+    Staff AS Sta ON Tra.StaffID = Sta.EmployeeID;
 
 -- Step 4: FULL OUTER JOIN - Simulate FULL OUTER JOIN by combining LEFT JOIN and RIGHT JOIN using UNION
 SELECT 
-    Staff.EmployeeID,
-    Staff.FirstName,
-    Staff.LastName,
-    Transactions.Amount,
-    Transactions.TransactionDate
+    Sta.EmployeeID,
+    Sta.FirstName,
+    Sta.LastName,
+    Tra.Amount,
+    Tra.TransactionDate
 FROM
-    Staff
+    Staff AS Sta
         LEFT JOIN
-    Transactions ON Staff.EmployeeID = Transactions.StaffID 
-UNION SELECT 
-    Staff.EmployeeID,
-    Staff.FirstName,
-    Staff.LastName,
-    Transactions.Amount,
-    Transactions.TransactionDate
+    Transactions AS Tra ON Sta.EmployeeID = Tra.StaffID 
+UNION 
+SELECT 
+    Sta.EmployeeID,
+    Sta.FirstName,
+    Sta.LastName,
+    Tra.Amount,
+    Tra.TransactionDate
 FROM
-    Transactions
-        LEFT JOIN
-    Staff ON Transactions.StaffID = Staff.EmployeeID;
+    Transactions AS Tra
+        RIGHT JOIN
+    Staff AS Sta ON Tra.StaffID = Sta.EmployeeID;
 
 -- Step 5: CROSS JOIN - Generate a Cartesian product (every combination of staff and transactions)
 SELECT 
-    Staff.EmployeeID,
-    Staff.FirstName,
-    Staff.LastName,
-    Transactions.Amount,
-    Transactions.TransactionDate
+    Sta.EmployeeID,
+    Sta.FirstName,
+    Sta.LastName,
+    Tra.Amount,
+    Tra.TransactionDate
 FROM
-    Staff
+    Staff AS Sta
         CROSS JOIN
-    Transactions; 
-    
+    Transactions AS Tra; 

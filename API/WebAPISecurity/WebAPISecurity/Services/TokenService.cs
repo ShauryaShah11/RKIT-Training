@@ -9,7 +9,7 @@ namespace WebAPISecurity.Services
 {
     public class TokenService
     {
-        private const string SecretKey = "mysecretkey"; // Use a strong secret key
+        private const string SecretKey = "1234567890abcdef1234567890abcdef"; // Use a strong secret key
         private static readonly SymmetricSecurityKey Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
         private static readonly SigningCredentials Credentials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
 

@@ -12,9 +12,9 @@ namespace WebAPISecurity.App_Start
     {
         public void Configuration(IAppBuilder app)
         {
-            var issuer = "your_issuer";
+            var issuer = "AuthService";
             var audience = "your_audience";
-            var secret = Encoding.UTF8.GetBytes("mysecretkey");
+            var secret = Encoding.UTF8.GetBytes("1234567890abcdef1234567890abcdef");
 
             app.UseJwtBearerAuthentication(new JwtBearerAuthenticationOptions
             {

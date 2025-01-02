@@ -4,27 +4,52 @@ USE practiceDB;
 -- Step 1: Combine the list of all staff who have made transactions and the list of all staff who have not made any transactions
 -- Select staff who have made transactions
 SELECT 
-    EmployeeID, FirstName, LastName
+    Sta.EmployeeID, Sta.FirstName, Sta.LastName
 FROM
-    Staff
+    Staff AS Sta
 WHERE
-    EmployeeID IN (SELECT DISTINCT
-            StaffID
+    Sta.EmployeeID IN (SELECT DISTINCT
+            Tra.StaffID
         FROM
-            Transactions) 
-UNION SELECT 
-    EmployeeID, FirstName, LastName
-FROM
-    Staff
-WHERE
-    EmployeeID NOT IN (SELECT DISTINCT
-            StaffID
-        FROM
-            Transactions);
-            
-            
+            Transactions AS Tra) 
+UNION 
 SELECT 
-	group_concat(EmployeeId)
+    Sta.EmployeeID, Sta.FirstName, Sta.LastName
 FROM
-	staff;
-    
+    Staff AS Sta
+WHERE
+    Sta.EmployeeID NOT IN (SELECT DISTINCT
+            Tra.StaffID
+        FROM
+            Transactions AS Tra);
+
+-- Combine the list of all staff who have made transactions and the list of all staff who have not made any transactions (with duplicates)
+SELECT 
+    Sta.EmployeeID, 
+    Sta.FirstName, 
+    Sta.LastName
+FROM
+    Staff AS Sta
+WHERE
+    Sta.EmployeeID IN (
+        SELECT DISTINCT Tra.StaffID 
+        FROM Transactions AS Tra
+    ) 
+UNION ALL 
+SELECT 
+    Sta.EmployeeID, 
+    Sta.FirstName, 
+    Sta.LastName
+FROM
+    Staff AS Sta
+WHERE
+    Sta.EmployeeID NOT IN (
+        SELECT DISTINCT Tra.StaffID 
+        FROM Transactions AS Tra
+    );
+
+-- group_concat usage 
+SELECT 
+    GROUP_CONCAT(Sta.EmployeeID ORDER BY Sta.EmployeeID ASC SEPARATOR ', ') AS EmployeeIds
+FROM
+    Staff AS Sta;

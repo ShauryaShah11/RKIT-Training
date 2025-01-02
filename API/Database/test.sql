@@ -2,12 +2,13 @@
 USE practiceDB;
 
 SELECT 
-    Staff.EmployeeID,
-    Staff.FirstName,
-    Staff.LastName
-    -- Transactions.Amount,
---     Transactions.TransactionDate
+    Sta1.EmployeeID,
+    Sta1.FirstName,
+    Sta1.LastName
+    -- Uncomment if you need transactions details
+    -- Tra.Amount,
+    -- Tra.TransactionDate
 FROM
-    Staff
+    Staff AS Sta1
         LEFT JOIN
-    Staff ON Staff.EmployeeID = Staff.EmployeeID;
+    Staff AS Sta2 ON Sta1.EmployeeID = Sta2.EmployeeID;

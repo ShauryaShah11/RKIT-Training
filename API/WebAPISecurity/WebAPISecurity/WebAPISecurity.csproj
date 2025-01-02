@@ -226,6 +226,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filters\GlobalExceptionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

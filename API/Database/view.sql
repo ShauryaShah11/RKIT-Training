@@ -18,3 +18,17 @@ SELECT
     *
 FROM
     StaffTransactions;
+    
+CREATE VIEW StaffView AS
+    SELECT 
+        EmployeeID, FirstName, LastName
+    FROM
+        Staff;
+        
+UPDATE StaffView 
+SET 
+    FirstName = 'John'
+WHERE
+    EmployeeID = 1;
+
+
