@@ -5,6 +5,9 @@ using System.Web;
 
 namespace WebAPISecurity.Models
 {
+    /// <summary>
+    /// The User class represents user model.
+    /// </summary>
     public class User
     {
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Web.Http;
 using Microsoft.Web.Http.Versioning;
+using Swashbuckle.Application;
 using System.Web.Http;
 
 namespace WebAPICaching
@@ -40,6 +41,15 @@ namespace WebAPICaching
                     new MediaTypeApiVersionReader("api-version") // Reads version from media type
                 );
             });
+
+            // Swagger Redirect Route (Swagger UI configuration)
+            config.Routes.MapHttpRoute(
+                name: "SwaggerRedirect",
+                routeTemplate: "",
+                defaults: null,
+                constraints: null,
+                handler: new RedirectHandler(message => message.RequestUri.ToString(), "swagger")
+            );
         }
     }
 }

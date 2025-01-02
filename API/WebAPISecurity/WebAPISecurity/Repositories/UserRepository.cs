@@ -6,6 +6,9 @@ namespace WebAPISecurity.Repositories
 {
     public class UserRepository
     {
+        /// <summary>
+        /// Sample list of users acting as an in-memory database
+        /// </summary>
         private static List<User> users = new List<User>
         {
             new User { UserId = 1, Username = "user1", Password = "password1", Email = "user1@example.com" },
@@ -19,6 +22,7 @@ namespace WebAPISecurity.Repositories
         /// <returns>Returns a list of all users.</returns>
         public List<User> GetAllUsers()
         {
+            // Returns the complete list of users
             return users;
         }
 
@@ -29,6 +33,7 @@ namespace WebAPISecurity.Repositories
         /// <returns>Returns the user with the specified ID, or null if not found.</returns>
         public User GetUserById(int userId)
         {
+            // Finds and returns the user by their UserId, or null if not found
             return users.FirstOrDefault(u => u.UserId == userId);
         }
 
@@ -39,11 +44,13 @@ namespace WebAPISecurity.Repositories
         /// <returns>Returns true if the user was added successfully, false otherwise.</returns>
         public bool AddUser(User user)
         {
+            // Check for null user or duplicate UserId before adding
             if (user == null || users.Any(u => u.UserId == user.UserId))
             {
-                return false; // Avoid null user or duplicate UserId
+                return false; // Cannot add null user or user with an existing UserId
             }
 
+            // Adds the user to the list
             users.Add(user);
             return true;
         }
@@ -55,21 +62,24 @@ namespace WebAPISecurity.Repositories
         /// <returns>Returns true if the user was updated successfully, false otherwise.</returns>
         public bool UpdateUser(User updatedUser)
         {
+            // Ensure the updated user is not null
             if (updatedUser == null)
             {
                 return false;
             }
 
+            // Find the existing user by ID
             User existingUser = GetUserById(updatedUser.UserId);
             if (existingUser != null)
             {
+                // Update the existing user's information
                 existingUser.Username = updatedUser.Username;
                 existingUser.Password = updatedUser.Password;
                 existingUser.Email = updatedUser.Email;
-                return true;
+                return true; // Successfully updated
             }
 
-            return false; // User not found
+            return false; // User not found, update failed
         }
 
         /// <summary>
@@ -79,14 +89,16 @@ namespace WebAPISecurity.Repositories
         /// <returns>Returns true if the user was deleted successfully, false otherwise.</returns>
         public bool DeleteUser(int userId)
         {
+            // Find the user to delete by ID
             User userToDelete = GetUserById(userId);
             if (userToDelete != null)
             {
+                // Remove the user from the list
                 users.Remove(userToDelete);
-                return true;
+                return true; // Successfully deleted
             }
 
-            return false; // User not found
+            return false; // User not found, delete failed
         }
     }
 }

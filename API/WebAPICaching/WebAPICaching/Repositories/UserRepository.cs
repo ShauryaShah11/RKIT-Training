@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using WebAPICaching.Models;
 
 namespace WebAPICaching.Repositories
 {
     public class UserRepository
     {
+        /// <summary>
+        /// It represents static in-memory database for users.
+        /// </summary>
         private static List<User> users = new List<User>
         {
             new User { UserId = 1, Username = "user1", Password = "password1", Email = "user1@example.com" },
