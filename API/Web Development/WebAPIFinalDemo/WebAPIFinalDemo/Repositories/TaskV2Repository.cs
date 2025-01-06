@@ -12,6 +12,7 @@ namespace WebAPIFinalDemo.Repositories
     /// </summary>
     public class TaskV2Repository
     {
+        #region Private Members
         // Static list to hold tasks in memory for demo purposes.
         private static List<TaskV2> _tasks = new List<TaskV2>
         {
@@ -67,7 +68,9 @@ namespace WebAPIFinalDemo.Repositories
                 Priority = 1
             }
         };
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Gets all tasks from the repository.
         /// </summary>
@@ -169,5 +172,6 @@ namespace WebAPIFinalDemo.Repositories
             task.Status = status;
             return true;
         }
+        #endregion
     }
 }

@@ -7,13 +7,22 @@ using WebAPIFinalDemo.Models;
 
 namespace WebAPIFinalDemo.Services
 {
+    /// <summary>
+    /// The TokenService class is responsible for generating and verifying JSON Web Tokens (JWT).
+    /// It provides functionality to create secure tokens used for authentication and authorization,
+    /// as well as to validate tokens to ensure their integrity and authenticity. The service ensures
+    /// that the tokens are properly signed, contain the necessary claims, and have not been tampered with.
+    /// </summary>
     public class TokenService
     {
+        #region Private Members
         // Use a strong secret key for signing the JWT token
         private const string SecretKey = "1234567890abcdef1234567890abcdef"; // Use a strong secret key
         private static readonly SymmetricSecurityKey Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
         private static readonly SigningCredentials Credentials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Generates a JWT token for the given user with claims such as username, email, and user ID.
         /// The token is signed using HMAC SHA256 algorithm and includes expiration time.
@@ -74,5 +83,6 @@ namespace WebAPIFinalDemo.Services
                 throw new UnauthorizedAccessException("Invalid or expired token", ex);
             }
         }
+        #endregion
     }
 }

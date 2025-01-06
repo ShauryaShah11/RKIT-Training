@@ -9,6 +9,11 @@ using WebAPISecurity.Repositories;
 
 namespace WebAPISecurity.Controllers
 {
+    /// <summary>
+    /// The UserController class is an API controller that handles HTTP requests related to user management.
+    /// It provides endpoints for CRUD operations on users, including retrieving all users, getting a user by ID,
+    /// adding, updating, and deleting users. The controller uses a UserRepository to perform data operations.
+    /// </summary>
     // Enables Cross-Origin Resource Sharing (CORS) for all origins, headers, and methods
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UserController : ApiController

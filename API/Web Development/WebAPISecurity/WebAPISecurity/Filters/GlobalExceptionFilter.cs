@@ -11,6 +11,7 @@ namespace WebAPISecurity.Filters
     /// </summary>
     public class GlobalExceptionFilter : ExceptionFilterAttribute
     {
+        #region Public Methods
         /// <summary>
         /// This method is triggered when an exception occurs in any API action.
         /// </summary>
@@ -35,5 +36,6 @@ namespace WebAPISecurity.Filters
             // The response includes the error message and details
             context.Response = context.Request.CreateResponse(HttpStatusCode.InternalServerError, responseMessage);
         }
+        #endregion
     }
 }

@@ -4,8 +4,16 @@ using WebAPISecurity.Models;
 
 namespace WebAPISecurity.Repositories
 {
+    /// <summary>
+    /// The UserRepository class provides CRUD (Create, Read, Update, Delete) operations 
+    /// for managing users in an in-memory collection. It serves as a simple data repository
+    /// for storing and retrieving user information, simulating database operations without
+    /// actual database interaction. The class includes methods to get all users, get a user by 
+    /// ID, add a new user, update an existing user, and delete a user by ID.
+    /// </summary>
     public class UserRepository
     {
+        #region Private Members
         /// <summary>
         /// Sample list of users acting as an in-memory database
         /// </summary>
@@ -15,7 +23,9 @@ namespace WebAPISecurity.Repositories
             new User { UserId = 2, Username = "user2", Password = "password2", Email = "user2@example.com" },
             new User { UserId = 3, Username = "user3", Password = "password3", Email = "user3@example.com" }
         };
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Gets all users in the system.
         /// </summary>
@@ -100,5 +110,6 @@ namespace WebAPISecurity.Repositories
 
             return false; // User not found, delete failed
         }
+        #endregion
     }
 }

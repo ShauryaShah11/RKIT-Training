@@ -14,6 +14,7 @@ namespace WebAPISecurity.Attributes
     /// </summary>
     public class BearerAuth : AuthorizeAttribute
     {
+        #region Public Methods
         /// <summary>
         /// Performs authorization by validating the Bearer token in the Authorization header.
         /// </summary>
@@ -60,5 +61,6 @@ namespace WebAPISecurity.Attributes
                 new { message = "Unauthorized access" }
             );
         }
+        #endregion
     }
 }

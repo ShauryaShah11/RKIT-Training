@@ -4,8 +4,12 @@ using WebAPICaching.Models;
 
 namespace WebAPICaching.Repositories
 {
+    /// <summary>
+    /// Repository class for managing user data.
+    /// </summary>
     public class UserRepository
     {
+        #region Private Members
         /// <summary>
         /// It represents static in-memory database for users.
         /// </summary>
@@ -32,8 +36,9 @@ namespace WebAPICaching.Repositories
             new User { UserId = 19, Username = "user19", Password = "password19", Email = "user19@example.com" },
             new User { UserId = 20, Username = "user20", Password = "password20", Email = "user20@example.com" }
         };
+        #endregion
 
-
+        #region Public Methods
         /// <summary>
         /// Gets all users in the system.
         /// </summary>
@@ -109,5 +114,6 @@ namespace WebAPICaching.Repositories
 
             return false; // User not found
         }
+        #endregion
     }
 }

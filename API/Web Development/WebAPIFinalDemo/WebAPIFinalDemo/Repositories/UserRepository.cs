@@ -6,10 +6,11 @@ namespace WebAPIFinalDemo.Repositories
 {
     public class UserRepository
     {
+        #region Private Members
         /// <summary>
         /// Sample list of users acting as an in-memory database
         /// </summary>
-        public static List<User> _users = new List<User>
+        private static List<User> _users = new List<User>
         {
             new User
             {
@@ -47,8 +48,9 @@ namespace WebAPIFinalDemo.Repositories
                 Password = "Password123", // Ensure this is hashed in real applications
             }
         };
+        #endregion
 
-
+        #region Public Methods
         /// <summary>
         /// Gets all users in the system.
         /// </summary>
@@ -133,5 +135,6 @@ namespace WebAPIFinalDemo.Repositories
 
             return false; // User not found, delete failed
         }
+        #endregion
     }
 }

@@ -10,14 +10,23 @@ using Asp.Versioning; // Required for versioning
 
 namespace WebAPIFinalDemo.Controllers
 {
+    /// <summary>
+    /// The UserController provides HTTP endpoints for performing operations related to users, specifically for version 1.0.
+    /// </summary>
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/user")]
     [ApiVersion("1.0")] // Indicate that this controller supports version 1.0
     public class UserController : ApiController
     {
+        #region Private Members
         private readonly UserRepository _userRepository = new UserRepository();
+        #endregion
 
-        // Version 1.0 endpoint for getting all users
+        #region Public Methods
+        /// <summary>
+        /// Retrieves all users from the repository.
+        /// </summary>
+        /// <returns>Returns a list of all users.</returns>
         [HttpGet]
         [Route("")]
         [ApiVersion("1.0")] // Specify the version for this action
@@ -28,7 +37,11 @@ namespace WebAPIFinalDemo.Controllers
             return Ok(users);
         }
 
-        // Version 1.0 endpoint for getting user by ID
+        /// <summary>
+        /// Retrieves a specific user by their unique ID.
+        /// </summary>
+        /// <param name="id">The ID of the user to retrieve.</param>
+        /// <returns>Returns the user if found, or a NotFound response if the user does not exist.</returns>
         [HttpGet]
         [Route("{id:int}")]
         [ApiVersion("1.0")] // Specify the version for this action
@@ -44,7 +57,10 @@ namespace WebAPIFinalDemo.Controllers
             return Ok(user);
         }
 
-        // Token endpoint (no changes, just versioning)
+        /// <summary>
+        /// Retrieves a user based on the token information of the authenticated user.
+        /// </summary>
+        /// <returns>Returns the user associated with the authenticated token, or Unauthorized if the token is invalid or missing.</returns>
         [HttpGet]
         [Route("token")]
         [ApiVersion("1.0")] // Version for the token action
@@ -66,7 +82,11 @@ namespace WebAPIFinalDemo.Controllers
             return Ok(user);
         }
 
-        // POST method remains the same for version 1.0
+        /// <summary>
+        /// Adds a new user to the system.
+        /// </summary>
+        /// <param name="user">The user object to be added.</param>
+        /// <returns>Returns a Created response if the user is added successfully, or a BadRequest response if the user already exists.</returns>
         [HttpPost]
         [Route("")]
         [ApiVersion("1.0")]
@@ -86,7 +106,12 @@ namespace WebAPIFinalDemo.Controllers
             return BadRequest("User with the same ID already exists.");
         }
 
-        // PUT method remains the same for version 1.0
+        /// <summary>
+        /// Updates an existing user by their unique ID with new data.
+        /// </summary>
+        /// <param name="id">The ID of the user to update.</param>
+        /// <param name="user">The updated user data.</param>
+        /// <returns>Returns an Ok response if the user is updated successfully, or a BadRequest/NotFound response based on the outcome.</returns>
         [HttpPut]
         [Route("{id:int}")]
         [ApiVersion("1.0")]
@@ -106,7 +131,11 @@ namespace WebAPIFinalDemo.Controllers
             return NotFound();
         }
 
-        // DELETE method remains the same for version 1.0
+        /// <summary>
+        /// Deletes a user by their unique ID.
+        /// </summary>
+        /// <param name="id">The ID of the user to delete.</param>
+        /// <returns>Returns a success message if the user is deleted, or a NotFound response if the user does not exist.</returns>
         [HttpDelete]
         [Route("{id:int}")]
         [ApiVersion("1.0")]
@@ -120,5 +149,6 @@ namespace WebAPIFinalDemo.Controllers
 
             return NotFound();
         }
+        #endregion
     }
 }

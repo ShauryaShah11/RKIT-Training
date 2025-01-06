@@ -13,11 +13,14 @@ namespace WebAPISecurity.Services
     /// </summary>
     public static class TokenService
     {
+        #region Private Members
         // Use a strong secret key for signing the JWT token
         private const string SecretKey = "1234567890abcdef1234567890abcdef"; // Use a strong secret key
         private static readonly SymmetricSecurityKey Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
         private static readonly SigningCredentials Credentials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
+        #endregion
 
+        #region  Public Methods
         /// <summary>
         /// Generates a JWT token for the given user with claims such as username, email, and user ID.
         /// The token is signed using HMAC SHA256 algorithm and includes expiration time.
@@ -78,5 +81,6 @@ namespace WebAPISecurity.Services
                 throw new UnauthorizedAccessException("Invalid or expired token", ex);
             }
         }
+        #endregion
     }
 }

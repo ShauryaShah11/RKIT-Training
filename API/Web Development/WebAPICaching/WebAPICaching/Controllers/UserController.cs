@@ -8,13 +8,19 @@ using System.Linq;
 
 namespace WebAPICaching.Controllers
 {
+    /// <summary>
+    /// The UserController class is an API controller that handles HTTP requests related to user management.
+    /// </summary>
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
     [RoutePrefix("api/users")]
     public class UserController : ApiController
     {
+        #region Private Members
         private readonly UserRepository _userRepository = new UserRepository();
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Gets all users.
         /// </summary>
@@ -120,5 +126,6 @@ namespace WebAPICaching.Controllers
 
             return NotFound(); // 404 Not Found
         }
+        #endregion
     }
 }

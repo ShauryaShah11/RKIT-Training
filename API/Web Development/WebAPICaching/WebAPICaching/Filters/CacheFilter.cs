@@ -11,10 +11,14 @@ namespace WebAPICaching.Filters
     /// </summary>
     public class CacheFilter : ActionFilterAttribute
     {
+        #region Public Members
         /// <summary>
         /// Gets or sets the duration (in seconds) for which the response should be cached.
         /// </summary>
         public int TimeDuration { get; set; }
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// Executes after the action method has been executed, adding caching headers 
@@ -30,5 +34,6 @@ namespace WebAPICaching.Filters
                 Public = true
             };
         }
+        #endregion
     }
 }

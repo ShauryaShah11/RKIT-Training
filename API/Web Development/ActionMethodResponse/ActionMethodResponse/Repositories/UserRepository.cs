@@ -9,6 +9,7 @@ namespace ActionMethodResponse.Repositories
     /// </summary>
     public class UserRepository
     {
+        #region Private Members
         // Static list to store user data
         private static List<User> _users = new List<User>
         {
@@ -78,7 +79,9 @@ namespace ActionMethodResponse.Repositories
                 Nationality = "American"
             }
         };
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Gets all users in the system.
         /// </summary>
@@ -160,5 +163,6 @@ namespace ActionMethodResponse.Repositories
 
             return false; // User not found
         }
+        #endregion
     }
 }

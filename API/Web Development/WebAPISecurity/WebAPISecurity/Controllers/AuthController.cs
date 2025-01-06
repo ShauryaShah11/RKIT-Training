@@ -11,8 +11,14 @@ namespace WebAPISecurity.Controllers
     /// </summary>
     public class AuthController : ApiController
     {
+        #region Private Members
+        /// <summary>
+        /// The UserRepository object to handle opration on User model.
+        /// </summary>
         private readonly UserRepository _userRepository = new UserRepository();
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Logs in the user by validating the provided credentials and generating a JWT token.
         /// </summary>
@@ -39,5 +45,6 @@ namespace WebAPISecurity.Controllers
             // Return the generated token in the response body
             return Ok(new { Token = token });
         }
+        #endregion
     }
 }

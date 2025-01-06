@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using WebAPIVersioning.Models;
 
 namespace WebAPIVersioning.Controllers
 {
+    /// <summary>
+    /// The StudentV1Controller is an API controller that handles HTTP endpoints for managing students, specifically for API version v1.
+    /// </summary>
     [RoutePrefix("api/v1/students")]
     public class StudentV1Controller : ApiController
     {
-        public static readonly List<StudentV1> students = new List<StudentV1>
+        #region Private Members
+        private static readonly List<StudentV1> students = new List<StudentV1>
         {
             new StudentV1 { Id = 1, Name = "Alice Johnson" },
             new StudentV1 { Id = 2, Name = "Bob Smith" },
@@ -19,6 +20,9 @@ namespace WebAPIVersioning.Controllers
             new StudentV1 { Id = 4, Name = "David Lee" },
             new StudentV1 { Id = 5, Name = "Eva White" }
         };
+        #endregion
+
+        #region Public Methods
 
         [HttpGet]
         public IHttpActionResult GetAllStudent()
@@ -36,6 +40,6 @@ namespace WebAPIVersioning.Controllers
             }
             return NotFound();
         }
-
+        #endregion
     }
 }

@@ -7,11 +7,19 @@ using WebAPIFinalDemo.Services;
 
 namespace WebAPIFinalDemo.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    /// <summary>
+    /// The AuthController handles authentication-related API endpoints like user login.
+    /// </summary>
     public class AuthController : ApiController
     {
+        #region Private Members
+        /// <summary>
+        /// The UserRepository object to handle opration on User model.
+        /// </summary>
         private readonly UserRepository _userRepository = new UserRepository();
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Logs in the user by validating the provided credentials and generating a JWT token.
         /// </summary>
@@ -38,5 +46,6 @@ namespace WebAPIFinalDemo.Controllers
             // Return the generated token in the response body
             return Ok(new { Token = token });
         }
+        #endregion
     }
 }

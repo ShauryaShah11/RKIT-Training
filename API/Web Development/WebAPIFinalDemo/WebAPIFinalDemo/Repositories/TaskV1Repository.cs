@@ -11,6 +11,7 @@ namespace WebAPIFinalDemo.Repositories
     /// </summary>
     public class TaskV1Repository
     {
+        #region Private Members
         // Static list to hold tasks in memory for demo purposes.
         private static List<TaskV1> _tasks = new List<TaskV1>
         {
@@ -56,7 +57,9 @@ namespace WebAPIFinalDemo.Repositories
                 UserId = 5,
             }
         };
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Gets all tasks from the repository.
         /// </summary>
@@ -138,5 +141,6 @@ namespace WebAPIFinalDemo.Repositories
             _tasks.Remove(taskToRemove);
             return true;
         }
+        #endregion
     }
 }

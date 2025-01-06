@@ -14,9 +14,13 @@ namespace ActionMethodResponse.Controllers
     /// </summary>
     public class UserController : ApiController
     {
+        #region Private Members
         // Instance of UserRepository to manage user data
         private readonly UserRepository _userRepository = new UserRepository();
+        #endregion
 
+
+        #region Public Methods
         /// <summary>
         /// Deletes a user by their unique identifier.
         /// </summary>
@@ -160,5 +164,6 @@ namespace ActionMethodResponse.Controllers
         {
             return _userRepository.GetAllUsers();
         }
+        #endregion
     }
 }

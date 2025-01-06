@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace WebAPISecurity.Models
+﻿namespace WebAPISecurity.Models
 {
     /// <summary>
     /// The User class represents user model.

@@ -9,12 +9,22 @@ using WebAPIFinalDemo.Repositories;
 
 namespace WebAPIFinalDemo.Controllers
 {
+    /// <summary>
+    /// The TaskV2Controller provides HTTP endpoints for performing operations on tasks, specifically for API version 2.
+    /// </summary>
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/v2/tasks")]
     public class TaskV2Controller : ApiController
     {
+        #region Private Members
         private readonly TaskV2Repository _taskV2Repository = new TaskV2Repository();
+        #endregion
 
+        #region Public Methods
+        /// <summary>
+        /// Retrieves all tasks from the repository.
+        /// </summary>
+        /// <returns>Returns a list of all tasks.</returns>
         [HttpGet]
         [Route("")]
         public IHttpActionResult GetAllTasks()
@@ -23,6 +33,11 @@ namespace WebAPIFinalDemo.Controllers
             return Ok(tasks);
         }
 
+        /// <summary>
+        /// Retrieves a task by its unique ID.
+        /// </summary>
+        /// <param name="id">The ID of the task to retrieve.</param>
+        /// <returns>Returns the task if found, or a NotFound response if the task does not exist.</returns>
         [HttpGet]
         [Route("{id:int}")]
         public IHttpActionResult GetTaskById(int id)
@@ -35,6 +50,11 @@ namespace WebAPIFinalDemo.Controllers
             return Ok(task);
         }
 
+        /// <summary>
+        /// Adds a new task to the system.
+        /// </summary>
+        /// <param name="task">The task object to be added.</param>
+        /// <returns>Returns a Created response if the task is added successfully, or a BadRequest response if the task already exists.</returns>
         [HttpPost]
         [Route("")]
         [BearerAuth]
@@ -56,6 +76,11 @@ namespace WebAPIFinalDemo.Controllers
             return BadRequest("Task with the same Id already exists");
         }
 
+        /// <summary>
+        /// Updates an existing task with new information.
+        /// </summary>
+        /// <param name="task">The updated task data.</param>
+        /// <returns>Returns an Ok response if the task is updated successfully, or a BadRequest response if the update fails.</returns>
         [HttpPut]
         [Route("")]
         public IHttpActionResult UpdateTask(TaskV2 task)
@@ -72,6 +97,12 @@ namespace WebAPIFinalDemo.Controllers
             return BadRequest("Failed to update task");
         }
 
+        /// <summary>
+        /// Updates the status of a task by its unique ID.
+        /// </summary>
+        /// <param name="id">The ID of the task to update.</param>
+        /// <param name="status">The new status to set for the task.</param>
+        /// <returns>Returns an Ok response if the task status is updated successfully, or a NotFound response if the task does not exist.</returns>
         [HttpPut]
         [Route("{id:int}")]
         public IHttpActionResult UpdateTaskStatus(int id, [FromBody] Status status)
@@ -84,6 +115,11 @@ namespace WebAPIFinalDemo.Controllers
             return NotFound();
         }
 
+        /// <summary>
+        /// Deletes a task by its unique ID.
+        /// </summary>
+        /// <param name="id">The ID of the task to delete.</param>
+        /// <returns>Returns a success message if the task is deleted, or a NotFound/Unauthorized response if the task does not exist or the user is not authorized to delete it.</returns>
         [HttpDelete]
         [Route("{id:int}")]
         [BearerAuth]
@@ -105,6 +141,10 @@ namespace WebAPIFinalDemo.Controllers
             return NotFound();
         }
 
+        /// <summary>
+        /// Retrieves all tasks that belong to the currently authenticated user.
+        /// </summary>
+        /// <returns>Returns a list of tasks for the authenticated user, or a NotFound response if no tasks exist.</returns>
         [HttpGet]
         [Route("mytasks")]
         [BearerAuth]
@@ -135,6 +175,6 @@ namespace WebAPIFinalDemo.Controllers
 
             return Ok(tasks);  // Return the tasks
         }
-
+        #endregion
     }
 }
