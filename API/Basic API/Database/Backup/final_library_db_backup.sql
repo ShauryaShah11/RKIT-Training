@@ -55,13 +55,13 @@ DROP TABLE IF EXISTS `ymb01`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ymb01` (
-  `ymb01f01` int NOT NULL AUTO_INCREMENT,
-  `ymb01f02` varchar(255) NOT NULL,
-  `ymb01f03` varchar(255) DEFAULT NULL,
-  `ymb01f04` int DEFAULT NULL,
-  `ymb01f05` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ymb01f01`),
-  UNIQUE KEY `ymb01f02` (`ymb01f02`)
+  `b01f01` int NOT NULL AUTO_INCREMENT,
+  `b01f02` varchar(255) NOT NULL,
+  `b01f03` varchar(255) DEFAULT NULL,
+  `b01f04` int DEFAULT NULL,
+  `b01f05` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`b01f01`),
+  UNIQUE KEY `b01f02` (`b01f02`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -83,17 +83,17 @@ DROP TABLE IF EXISTS `ymh01`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ymh01` (
-  `ymh01f01` int NOT NULL AUTO_INCREMENT,
-  `ymh01f02` int NOT NULL,
-  `ymh01f03` int NOT NULL,
-  `ymh01f04` date NOT NULL,
-  `ymh01f05` date DEFAULT NULL,
-  PRIMARY KEY (`ymh01f01`),
-  KEY `fk_book` (`ymh01f02`),
-  KEY `fk_member` (`ymh01f03`),
-  CONSTRAINT `fk_book` FOREIGN KEY (`ymh01f02`) REFERENCES `ymb01` (`ymb01f01`) ON DELETE CASCADE,
-  CONSTRAINT `fk_member` FOREIGN KEY (`ymh01f03`) REFERENCES `ymm01` (`ymm01f01`) ON DELETE CASCADE,
-  CONSTRAINT `ymh01_chk_1` CHECK (((`ymh01f05` is null) or (`ymh01f05` > `ymh01f04`)))
+  `h01f01` int NOT NULL AUTO_INCREMENT,
+  `h01f02` int NOT NULL,
+  `h01f03` int NOT NULL,
+  `h01f04` date NOT NULL,
+  `h01f05` date DEFAULT NULL,
+  PRIMARY KEY (`h01f01`),
+  KEY `fk_book` (`h01f02`),
+  KEY `fk_member` (`h01f03`),
+  CONSTRAINT `fk_book` FOREIGN KEY (`h01f02`) REFERENCES `ymb01` (`b01f01`) ON DELETE CASCADE,
+  CONSTRAINT `fk_member` FOREIGN KEY (`h01f03`) REFERENCES `ymm01` (`m01f01`) ON DELETE CASCADE,
+  CONSTRAINT `ymh01_chk_1` CHECK (((`h01f05` is null) or (`h01f05` > `h01f04`)))
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -115,12 +115,12 @@ DROP TABLE IF EXISTS `ymm01`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ymm01` (
-  `ymm01f01` int NOT NULL AUTO_INCREMENT,
-  `ymm01f02` varchar(255) NOT NULL,
-  `ymm01f03` varchar(255) DEFAULT NULL,
-  `ymm01f04` date NOT NULL,
-  PRIMARY KEY (`ymm01f01`),
-  UNIQUE KEY `ymm01f03` (`ymm01f03`)
+  `m01f01` int NOT NULL AUTO_INCREMENT,
+  `m01f02` varchar(255) NOT NULL,
+  `m01f03` varchar(255) DEFAULT NULL,
+  `m01f04` date NOT NULL,
+  PRIMARY KEY (`m01f01`),
+  UNIQUE KEY `m01f03` (`m01f03`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

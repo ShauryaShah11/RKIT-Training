@@ -26,6 +26,7 @@ namespace WebAPIFinalDemo.Controllers
         /// <returns>Returns a list of all tasks.</returns>
         [HttpGet]
         [Route("")]
+        [BearerAuth]
         public IHttpActionResult GetAllTasks()
         {
             List<TaskV1> tasks = _taskV1Repository.GetAllTasks();

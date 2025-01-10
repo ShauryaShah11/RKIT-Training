@@ -89,4 +89,4 @@ WHERE
                 LIMIT 1 -- Get the department with the highest average
             )
     )
-LIMIT 5; -- Limit the final output to 5 rows
+LIMIT 10; -- Limit the final output to 5 rows

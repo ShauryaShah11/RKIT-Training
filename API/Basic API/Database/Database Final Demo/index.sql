@@ -1,7 +1,7 @@
 -- Specify database to use
 USE final_library_db;
 
-CREATE INDEX index_ymb01f03 ON ymb01(ymb01f03);
+CREATE INDEX index_b01f03 ON ymb01(b01f03);
 
 -- Example query: Search for books with titles containing the word 'The'
 SELECT 
@@ -9,4 +9,4 @@ SELECT
 FROM
     ymb01
 WHERE
-    ymb01f02 LIKE '%The%';
+    b01f03 LIKE '%The%';

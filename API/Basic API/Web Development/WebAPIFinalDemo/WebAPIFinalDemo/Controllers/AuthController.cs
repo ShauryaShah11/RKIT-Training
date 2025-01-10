@@ -7,6 +7,11 @@ using WebAPIFinalDemo.Services;
 
 namespace WebAPIFinalDemo.Controllers
 {
+    public class LoginModel
+    {
+        public string email { get; set; }
+        public string password { get; set; }
+    }
     /// <summary>
     /// The AuthController handles authentication-related API endpoints like user login.
     /// </summary>
@@ -28,11 +33,11 @@ namespace WebAPIFinalDemo.Controllers
         // POST: api/auth/login
         [HttpPost]
         [Route("api/auth/login")]
-        public IHttpActionResult Login([FromBody] User loginUser)
+        public IHttpActionResult Login([FromBody] LoginModel loginUser)
         {
             // Retrieve the first user that matches the provided username and password
             User user = _userRepository.GetAllUsers()
-                .FirstOrDefault(u => u.Email == loginUser.Email && u.Password == loginUser.Password);
+                .FirstOrDefault(u => u.Email == loginUser.email && u.Password == loginUser.password);
 
             // If no user is found with the given credentials, return Unauthorized response
             if (user == null)

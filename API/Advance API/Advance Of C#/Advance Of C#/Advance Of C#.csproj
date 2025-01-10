@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base Class Library\CollectionExample.cs" />
+    <Compile Include="Base Class Library\DateTimeExample.cs" />
+    <Compile Include="Base Class Library\FileExample.cs" />
+    <Compile Include="Base Class Library\HttpExample.cs" />
+    <Compile Include="Base Class Library\StringBuilderExample.cs" />
+    <Compile Include="Base Class Library\StringExample.cs" />
     <Compile Include="Classes\Animal.cs" />
     <Compile Include="Classes\Car.cs" />
     <Compile Include="Classes\File1.cs" />
@@ -58,6 +64,14 @@
     <Compile Include="Data Serialization\JSONSerialization.cs" />
     <Compile Include="Data Serialization\MyClass.cs" />
     <Compile Include="Data Serialization\XMLSerialization.cs" />
+    <Compile Include="Extension Methods\Data.cs" />
+    <Compile Include="Extension Methods\Department.cs" />
+    <Compile Include="Extension Methods\Employee.cs" />
+    <Compile Include="Extension Methods\EnumerableCollectionExtensionMethods.cs" />
+    <Compile Include="Extension Methods\Extension.cs" />
+    <Compile Include="Extension Methods\IntExtensions.cs" />
+    <Compile Include="Extension Methods\ObjectExtensions.cs" />
+    <Compile Include="Extension Methods\StringExtensions.cs" />
     <Compile Include="File Operations\BufferedStreamExample.cs" />
     <Compile Include="File Operations\CryptoStreamExample.cs" />
     <Compile Include="File Operations\FileStreamExample.cs" />
@@ -66,8 +80,15 @@
     <Compile Include="Generic Classes\GenericClass.cs" />
     <Compile Include="Generic Classes\GenericClassWithWhere.cs" />
     <Compile Include="LambdaExpression.cs" />
+    <Compile Include="LINQOperations\Department.cs" />
+    <Compile Include="LINQOperations\Employee.cs" />
+    <Compile Include="LINQOperations\LINQWithDataTable.cs" />
+    <Compile Include="LINQOperations\LINQWithList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security And CryptoGraphy\HashingExample.cs" />
+    <Compile Include="Security And CryptoGraphy\PasswordExample.cs" />
+    <Compile Include="Security And CryptoGraphy\SymmetricEncryptionExample.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

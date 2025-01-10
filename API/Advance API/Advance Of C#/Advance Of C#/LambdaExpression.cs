@@ -17,6 +17,11 @@ namespace Advance_Of_C_
 
             // Nested Lambda Function
             Func<int, int> addTwo = x => x + 2;
+            Func<int, int> addThree = x => x + 3;
+
+            Func<int, Func<int, int>> addFunc = x => y => x + y;
+            Console.WriteLine(addFunc(2)(3)); // Output: 5
+
         }
     }
 }

@@ -22,6 +22,15 @@ namespace Advance_Of_C_.File_Operations
             }
         }
 
+        public void ReadFile()
+        {
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                string fileContents = reader.ReadToEnd(); // Store the contents of the file
+                Console.WriteLine(fileContents);
+            }
+        }
+
         // Write multiple lines to a file
         public void WriteLinesToFile(string[] lines)
         {
