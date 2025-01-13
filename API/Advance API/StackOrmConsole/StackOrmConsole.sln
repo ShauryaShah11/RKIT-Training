@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackOrmConsole", "StackOrmConsole\StackOrmConsole.csproj", "{1FEA8F12-0BA0-4BD3-95F4-8B3B92FDCF30}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FEA8F12-0BA0-4BD3-95F4-8B3B92FDCF30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FEA8F12-0BA0-4BD3-95F4-8B3B92FDCF30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FEA8F12-0BA0-4BD3-95F4-8B3B92FDCF30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FEA8F12-0BA0-4BD3-95F4-8B3B92FDCF30}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7214D7EC-AC26-4BD7-A716-08052A4C3BD0}
+	EndGlobalSection
+EndGlobal

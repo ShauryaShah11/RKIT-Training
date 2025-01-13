@@ -1,4 +1,5 @@
 ﻿using Advance_Of_C_.Base_Class_Library;
+using Advance_Of_C_.Dynamic;
 using Advance_Of_C_.Extension_Methods;
 using Advance_Of_C_.File_Operations;
 using Advance_Of_C_.LINQOperations;
@@ -220,27 +221,32 @@ namespace Advance_Of_C_
             //Console.WriteLine($"Plain text is : {plainText}");
 
             #region hash password with salt
-            PasswordExample passwordExample = new PasswordExample();
+            //PasswordExample passwordExample = new PasswordExample();
 
-            // Example: Create a hashed password and store the salt
-            Console.WriteLine("Enter Your password you want to hashed: ");
-            string password = Console.ReadLine();
-            byte[] salt = passwordExample.GenerateSalt();
-            string hashedPassword = passwordExample.HashedPassword(password, salt);
+            //// Example: Create a hashed password and store the salt
+            //Console.WriteLine("Enter Your password you want to hashed: ");
+            //string password = Console.ReadLine();
+            //byte[] salt = passwordExample.GenerateSalt();
+            //string hashedPassword = passwordExample.HashedPassword(password, salt);
 
-            Console.WriteLine($"Salt (Base64): {Convert.ToBase64String(salt)}");
-            Console.WriteLine($"Hashed Password: {hashedPassword}");
+            //Console.WriteLine($"Salt (Base64): {Convert.ToBase64String(salt)}");
+            //Console.WriteLine($"Hashed Password: {hashedPassword}");
 
-            // Example: Verify a user's input password
-            Console.WriteLine("Enter Password to check with hashed password :");
-            string inputPassword = Console.ReadLine(); // Correct password
-            bool isPasswordCorrect = passwordExample.VerifyPassword(inputPassword, salt, hashedPassword);
-            Console.WriteLine($"Password verification (correct password): {isPasswordCorrect}");
+            //// Example: Verify a user's input password
+            //Console.WriteLine("Enter Password to check with hashed password :");
+            //string inputPassword = Console.ReadLine(); // Correct password
+            //bool isPasswordCorrect = passwordExample.VerifyPassword(inputPassword, salt, hashedPassword);
+            //Console.WriteLine($"Password verification (correct password): {isPasswordCorrect}");
 
-            string wrongPassword = "WrongPassword456"; // Incorrect password
-            bool isWrongPasswordCorrect = passwordExample.VerifyPassword(wrongPassword, salt, hashedPassword);
-            Console.WriteLine($"Password verification (wrong password): {isWrongPasswordCorrect}");
+            //string wrongPassword = "WrongPassword456"; // Incorrect password
+            //bool isWrongPasswordCorrect = passwordExample.VerifyPassword(wrongPassword, salt, hashedPassword);
+            //Console.WriteLine($"Password verification (wrong password): {isWrongPasswordCorrect}");
             #endregion
+            #endregion
+
+            #region Dynamic Type
+            DynamicType dt = new DynamicType();
+            dt.DynamicDemo();
             #endregion
             Console.ReadKey();
         }

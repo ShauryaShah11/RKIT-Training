@@ -64,6 +64,7 @@
     <Compile Include="Data Serialization\JSONSerialization.cs" />
     <Compile Include="Data Serialization\MyClass.cs" />
     <Compile Include="Data Serialization\XMLSerialization.cs" />
+    <Compile Include="Dynamic\DynamicType.cs" />
     <Compile Include="Extension Methods\Data.cs" />
     <Compile Include="Extension Methods\Department.cs" />
     <Compile Include="Extension Methods\Employee.cs" />
