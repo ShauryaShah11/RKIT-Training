@@ -1,4 +1,5 @@
 ﻿using Advance_Of_C_.Base_Class_Library;
+using Advance_Of_C_.Database_Operation;
 using Advance_Of_C_.Dynamic;
 using Advance_Of_C_.Extension_Methods;
 using Advance_Of_C_.File_Operations;
@@ -7,6 +8,7 @@ using Advance_Of_C_.Security_And_CryptoGraphy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 
@@ -245,9 +247,30 @@ namespace Advance_Of_C_
             #endregion
 
             #region Dynamic Type
-            DynamicType dt = new DynamicType();
-            dt.DynamicDemo();
+            //DynamicType dt = new DynamicType();
+            //dt.DynamicDemo();
             #endregion
+
+            #region Database With C#
+            SelectOperation sc = new SelectOperation();
+
+            InsertOperation insertOperation = new InsertOperation();
+            //insertOperation.UnsafeInsertDemo();
+            insertOperation.SafeInsertDemo();
+            sc.SelectDemo();
+
+
+            UpdateOperation updateOperation = new UpdateOperation();
+            updateOperation.UpdateDemo();
+            sc.SelectDemo();
+
+
+            DeleteOperation deleteOperation = new DeleteOperation();
+            deleteOperation.DeleteDemo();
+            sc.SelectDemo();
+
+            #endregion
+
             Console.ReadKey();
         }
     }

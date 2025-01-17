@@ -19,13 +19,13 @@ namespace ActionMethodResponse
             );
 
             // Swagger Redirect Route (Swagger UI configuration)
-            config.Routes.MapHttpRoute(
-                name: "SwaggerRedirect",
-                routeTemplate: "",
-                defaults: null,
-                constraints: null,
-                handler: new RedirectHandler(message => message.RequestUri.ToString(), "swagger")
-            );
+            //config.Routes.MapHttpRoute(
+            //    name: "SwaggerRedirect",
+            //    routeTemplate: "",
+            //    defaults: null,
+            //    constraints: null,
+            //    handler: new RedirectHandler(message => message.RequestUri.ToString(), "swagger")
+            //);
 
         }
     }

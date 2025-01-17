@@ -22,5 +22,6 @@ namespace Advance_Of_C_.Dynamic
             Console.WriteLine("A is :" + a);
             Console.WriteLine("B is :" + b);
         }
+
     }
 }

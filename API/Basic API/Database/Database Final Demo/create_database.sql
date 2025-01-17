@@ -1,2 +1,2 @@
 -- create database 
-CREATE DATABASE orm_db;
+CREATE DATABASE final_library_db;

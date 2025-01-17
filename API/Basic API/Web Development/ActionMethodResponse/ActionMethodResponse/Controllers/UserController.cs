@@ -25,10 +25,19 @@ namespace ActionMethodResponse.Controllers
         /// Deletes a user by their unique identifier.
         /// </summary>
         /// <param name="userId">The user ID to delete.</param>
+        //[Route("api/user")]
+        //[HttpGet]
+        //public IHttpActionResult GetAllUser()
+        //{
+        //    List<User> users = _userRepository.GetAllUsers();
+        //    return Ok(users);
+        //}
+
         [HttpDelete]
-        public void DeleteUserById(int userId)
+        public void DeleteUserById(int id)
         {
-            _userRepository.DeleteUser(userId);
+            _userRepository.DeleteUser(id);
+            //return 0;
         }
 
         /// <summary>
@@ -48,7 +57,7 @@ namespace ActionMethodResponse.Controllers
         /// <param name="id">The user ID to retrieve.</param>
         /// <returns>Returns an HTTP response message with the user data or an error message if not found.</returns>
         [HttpGet]
-        [Route("api/user/message/{id}")]
+        [Route("api/user/custom-message/{id}")]
         public HttpResponseMessage GetUserWithCustomMessage(int id)
         {
             try
@@ -105,7 +114,7 @@ namespace ActionMethodResponse.Controllers
         /// <param name="id">The user ID to retrieve.</param>
         /// <returns>Returns an HTTP response message with the user data or an error message if not found.</returns>
         [HttpGet]
-        [Route("api/user/message/{id}")]
+        [Route("api/user/default-message/{id}")]
         public HttpResponseMessage GetUserWithDefaultMessage(int id)
         {
             User user = _userRepository.GetUserById(id);
