@@ -1,0 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace AdvanceC_FinalDemo.Repositories
+{
+    public class MemberRepository
+    {
+    }
+}

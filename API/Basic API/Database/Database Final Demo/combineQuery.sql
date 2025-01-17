@@ -5,6 +5,8 @@
 -- 2. The second part aggregates the total number of books borrowed by each member, 
 --    along with the latest and oldest book borrowed. 
 
+use final_library_db;
+
 -- First part of the query:
 SELECT 
     ymb.b01f02 AS BookTitle,   -- Book title from ymb01 table
@@ -47,4 +49,11 @@ GROUP BY
 
 -- The results are sorted by member name:
 ORDER BY 
-    MemberName;
+    MemberName
+INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/result.csv'
+FIELDS TERMINATED BY ',' 
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+
+SHOW VARIABLES LIKE 'secure_file_priv';
+
