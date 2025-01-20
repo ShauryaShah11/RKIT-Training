@@ -21,5 +21,6 @@ namespace AdvanceC_FinalDemo.Models
         /// <summary>
         /// Gets or sets a message providing details about the operation's result or error.
         /// </summary>
-        pu
+        public string Message { get; set; }
     }
+}
