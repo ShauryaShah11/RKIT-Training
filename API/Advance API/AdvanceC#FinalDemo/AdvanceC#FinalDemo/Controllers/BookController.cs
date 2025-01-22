@@ -3,6 +3,8 @@ using AdvanceC_FinalDemo.Models.DTO;
 using AdvanceC_FinalDemo.Models;
 using AdvanceC_FinalDemo.Repositories;
 using System.Web.Http;
+using System.Linq.Expressions;
+using AdvanceC_FinalDemo.Services;
 
 namespace AdvanceC_FinalDemo.Controllers
 {
@@ -13,6 +15,7 @@ namespace AdvanceC_FinalDemo.Controllers
     public class BookController : ApiController
     {
         private readonly BookRepository _bookRepository = new BookRepository();
+        private readonly LibraryFileService _fileService = new LibraryFileService();
 
         /// <summary>
         /// Retrieves all books from the repository.
@@ -128,6 +131,23 @@ namespace AdvanceC_FinalDemo.Controllers
                 return BadRequest(res.Message); // 400 Bad Request
             }
             return Ok(res.Message); // 200 OK
+        }
+
+        [HttpPost]
+        [Route("export")]
+        public IHttpActionResult ExportBook()
+        {
+            Response memberResponse = _bookRepository.GetAllBooks();
+            if (memberResponse.IsError)
+            {
+                return BadRequest(memberResponse.Message);
+            }
+            Response serializeResponse = _fileService.SerializeDataTable(memberResponse.Data, "books.json");
+            if (serializeResponse.IsError)
+            {
+                return BadRequest(serializeResponse.Message);
+            }
+            return Ok(serializeResponse.Message);
         }
     }
 }

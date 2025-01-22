@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -37,8 +38,8 @@ namespace WebAPISecurity.Attributes
 
             try
             {
-                var token = authHeader.Parameter;
-                var principal = TokenService.ValidateToken(token);
+                string token = authHeader.Parameter;
+                ClaimsPrincipal principal = TokenService.ValidateToken(token);
 
                 // Set the authenticated principal
                 Thread.CurrentPrincipal = principal;

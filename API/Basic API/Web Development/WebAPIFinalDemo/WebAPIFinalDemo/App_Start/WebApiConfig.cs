@@ -52,6 +52,7 @@ namespace WebAPIFinalDemo
                 constraints: null,
                 handler: new RedirectHandler(message => message.RequestUri.ToString(), "swagger")
             );
+
         }
     }
 }

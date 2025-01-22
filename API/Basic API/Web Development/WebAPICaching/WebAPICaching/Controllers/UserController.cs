@@ -5,6 +5,7 @@ using WebAPICaching.Repositories;
 using WebAPICaching.Filters;
 using Microsoft.Web.Http;
 using System.Linq;
+using WebAPICaching.Services;
 
 namespace WebAPICaching.Controllers
 {
@@ -18,6 +19,7 @@ namespace WebAPICaching.Controllers
     {
         #region Private Members
         private readonly UserRepository _userRepository = new UserRepository();
+        private readonly CacheService _cacheService = new CacheService();
         #endregion
 
         #region Public Methods
@@ -28,12 +30,27 @@ namespace WebAPICaching.Controllers
         [HttpGet]
         [Route("")]
         [ApiVersion("1.0")]
-        [CacheFilter(TimeDuration = 100)]
+        //[CacheFilter(TimeDuration = 100)]
         public IHttpActionResult GetAllUsersV1()
         {
-            List<User> users = _userRepository.GetAllUsers();
-            return Ok(users);
+            string cacheKey = "users";
+
+            // Retrieve the cached data as a List<User>
+            List<User> users = _cacheService.Get<List<User>>(cacheKey);
+            if (users != null)
+            {
+                return Ok(users); // Return cached users if available
+            }
+
+            // Fetch users from the repository if not found in cache
+            users = _userRepository.GetAllUsers();
+
+            // Cache the users as a List<User>
+            _cacheService.Set<List<User>>(cacheKey, users, 600);
+
+            return Ok(users); // Return the fetched users
         }
+
 
         /// <summary>
         /// Gets first 10 users.

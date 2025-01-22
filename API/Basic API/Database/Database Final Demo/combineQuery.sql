@@ -27,10 +27,10 @@ JOIN
 GROUP BY 
     ymm.m01f02, ymb.b01f02  -- Grouping by member and book title
 
--- Union to aggregate data:
+Union to aggregate data:
 UNION ALL
 
--- Second part of the query:
+Second part of the query:
 SELECT 
     '----' AS BookTitle,   -- Placeholder for the book title in the summary row
     ymm.m01f02 AS MemberName,  -- Member name from ymm01 table
@@ -47,7 +47,7 @@ JOIN
 GROUP BY 
     ymm.m01f02  -- Grouping by member to get summary for each member
 
--- The results are sorted by member name:
+The results are sorted by member name:
 ORDER BY 
     MemberName
 INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/result.csv'
@@ -55,5 +55,56 @@ FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n';
 
-SHOW VARIABLES LIKE 'secure_file_priv';
+-- SHOW VARIABLES LIKE 'secure_file_priv';
+
+-- WITH 
+-- -- CTE for base borrowing records
+-- borrowing_records AS (
+--     SELECT 
+--         ymb.b01f02 AS BookTitle,
+--         ymm.m01f02 AS MemberName,
+--         ymh.h01f05 AS ReturnDate,
+--         ymh.h01f01 AS BorrowingId
+--     FROM 
+--         ymh01 ymh
+--         JOIN ymm01 ymm ON ymh.h01f03 = ymm.m01f01
+--         JOIN ymb01 ymb ON ymh.h01f02 = ymb.b01f01
+-- ),
+
+-- -- CTE for individual borrowing details
+-- individual_records AS (
+--     SELECT 
+--         BookTitle,
+--         MemberName,
+--         IFNULL(CASE 
+--             WHEN ReturnDate IS NULL THEN 'Not Returned'
+--             ELSE 'Returned'
+--         END, 'Not Returned') AS BookReturnStatus,
+--         0 AS TotalBooksBorrowed,
+--         '----' AS LatestBookBorrowed,
+--         '----' AS OldestBookBorrowed
+--     FROM 
+--         borrowing_records
+-- ),
+
+-- -- CTE for member summary
+-- member_summary AS (
+--     SELECT 
+--         '----' AS BookTitle,
+--         MemberName,
+--         'Total Books Borrowed' AS BookReturnStatus,
+--         COUNT(BorrowingId) AS TotalBooksBorrowed,
+--         MAX(BookTitle) AS LatestBookBorrowed,
+--         MIN(BookTitle) AS OldestBookBorrowed
+--     FROM 
+--         borrowing_records
+--     GROUP BY 
+--         MemberName
+-- )
+
+-- -- Combine individual records and summary
+-- SELECT * FROM individual_records
+-- UNION ALL
+-- SELECT * FROM member_summary
+-- ORDER BY MemberName;
 

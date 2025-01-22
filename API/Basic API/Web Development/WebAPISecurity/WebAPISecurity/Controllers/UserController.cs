@@ -15,7 +15,7 @@ namespace WebAPISecurity.Controllers
     /// adding, updating, and deleting users. The controller uses a UserRepository to perform data operations.
     /// </summary>
     // Enables Cross-Origin Resource Sharing (CORS) for all origins, headers, and methods
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "GET,POST")]
     public class UserController : ApiController
     {
         private readonly UserRepository _userRepository = new UserRepository();

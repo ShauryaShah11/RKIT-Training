@@ -2,6 +2,7 @@
 using AdvanceC_FinalDemo.Models;
 using AdvanceC_FinalDemo.Models.DTO;
 using AdvanceC_FinalDemo.Repositories;
+using AdvanceC_FinalDemo.Services;
 using System.Web.Http;
 
 namespace AdvanceC_FinalDemo.Controllers
@@ -10,6 +11,7 @@ namespace AdvanceC_FinalDemo.Controllers
     public class MemberController : ApiController
     {
         private readonly MemberRepository _memberRepository = new MemberRepository();
+        private readonly LibraryFileService _fileService = new LibraryFileService();
 
         /// <summary>
         /// Get all members
@@ -105,6 +107,23 @@ namespace AdvanceC_FinalDemo.Controllers
                 return BadRequest(res.Message); // 400 Bad Request
             }
             return Ok(res.Message); // 200 OK
+        }
+
+        [HttpPost]
+        [Route("export")]
+        public IHttpActionResult ExportBook()
+        {
+            Response bookResponse = _memberRepository.GetAllMember();
+            if (bookResponse.IsError)
+            {
+                return BadRequest(bookResponse.Message);
+            }
+            Response serializeResponse = _fileService.SerializeDataTable(bookResponse.Data, "members.json");
+            if (serializeResponse.IsError)
+            {
+                return BadRequest(serializeResponse.Message);
+            }
+            return Ok(serializeResponse.Message);
         }
     }
 }
