@@ -1,8 +1,7 @@
-using FilterPractice;
+using Controller_Action_Practice;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Call Startup methods
 var startup = new Startup(builder.Configuration);
 
 // Configure services

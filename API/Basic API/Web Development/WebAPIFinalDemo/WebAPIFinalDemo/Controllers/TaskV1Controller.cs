@@ -58,7 +58,7 @@ namespace WebAPIFinalDemo.Controllers
         [HttpPost]
         [Route("")]
         [BearerAuth]
-        public IHttpActionResult AddTask(TaskV1 task)
+        public IHttpActionResult AddTask([FromBody]TaskV1 task)
         {
             if (task == null)
             {
@@ -83,7 +83,7 @@ namespace WebAPIFinalDemo.Controllers
         /// <returns>Returns an Ok response if the task is updated successfully, or a BadRequest response if the update fails.</returns>
         [HttpPut]
         [Route("")]
-        public IHttpActionResult UpdateTask(TaskV1 task)
+        public IHttpActionResult UpdateTask([FromBody]TaskV1 task)
         {
             if (task == null)
             {

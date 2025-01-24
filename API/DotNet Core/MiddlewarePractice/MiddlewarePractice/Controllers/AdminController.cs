@@ -1,17 +1,20 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FilterPractice.Controllers
+namespace MiddlewarePractice.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AdminController : Controller
+    public class AdminController : ControllerBase
     {
         [Authorize(Policy = "AdminPolicy")]
         [HttpGet("dashboard")]
         public IActionResult AdminDashboard()
         {
-            return Ok("Welcome to the Admin Dashboard");
+            return Ok(new
+            {
+                Message = "Welcome to the Admin Dashboard"
+            });
         }
 
         [Authorize]

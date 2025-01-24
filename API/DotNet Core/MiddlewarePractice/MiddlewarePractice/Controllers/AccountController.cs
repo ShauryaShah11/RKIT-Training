@@ -1,12 +1,12 @@
-﻿using FilterPractice.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using MiddlewarePractice.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace FilterPractice.Controllers
+namespace MiddlewarePractice.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
