@@ -3,6 +3,7 @@ using DebuggingInVisualStudio.Repositories;
 using System.Collections.Generic;
 using System.Web.Http;
 using System.Diagnostics;
+using System;
 
 namespace DebuggingInVisualStudio.Controllers
 {
@@ -18,7 +19,7 @@ namespace DebuggingInVisualStudio.Controllers
 
             // Example: Conditional Breakpoint
             // Set a conditional breakpoint to pause only if `users.Count > 0`.
-
+            Console.WriteLine(users);
             return Ok(users);
         }
 

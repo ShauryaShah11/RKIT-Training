@@ -23,7 +23,7 @@ namespace ServiceLifecycleDemo.Controllers
             _singletonService2 = singletonService2;
         }
 
-        [HttpGet("/test1")]
+        [HttpGet("test1")]
         public IActionResult Test1()
         {
             var transientGuid1 = _transientService1.GetGuid();
@@ -45,7 +45,7 @@ namespace ServiceLifecycleDemo.Controllers
             });
         }
 
-        [HttpGet("/test2")]
+        [HttpGet("test2")]
         public IActionResult Test2()
         {
             var transientGuid1 = _transientService1.GetGuid();
@@ -65,6 +65,12 @@ namespace ServiceLifecycleDemo.Controllers
                 ScopedGuid2 = scopedGuid2,
                 SingletonGuid2 = singletonGuid2
             });
+        }
+
+        [HttpGet("developer-exception")]
+        public IActionResult DeveloperException()
+        {
+            throw new Exception("This is a test exception for the Developer Exception Page.");
         }
     }
 }

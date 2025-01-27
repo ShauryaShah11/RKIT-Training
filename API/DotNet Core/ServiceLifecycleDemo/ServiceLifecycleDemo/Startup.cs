@@ -31,6 +31,11 @@ namespace ServiceLifecycleDemo
                 app.UseSwaggerUI();
             }
 
+            if (!env.IsDevelopment())
+            {
+                app.UseExceptionHandler("/error");
+            }
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
