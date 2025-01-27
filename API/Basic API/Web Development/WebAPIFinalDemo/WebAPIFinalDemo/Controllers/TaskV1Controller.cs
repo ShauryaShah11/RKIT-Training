@@ -5,6 +5,7 @@ using System.Web.Http;
 using WebAPIFinalDemo.Attributes;
 using WebAPIFinalDemo.Models;
 using WebAPIFinalDemo.Repositories;
+using WebAPIFinalDemo.Services;
 
 namespace WebAPIFinalDemo.Controllers
 {
@@ -17,6 +18,7 @@ namespace WebAPIFinalDemo.Controllers
     {
         #region Private Members
         private readonly TaskV1Repository _taskV1Repository = new TaskV1Repository();
+        private readonly CacheService _cacheService = new CacheService();
         #endregion
 
         #region Public Methods
@@ -25,12 +27,26 @@ namespace WebAPIFinalDemo.Controllers
         /// </summary>
         /// <returns>Returns a list of all tasks.</returns>
         [HttpGet]
-        [Route("")]
+        [Route("all")]
         [BearerAuth]
         public IHttpActionResult GetAllTasks()
         {
-            List<TaskV1> tasks = _taskV1Repository.GetAllTasks();
-            return Ok(tasks);
+            string cacheKey = "tasksv1";
+
+            // Retrieve the cached data as a List<User>
+            List<TaskV1> tasks = _cacheService.Get<List<TaskV1>>(cacheKey);
+            if (tasks != null)
+            {
+                return Ok(tasks); // Return cached users if available
+            }
+
+            // Fetch users from the repository if not found in cache
+            tasks = _taskV1Repository.GetAllTasks();
+
+            // Cache the users as a List<User>
+            _cacheService.Set<List<TaskV1>>(cacheKey, tasks, 600);
+
+            return Ok(tasks); // Return the fetched tasks
         }
 
         /// <summary>
@@ -56,7 +72,7 @@ namespace WebAPIFinalDemo.Controllers
         /// <param name="task">The task object to be added.</param>
         /// <returns>Returns a Created response if the task is added successfully, or a BadRequest response if the task already exists.</returns>
         [HttpPost]
-        [Route("")]
+        [Route("add")]
         [BearerAuth]
         public IHttpActionResult AddTask([FromBody]TaskV1 task)
         {
@@ -82,7 +98,7 @@ namespace WebAPIFinalDemo.Controllers
         /// <param name="task">The updated task data.</param>
         /// <returns>Returns an Ok response if the task is updated successfully, or a BadRequest response if the update fails.</returns>
         [HttpPut]
-        [Route("")]
+        [Route("update")]
         public IHttpActionResult UpdateTask([FromBody]TaskV1 task)
         {
             if (task == null)

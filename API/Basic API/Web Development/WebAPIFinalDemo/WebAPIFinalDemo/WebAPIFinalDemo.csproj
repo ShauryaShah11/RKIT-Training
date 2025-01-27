@@ -236,6 +236,7 @@
     <Compile Include="Repositories\TaskV1Repository.cs" />
     <Compile Include="Repositories\TaskV2Repository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Services\CacheService.cs" />
     <Compile Include="Services\TokenService.cs" />
   </ItemGroup>
   <ItemGroup>
