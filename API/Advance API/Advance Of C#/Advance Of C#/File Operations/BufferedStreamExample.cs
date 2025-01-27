@@ -3,17 +3,28 @@ using System.IO;
 
 namespace Advance_Of_C_.File_Operations
 {
+    /// <summary>
+    /// This class demonstrates various file operations using BufferedStream.
+    /// It includes checking file existence, appending content to a file,
+    /// reading content from a file, and deleting the file.
+    /// BufferedStream is used to enhance performance when reading and writing 
+    /// to files by minimizing the number of I/O operations.
+    /// </summary>
     public class BufferedStreamExample
     {
         private readonly string filePath;
 
+        /// <summary>
+        /// Initializes a new instance of the BufferedStreamExample class with a specified file path.
+        /// </summary>
+        /// <param name="path">The file path for the file operations.</param>
         public BufferedStreamExample(string path)
         {
             filePath = path;
         }
 
         /// <summary>
-        /// Check if the file exists.
+        /// Checks if the file exists at the specified path.
         /// </summary>
         public void CheckFileExistence()
         {
@@ -28,9 +39,9 @@ namespace Advance_Of_C_.File_Operations
         }
 
         /// <summary>
-        /// Append content to the file using BufferedStream.
+        /// Appends content to the file using BufferedStream for improved performance.
         /// </summary>
-        /// <param name="content">Content to append</param>
+        /// <param name="content">The content to append to the file.</param>
         public void AppendToFile(string content)
         {
             using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
@@ -43,7 +54,7 @@ namespace Advance_Of_C_.File_Operations
         }
 
         /// <summary>
-        /// Read content from the file using BufferedStream.
+        /// Reads the content from the file using BufferedStream for improved performance.
         /// </summary>
         public void ReadFromFile()
         {
@@ -65,7 +76,7 @@ namespace Advance_Of_C_.File_Operations
         }
 
         /// <summary>
-        /// Delete the file.
+        /// Deletes the file at the specified path if it exists.
         /// </summary>
         public void DeleteFile()
         {

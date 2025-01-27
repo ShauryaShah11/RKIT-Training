@@ -3,6 +3,11 @@ using System.IO;
 
 namespace Advance_Of_C_.File_Operations
 {
+    /// <summary>
+    /// This class demonstrates how to use the StreamWriter class in C# for writing text data to a file.
+    /// It includes various methods to write text (single-line, multi-line, with encoding) and append data to a file.
+    /// StreamWriter handles character-based output and allows for efficient writing to files.
+    /// </summary>
     public class StreamWriterExample
     {
         private readonly string filePath;
@@ -12,7 +17,9 @@ namespace Advance_Of_C_.File_Operations
             filePath = path;
         }
 
-        // Write text to a file
+        /// <summary>
+        /// Method to write a single string of text to the file.
+        /// </summary>
         public void WriteTextToFile(string content)
         {
             using (StreamWriter writer = new StreamWriter(filePath))
@@ -22,6 +29,9 @@ namespace Advance_Of_C_.File_Operations
             }
         }
 
+        /// <summary>
+        /// Method to read and display the content of a file using StreamReader.
+        /// </summary>
         public void ReadFile()
         {
             using (StreamReader reader = new StreamReader(filePath))
@@ -31,7 +41,9 @@ namespace Advance_Of_C_.File_Operations
             }
         }
 
-        // Write multiple lines to a file
+        /// <summary>
+        /// Method to write multiple lines of text to the file, one line at a time.
+        /// </summary>
         public void WriteLinesToFile(string[] lines)
         {
             using (StreamWriter writer = new StreamWriter(filePath))
@@ -44,7 +56,9 @@ namespace Advance_Of_C_.File_Operations
             }
         }
 
-        // Write data with a specific encoding (e.g., UTF-8)
+        /// <summary>
+        /// Method to write text to a file with a specific encoding (UTF-8 in this case).
+        /// </summary>
         public void WriteTextWithEncoding(string content)
         {
             using (StreamWriter writer = new StreamWriter(filePath, false, System.Text.Encoding.UTF8))
@@ -54,7 +68,9 @@ namespace Advance_Of_C_.File_Operations
             }
         }
 
-        // Append text to a file
+        /// <summary>
+        /// Method to append text to an existing file.
+        /// </summary>
         public void AppendTextToFile(string content)
         {
             using (StreamWriter writer = new StreamWriter(filePath, true))

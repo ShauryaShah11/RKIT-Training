@@ -4,12 +4,18 @@ using Newtonsoft.Json;
 
 namespace Advance_Of_C_.Data_Serialization
 {
+    /// <summary>
+    /// This class demonstrates JSON serialization and deserialization using the Newtonsoft.Json library.
+    /// Serialization converts an object into a JSON string, which can be stored or transmitted, 
+    /// and deserialization converts a JSON string back into an object.
+    /// </summary>
     public class JSONSerialization
     {
         private readonly string filePath = "data.json";
 
         /// <summary>
-        /// Serializes an object to a JSON file.
+        /// Serializes an object into a JSON file.
+        /// The object is converted to a JSON string and written to the "data.json" file.
         /// </summary>
         public void Serialize()
         {
@@ -34,6 +40,7 @@ namespace Advance_Of_C_.Data_Serialization
 
         /// <summary>
         /// Deserializes a JSON file back into an object.
+        /// Reads the JSON file, converts it back to an object, and prints its properties.
         /// </summary>
         public void Deserialize()
         {
@@ -65,5 +72,3 @@ namespace Advance_Of_C_.Data_Serialization
         }
     }
 }
-    
-

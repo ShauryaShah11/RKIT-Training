@@ -3,6 +3,11 @@ using System.IO;
 
 namespace Advance_Of_C_.File_Operations
 {
+    /// <summary>
+    /// This class demonstrates how to use the MemoryStream class in C# for reading and writing data to memory.
+    /// It includes methods to write, read, and reset the position of the MemoryStream. 
+    /// MemoryStream allows for efficient in-memory data manipulation without writing to disk.
+    /// </summary>
     public class MemoryStreamExample
     {
         private MemoryStream _memoryStream;
@@ -15,6 +20,7 @@ namespace Advance_Of_C_.File_Operations
 
         /// <summary>
         /// Method to write data to MemoryStream.
+        /// Converts the input string into a byte array and writes it to the MemoryStream.
         /// </summary>
         public void WriteToMemoryStream(string content)
         {
@@ -25,6 +31,7 @@ namespace Advance_Of_C_.File_Operations
 
         /// <summary>
         /// Method to reset the position of the MemoryStream to the beginning.
+        /// Allows reading from the start of the MemoryStream after writing data.
         /// </summary>
         public void ResetMemoryStreamPosition()
         {
@@ -35,6 +42,7 @@ namespace Advance_Of_C_.File_Operations
 
         /// <summary>
         /// Method to read data from MemoryStream.
+        /// Reads the content from the current position in the MemoryStream and displays it.
         /// </summary>
         public void ReadFromMemoryStream()
         {
@@ -54,6 +62,7 @@ namespace Advance_Of_C_.File_Operations
 
         /// <summary>
         /// Main method that writes and then reads from MemoryStream.
+        /// Performs the operations of writing, resetting position, and reading the data.
         /// </summary>
         public void PerformMemoryStreamOperations()
         {

@@ -5,6 +5,11 @@ using System.Text;
 
 namespace Advance_Of_C_.File_Operations
 {
+    /// <summary>
+    /// This class demonstrates how to use CryptoStream for file encryption and decryption 
+    /// using the AES algorithm. It includes methods for encrypting and decrypting data 
+    /// using a randomly generated key and initialization vector (IV).
+    /// </summary>
     public class CryptoStreamExample
     {
         private readonly string filePath;
@@ -14,39 +19,48 @@ namespace Advance_Of_C_.File_Operations
             filePath = path;
         }
 
-        // Encrypt data using CryptoStream
+        /// <summary>
+        /// Encrypts data using the AES encryption algorithm and writes the encrypted data 
+        /// to a file using a CryptoStream.
+        /// </summary>
+        /// <param name="plainText">The plaintext data to encrypt</param>
         public void EncryptData(string plainText)
         {
-            using (Aes aesAlg = Aes.Create())
+            using (Aes aesAlg = Aes.Create()) // Create AES algorithm object
             {
-                byte[] key = aesAlg.Key;
-                byte[] iv = aesAlg.IV;
+                byte[] key = aesAlg.Key; // Get AES key
+                byte[] iv = aesAlg.IV; // Get AES initialization vector (IV)
 
+                // Open the file to write the encrypted data
                 using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                 using (CryptoStream cryptoStream = new CryptoStream(fs, aesAlg.CreateEncryptor(key, iv), CryptoStreamMode.Write))
                 {
-                    byte[] data = Encoding.UTF8.GetBytes(plainText);
-                    cryptoStream.Write(data, 0, data.Length);
-                    cryptoStream.FlushFinalBlock(); // Ensure all data is written
+                    byte[] data = Encoding.UTF8.GetBytes(plainText); // Convert plaintext to bytes
+                    cryptoStream.Write(data, 0, data.Length); // Encrypt and write to file
+                    cryptoStream.FlushFinalBlock(); // Ensure all data is written to the file
                     Console.WriteLine("Data encrypted and written to file.");
                 }
             }
         }
 
-        // Decrypt data using CryptoStream
+        /// <summary>
+        /// Decrypts data from a file using the AES decryption algorithm and prints the 
+        /// decrypted data to the console.
+        /// </summary>
         public void DecryptData()
         {
-            using (Aes aesAlg = Aes.Create())
+            using (Aes aesAlg = Aes.Create()) // Create AES algorithm object
             {
-                byte[] key = aesAlg.Key;
-                byte[] iv = aesAlg.IV;
+                byte[] key = aesAlg.Key; // Get AES key
+                byte[] iv = aesAlg.IV; // Get AES initialization vector (IV)
 
+                // Open the file to read the encrypted data
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 using (CryptoStream cryptoStream = new CryptoStream(fs, aesAlg.CreateDecryptor(key, iv), CryptoStreamMode.Read))
                 {
-                    byte[] buffer = new byte[fs.Length];
-                    cryptoStream.Read(buffer, 0, buffer.Length);
-                    string decryptedContent = Encoding.UTF8.GetString(buffer);
+                    byte[] buffer = new byte[fs.Length]; // Buffer to hold decrypted data
+                    cryptoStream.Read(buffer, 0, buffer.Length); // Decrypt data from the file
+                    string decryptedContent = Encoding.UTF8.GetString(buffer); // Convert decrypted bytes to string
                     Console.WriteLine("Decrypted data: " + decryptedContent);
                 }
             }

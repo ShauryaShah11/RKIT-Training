@@ -3,17 +3,27 @@ using System.IO;
 
 namespace Advance_Of_C_.File_Operations
 {
+    /// <summary>
+    /// Demonstrates various file operations using FileStream.
+    /// This includes checking file existence, appending content, updating file, 
+    /// checking file permissions, working with directories, displaying file information, 
+    /// and deleting the file.
+    /// </summary>
     public class FileStreamExample
     {
         private readonly string filePath;
 
+        /// <summary>
+        /// Initializes the FileStreamExample with a specified file path.
+        /// </summary>
+        /// <param name="path">The file path to be used for the operations.</param>
         public FileStreamExample(string path)
         {
             filePath = path;
         }
 
         /// <summary>
-        /// Check if the file exists.
+        /// Checks if the file exists at the specified file path.
         /// </summary>
         public void CheckFileExistence()
         {
@@ -28,9 +38,9 @@ namespace Advance_Of_C_.File_Operations
         }
 
         /// <summary>
-        /// Append content to the file.
+        /// Appends content to the file using FileStream in append mode.
         /// </summary>
-        /// <param name="content">Content to append</param>
+        /// <param name="content">The content to append to the file.</param>
         public void AppendToFile(string content)
         {
             using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
@@ -42,9 +52,9 @@ namespace Advance_Of_C_.File_Operations
         }
 
         /// <summary>
-        /// Update content of the file.
+        /// Updates (overwrites) the content of the file with new content.
         /// </summary>
-        /// <param name="newContent">New content to overwrite</param>
+        /// <param name="newContent">The new content to write to the file.</param>
         public void UpdateFile(string newContent)
         {
             File.WriteAllText(filePath, newContent);
@@ -52,7 +62,7 @@ namespace Advance_Of_C_.File_Operations
         }
 
         /// <summary>
-        /// Check file permissions (read-only or writable).
+        /// Checks the permissions of the file (read-only or writable).
         /// </summary>
         public void CheckFilePermissions()
         {
@@ -74,18 +84,19 @@ namespace Advance_Of_C_.File_Operations
         }
 
         /// <summary>
-        /// Check For Directory.
+        /// Checks if the path corresponds to a directory.
         /// </summary>
-        /// <returns>True if path is Directory else false.</returns>
+        /// <returns>True if the path is a directory; otherwise, false.</returns>
         public bool IsDirectory()
         {
             if (!Directory.Exists(filePath))
             {
-                Console.WriteLine("Directory doesnt exist");
-                return false; ;
+                Console.WriteLine("Directory doesn't exist");
+                return false;
             }
+
             FileAttributes attributes = File.GetAttributes(filePath);
-            if((attributes & FileAttributes.Directory) == FileAttributes.Directory)
+            if ((attributes & FileAttributes.Directory) == FileAttributes.Directory)
             {
                 return true;
             }
@@ -93,7 +104,7 @@ namespace Advance_Of_C_.File_Operations
         }
 
         /// <summary>
-        /// Display file information using FileInfo.
+        /// Displays detailed file information such as size, creation time, and modification time using FileInfo.
         /// </summary>
         public void DisplayFileInfo()
         {
@@ -116,7 +127,7 @@ namespace Advance_Of_C_.File_Operations
         }
 
         /// <summary>
-        /// Delete the file.
+        /// Deletes the file at the specified file path if it exists.
         /// </summary>
         public void DeleteFile()
         {
