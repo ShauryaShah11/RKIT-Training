@@ -109,13 +109,15 @@ namespace Advance_Of_C_
 
             #region File Operations
             //File Opearation
-            //FileStreamExample fs = new FileStreamExample("test.txt");
+            FileStreamExample fs = new FileStreamExample(@"F:/Shaurya Training/test.txt");
             //fs.AppendToFile("Hi I am Shaurya Shah");
             //fs.DisplayFileInfo();
             //fs.CheckFilePermissions();
+            //fs.DeleteFile();
 
-            //StreamWriterExample sw = new StreamWriterExample("test.txt");
-            //sw.ReadFile();
+            StreamWriterExample sw = new StreamWriterExample(@"F:/Shaurya Training/test.txt");
+            sw.WriteTextToFile("Hi I AM Jeet Shah");
+            sw.ReadFile();
             #endregion
 
             #region Binary Serialization
@@ -252,22 +254,22 @@ namespace Advance_Of_C_
             #endregion
 
             #region Database With C#
-            SelectOperation sc = new SelectOperation();
+            //SelectOperation sc = new SelectOperation();
 
-            InsertOperation insertOperation = new InsertOperation();
-            //insertOperation.UnsafeInsertDemo();
-            insertOperation.SafeInsertDemo();
-            sc.SelectDemo();
-
-
-            UpdateOperation updateOperation = new UpdateOperation();
-            updateOperation.UpdateDemo();
-            sc.SelectDemo();
+            //InsertOperation insertOperation = new InsertOperation();
+            ////insertOperation.UnsafeInsertDemo();
+            //insertOperation.SafeInsertDemo();
+            //sc.SelectDemo();
 
 
-            DeleteOperation deleteOperation = new DeleteOperation();
-            deleteOperation.DeleteDemo();
-            sc.SelectDemo();
+            //UpdateOperation updateOperation = new UpdateOperation();
+            //updateOperation.UpdateDemo();
+            //sc.SelectDemo();
+
+
+            //DeleteOperation deleteOperation = new DeleteOperation();
+            //deleteOperation.DeleteDemo();
+            //sc.SelectDemo();
 
             #endregion
 

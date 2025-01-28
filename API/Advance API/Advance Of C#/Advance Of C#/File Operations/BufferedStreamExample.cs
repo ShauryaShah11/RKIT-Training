@@ -28,13 +28,20 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void CheckFileExistence()
         {
-            if (File.Exists(filePath))
+            try
             {
-                Console.WriteLine("File already exists.");
+                if (File.Exists(filePath))
+                {
+                    Console.WriteLine("File already exists.");
+                }
+                else
+                {
+                    Console.WriteLine("File does not exist.");
+                }
             }
-            else
+            catch (IOException ex)
             {
-                Console.WriteLine("File does not exist.");
+                Console.WriteLine("An error occurred while checking file existence: " + ex.Message);
             }
         }
 
@@ -44,12 +51,19 @@ namespace Advance_Of_C_.File_Operations
         /// <param name="content">The content to append to the file.</param>
         public void AppendToFile(string content)
         {
-            using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
-            using (BufferedStream bs = new BufferedStream(fs))
+            try
             {
-                byte[] data = System.Text.Encoding.UTF8.GetBytes(content);
-                bs.Write(data, 0, data.Length);
-                Console.WriteLine("Data appended to the file using BufferedStream.");
+                using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
+                using (BufferedStream bs = new BufferedStream(fs))
+                {
+                    byte[] data = System.Text.Encoding.UTF8.GetBytes(content);
+                    bs.Write(data, 0, data.Length);
+                    Console.WriteLine("Data appended to the file using BufferedStream.");
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine("An error occurred while appending to the file: " + ex.Message);
             }
         }
 
@@ -58,20 +72,27 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void ReadFromFile()
         {
-            if (File.Exists(filePath))
+            try
             {
-                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                using (BufferedStream bs = new BufferedStream(fs))
+                if (File.Exists(filePath))
                 {
-                    byte[] buffer = new byte[fs.Length];
-                    bs.Read(buffer, 0, buffer.Length);
-                    string content = System.Text.Encoding.UTF8.GetString(buffer);
-                    Console.WriteLine("File Content: " + content);
+                    using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                    using (BufferedStream bs = new BufferedStream(fs))
+                    {
+                        byte[] buffer = new byte[fs.Length];
+                        bs.Read(buffer, 0, buffer.Length);
+                        string content = System.Text.Encoding.UTF8.GetString(buffer);
+                        Console.WriteLine("File Content: " + content);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("File does not exist.");
                 }
             }
-            else
+            catch (IOException ex)
             {
-                Console.WriteLine("File does not exist.");
+                Console.WriteLine("An error occurred while reading the file: " + ex.Message);
             }
         }
 
@@ -80,14 +101,21 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void DeleteFile()
         {
-            if (File.Exists(filePath))
+            try
             {
-                File.Delete(filePath);
-                Console.WriteLine("File deleted.");
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                    Console.WriteLine("File deleted.");
+                }
+                else
+                {
+                    Console.WriteLine("File does not exist, cannot delete.");
+                }
             }
-            else
+            catch (IOException ex)
             {
-                Console.WriteLine("File does not exist, cannot delete.");
+                Console.WriteLine("An error occurred while deleting the file: " + ex.Message);
             }
         }
     }

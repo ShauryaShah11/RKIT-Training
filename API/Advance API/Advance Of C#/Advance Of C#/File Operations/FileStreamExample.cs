@@ -27,13 +27,24 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void CheckFileExistence()
         {
-            if (File.Exists(filePath))
+            try
             {
-                Console.WriteLine("File already exists.");
+                if (File.Exists(filePath))
+                {
+                    Console.WriteLine("File already exists.");
+                }
+                else
+                {
+                    Console.WriteLine("File does not exist.");
+                }
             }
-            else
+            catch (IOException ex)
             {
-                Console.WriteLine("File does not exist.");
+                Console.WriteLine("File I/O error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An unexpected error occurred: " + ex.Message);
             }
         }
 
@@ -43,11 +54,26 @@ namespace Advance_Of_C_.File_Operations
         /// <param name="content">The content to append to the file.</param>
         public void AppendToFile(string content)
         {
-            using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
+            try
             {
-                byte[] data = System.Text.Encoding.UTF8.GetBytes(content);
-                fs.Write(data, 0, data.Length);
-                Console.WriteLine("Data appended to the file.");
+                using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
+                {
+                    byte[] data = System.Text.Encoding.UTF8.GetBytes(content);
+                    fs.Write(data, 0, data.Length);
+                    Console.WriteLine("Data appended to the file.");
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine("File I/O error: " + ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine("Permission error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An unexpected error occurred: " + ex.Message);
             }
         }
 
@@ -57,8 +83,23 @@ namespace Advance_Of_C_.File_Operations
         /// <param name="newContent">The new content to write to the file.</param>
         public void UpdateFile(string newContent)
         {
-            File.WriteAllText(filePath, newContent);
-            Console.WriteLine("File content updated.");
+            try
+            {
+                File.WriteAllText(filePath, newContent);
+                Console.WriteLine("File content updated.");
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine("File I/O error: " + ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine("Permission error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An unexpected error occurred: " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -66,20 +107,31 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void CheckFilePermissions()
         {
-            if (!File.Exists(filePath))
+            try
             {
-                Console.WriteLine("File does not exist.");
-                return;
-            }
+                if (!File.Exists(filePath))
+                {
+                    Console.WriteLine("File does not exist.");
+                    return;
+                }
 
-            FileAttributes attributes = File.GetAttributes(filePath);
-            if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-            {
-                Console.WriteLine("The file is read-only.");
+                FileAttributes attributes = File.GetAttributes(filePath);
+                if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                {
+                    Console.WriteLine("The file is read-only.");
+                }
+                else
+                {
+                    Console.WriteLine("The file is writable.");
+                }
             }
-            else
+            catch (IOException ex)
             {
-                Console.WriteLine("The file is writable.");
+                Console.WriteLine("File I/O error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An unexpected error occurred: " + ex.Message);
             }
         }
 
@@ -89,18 +141,31 @@ namespace Advance_Of_C_.File_Operations
         /// <returns>True if the path is a directory; otherwise, false.</returns>
         public bool IsDirectory()
         {
-            if (!Directory.Exists(filePath))
+            try
             {
-                Console.WriteLine("Directory doesn't exist");
+                if (!Directory.Exists(filePath))
+                {
+                    Console.WriteLine("Directory doesn't exist");
+                    return false;
+                }
+
+                FileAttributes attributes = File.GetAttributes(filePath);
+                if ((attributes & FileAttributes.Directory) == FileAttributes.Directory)
+                {
+                    return true;
+                }
                 return false;
             }
-
-            FileAttributes attributes = File.GetAttributes(filePath);
-            if ((attributes & FileAttributes.Directory) == FileAttributes.Directory)
+            catch (IOException ex)
             {
-                return true;
+                Console.WriteLine("File I/O error: " + ex.Message);
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                Console.WriteLine("An unexpected error occurred: " + ex.Message);
+                return false;
+            }
         }
 
         /// <summary>
@@ -108,22 +173,33 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void DisplayFileInfo()
         {
-            if (!File.Exists(filePath))
+            try
             {
-                Console.WriteLine("File does not exist.");
-                return;
+                if (!File.Exists(filePath))
+                {
+                    Console.WriteLine("File does not exist.");
+                    return;
+                }
+
+                FileInfo fileInfo = new FileInfo(filePath);
+
+                Console.WriteLine("File Information:");
+                Console.WriteLine($"Full Name: {fileInfo.FullName}");
+                Console.WriteLine($"Directory: {fileInfo.DirectoryName}");
+                Console.WriteLine($"Size: {fileInfo.Length} bytes");
+                Console.WriteLine($"Created: {fileInfo.CreationTime}");
+                Console.WriteLine($"Last Accessed: {fileInfo.LastAccessTime}");
+                Console.WriteLine($"Last Modified: {fileInfo.LastWriteTime}");
+                Console.WriteLine($"Is Read-Only: {fileInfo.IsReadOnly}");
             }
-
-            FileInfo fileInfo = new FileInfo(filePath);
-
-            Console.WriteLine("File Information:");
-            Console.WriteLine($"Full Name: {fileInfo.FullName}");
-            Console.WriteLine($"Directory: {fileInfo.DirectoryName}");
-            Console.WriteLine($"Size: {fileInfo.Length} bytes");
-            Console.WriteLine($"Created: {fileInfo.CreationTime}");
-            Console.WriteLine($"Last Accessed: {fileInfo.LastAccessTime}");
-            Console.WriteLine($"Last Modified: {fileInfo.LastWriteTime}");
-            Console.WriteLine($"Is Read-Only: {fileInfo.IsReadOnly}");
+            catch (IOException ex)
+            {
+                Console.WriteLine("File I/O error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An unexpected error occurred: " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -131,14 +207,29 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void DeleteFile()
         {
-            if (File.Exists(filePath))
+            try
             {
-                File.Delete(filePath);
-                Console.WriteLine("File deleted.");
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                    Console.WriteLine("File deleted.");
+                }
+                else
+                {
+                    Console.WriteLine("File does not exist, cannot delete.");
+                }
             }
-            else
+            catch (IOException ex)
             {
-                Console.WriteLine("File does not exist, cannot delete.");
+                Console.WriteLine("File I/O error: " + ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine("Permission error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An unexpected error occurred: " + ex.Message);
             }
         }
     }

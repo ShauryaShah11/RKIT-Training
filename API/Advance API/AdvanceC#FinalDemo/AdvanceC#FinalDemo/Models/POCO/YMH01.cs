@@ -20,17 +20,17 @@ namespace AdvanceC_FinalDemo.Models.POCO
         /// </summary>
         [Required]
         [References(typeof(YMM01))]
-        public int H02F02 { get; set; }
+        public int H01F02 { get; set; }
 
         /// <summary>
         /// Gets or Sets the Book Issued Date.
         /// </summary>
         [Required]
-        public DateTime H03F03 { get; set; } = DateTime.Now;
+        public DateTime H01F03 { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Gets or Sets the Book Return Date.
         /// </summary>
-        public DateTime? H04F04 { get; set; } = null;
+        public DateTime? H01F04 { get; set; } = null;
     }
 }

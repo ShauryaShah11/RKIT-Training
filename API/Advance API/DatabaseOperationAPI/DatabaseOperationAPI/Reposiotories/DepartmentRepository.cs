@@ -50,9 +50,9 @@ namespace DatabaseOperationAPI.Repositories
                             YMD01 obj = new YMD01
                             {
                                 D01F01 = dbReader.GetInt32(0),
-                                D02F02 = dbReader.GetString(1),
-                                D03F03 = dbReader.GetString(2),
-                                D04F04 = dbReader.GetString(3)
+                                D01F02 = dbReader.GetString(1),
+                                D01F03 = dbReader.GetString(2),
+                                D01F04 = dbReader.GetString(3)
                             };
                             departments.Add(obj);
                         }
@@ -102,9 +102,9 @@ namespace DatabaseOperationAPI.Repositories
                                 YMD01 obj = new YMD01
                                 {
                                     D01F01 = dbReader.GetInt32(0),
-                                    D02F02 = dbReader.GetString(1),
-                                    D03F03 = dbReader.GetString(2),
-                                    D04F04 = dbReader.GetString(3)
+                                    D01F02 = dbReader.GetString(1),
+                                    D01F03 = dbReader.GetString(2),
+                                    D01F04 = dbReader.GetString(3)
                                 };
                                 departments.Add(obj);
                             }
@@ -160,7 +160,7 @@ namespace DatabaseOperationAPI.Repositories
         /// <param name="dept">An object representing the new department data.</param>
         public Response AddDepartment(YMD01 dept)
         {
-            const string sql = "INSERT INTO YMD01 (D01F01, D02F02, D03F03, D04F04) VALUES (@id, @shortName, @deptName, @deptHead)";
+            const string sql = "INSERT INTO YMD01 (D01F01, D01F02, D01F03, D01F04) VALUES (@id, @shortName, @deptName, @deptHead)";
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(_connectionString))
@@ -169,9 +169,9 @@ namespace DatabaseOperationAPI.Repositories
                     using (MySqlCommand cmd = new MySqlCommand(sql, conn))
                     {
                         cmd.Parameters.AddWithValue("@id", dept.D01F01);
-                        cmd.Parameters.AddWithValue("@shortName", dept.D02F02);
-                        cmd.Parameters.AddWithValue("@deptName", dept.D03F03);
-                        cmd.Parameters.AddWithValue("@deptHead", dept.D04F04);
+                        cmd.Parameters.AddWithValue("@shortName", dept.D01F02);
+                        cmd.Parameters.AddWithValue("@deptName", dept.D01F03);
+                        cmd.Parameters.AddWithValue("@deptHead", dept.D01F04);
 
                         int rowsAffected = cmd.ExecuteNonQuery();
                         string message = $"{rowsAffected} row(s) inserted successfully.";
@@ -197,7 +197,7 @@ namespace DatabaseOperationAPI.Repositories
         /// <returns>A <see cref="Response"/> object indicating success or failure of the operation.</returns>
         public Response UpdateDepartment(int id, YMD01 dept)
         {
-            const string sql = "UPDATE YMD01 SET D02F02 = @shortName, D03F03 = @deptName, D04F04 = @deptHead WHERE D01F01 = @id";
+            const string sql = "UPDATE YMD01 SET D01F02 = @shortName, D01F03 = @deptName, D01F04 = @deptHead WHERE D01F01 = @id";
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(_connectionString))
@@ -206,9 +206,9 @@ namespace DatabaseOperationAPI.Repositories
                     using (MySqlCommand cmd = new MySqlCommand(sql, conn))
                     {
                         cmd.Parameters.AddWithValue("@id", id);
-                        cmd.Parameters.AddWithValue("@shortName", dept.D02F02);
-                        cmd.Parameters.AddWithValue("@deptName", dept.D03F03);
-                        cmd.Parameters.AddWithValue("@deptHead", dept.D04F04);
+                        cmd.Parameters.AddWithValue("@shortName", dept.D01F02);
+                        cmd.Parameters.AddWithValue("@deptName", dept.D01F03);
+                        cmd.Parameters.AddWithValue("@deptHead", dept.D01F04);
 
                         int rowsAffected = cmd.ExecuteNonQuery();
                         string message = $"{rowsAffected} row(s) updated successfully.";
@@ -270,13 +270,13 @@ namespace DatabaseOperationAPI.Repositories
             DataTable table = new DataTable("YMD01");
 
             table.Columns.Add("D01F01", typeof(int));
-            table.Columns.Add("D02F02", typeof(string));
-            table.Columns.Add("D03F03", typeof(string));
-            table.Columns.Add("D04F04", typeof(string));
+            table.Columns.Add("D01F02", typeof(string));
+            table.Columns.Add("D01F03", typeof(string));
+            table.Columns.Add("D01F04", typeof(string));
 
             foreach (var dept in departments)
             {
-                table.Rows.Add(dept.D01F01, dept.D02F02, dept.D03F03, dept.D04F04);
+                table.Rows.Add(dept.D01F01, dept.D01F02, dept.D01F03, dept.D01F04);
             }
 
             return table;

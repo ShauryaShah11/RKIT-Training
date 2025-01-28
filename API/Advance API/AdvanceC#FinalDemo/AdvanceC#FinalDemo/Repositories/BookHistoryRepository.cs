@@ -37,14 +37,14 @@ namespace AdvanceC_FinalDemo.Repositories
 
             const string sql = @"
                             SELECT 
-                                ymb.B03F03 AS BookName, 
-                                ymm.M02F02 AS MemberName, 
-                                ymh.H03F03 AS IssueDate, 
-                                ymh.H04F04 AS ReturnDate
+                                ymb.B01F03 AS BookName, 
+                                ymm.M01F02 AS MemberName, 
+                                ymh.H01F03 AS IssueDate, 
+                                ymh.H01F04 AS ReturnDate
                             FROM 
                                 YMH01 ymh
                             JOIN 
-                                YMM01 ymm ON ymm.M01F01 = ymh.H02F02
+                                YMM01 ymm ON ymm.M01F01 = ymh.H01F02
                             JOIN 
                                 YMB01 ymb ON ymb.B01F01 = ymh.H01F01";
 
@@ -92,19 +92,19 @@ namespace AdvanceC_FinalDemo.Repositories
 
             const string sql = @"
                         SELECT 
-                            ymb.B03F03 AS BookName,
-                            ymm.M02F02 AS MemberName,
-                            ymh.H03F03 AS IssueDate,
-                            ymh.H04F04 AS ReturnDate
+                            ymb.B01F03 AS BookName,
+                            ymm.M01F02 AS MemberName,
+                            ymh.H01F03 AS IssueDate,
+                            ymh.H01F04 AS ReturnDate
                         FROM
                             YMH01 ymh
                                 JOIN
-                            YMM01 ymm ON ymm.M01F01 = ymh.H02F02
+                            YMM01 ymm ON ymm.M01F01 = ymh.H01F02
                                 JOIN
                             YMB01 ymb ON ymb.B01F01 = ymh.H01F01
                         WHERE
                             ymh.H01F01 = @bookId
-                                AND ymh.H02F02 = @memberId";
+                                AND ymh.H01F02 = @memberId";
 
             try
             {
@@ -156,17 +156,17 @@ namespace AdvanceC_FinalDemo.Repositories
 
             const string sql = @"
                         SELECT 
-                            ymb.B03F03 AS BookName, 
-                            ymm.M02F02 AS MemberName, 
-                            ymh.H03F03 AS IssueDate, 
-                            ymh.H04F04 AS ReturnDate
+                            ymb.B01F03 AS BookName, 
+                            ymm.M01F02 AS MemberName, 
+                            ymh.H01F03 AS IssueDate, 
+                            ymh.H01F04 AS ReturnDate
                         FROM 
                             YMH01 ymh
                         JOIN 
-                            YMM01 ymm ON ymm.M01F01 = ymh.H02F02
+                            YMM01 ymm ON ymm.M01F01 = ymh.H01F02
                         JOIN 
                             YMB01 ymb ON ymb.B01F01 = ymh.H01F01
-                         WHERE ymh.H04F04 IS NULL";
+                         WHERE ymh.H01F04 IS NULL";
 
             try
             {
@@ -211,7 +211,7 @@ namespace AdvanceC_FinalDemo.Repositories
         public Response AddBookHistoryRecord(DTOYMH01 dto)
         {
             YMH01 poco = PreSave(dto);
-            const string sql = "INSERT INTO YMH01(H01F01, H02F02, H03F03, H04F04) VALUES (@bookId, @memberId, @issueDate, @returnDate)";
+            const string sql = "INSERT INTO YMH01(H01F01, H01F02, H01F03, H01F04) VALUES (@bookId, @memberId, @issueDate, @returnDate)";
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(_connectionString))
@@ -220,9 +220,9 @@ namespace AdvanceC_FinalDemo.Repositories
                     using (MySqlCommand cmd = new MySqlCommand(sql, conn))
                     {
                         cmd.Parameters.AddWithValue("@bookId", poco.H01F01);
-                        cmd.Parameters.AddWithValue("@memberId", poco.H02F02);
-                        cmd.Parameters.AddWithValue("@issueDate", poco.H03F03);
-                        cmd.Parameters.AddWithValue("@returnDate", poco.H04F04);
+                        cmd.Parameters.AddWithValue("@memberId", poco.H01F02);
+                        cmd.Parameters.AddWithValue("@issueDate", poco.H01F03);
+                        cmd.Parameters.AddWithValue("@returnDate", poco.H01F04);
 
                         int rowsAffected = cmd.ExecuteNonQuery();
                         string message = $"{rowsAffected} row(s) inserted successfully.";
@@ -251,10 +251,10 @@ namespace AdvanceC_FinalDemo.Repositories
             const string sql = @"
                     UPDATE YMH01 
                     SET 
-                        H03F03 = @issueDate, 
-                        H04F04 = @returnDate
+                        H01F03 = @issueDate, 
+                        H01F04 = @returnDate
                     WHERE 
-                        H01F01 = @bookId AND H02F02 = @memberId";
+                        H01F01 = @bookId AND H01F02 = @memberId";
 
             try
             {
@@ -266,8 +266,8 @@ namespace AdvanceC_FinalDemo.Repositories
                         // Add parameters to the query.
                         cmd.Parameters.AddWithValue("@bookId", bookId);  // Book ID (part of composite PK)
                         cmd.Parameters.AddWithValue("@memberId", memberId); // Member ID (part of composite PK)
-                        cmd.Parameters.AddWithValue("@issueDate", poco.H03F03);  // Issue Date
-                        cmd.Parameters.AddWithValue("@returnDate", poco.H04F04 ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@issueDate", poco.H01F03);  // Issue Date
+                        cmd.Parameters.AddWithValue("@returnDate", poco.H01F04 ?? (object)DBNull.Value);
 
                         int rowsAffected = cmd.ExecuteNonQuery();
                         string message = $"{rowsAffected} row(s) updated successfully.";
@@ -293,7 +293,7 @@ namespace AdvanceC_FinalDemo.Repositories
             const string sql = @"
                     DELETE FROM YMH01
                     WHERE 
-                        H01F01 = @bookId AND H02F02 = @memberId";
+                        H01F01 = @bookId AND H01F02 = @memberId";
 
             try
             {
@@ -360,9 +360,9 @@ namespace AdvanceC_FinalDemo.Repositories
             return new YMH01
             {
                 H01F01 = dto.H01101, // Book ID
-                H02F02 = dto.H02102, // Member ID
-                H03F03 = dto.H03103, // Issue Date
-                H04F04 = dto.H04104
+                H01F02 = dto.H01102, // Member ID
+                H01F03 = dto.H01103, // Issue Date
+                H01F04 = dto.H01104
             };
         }
     }

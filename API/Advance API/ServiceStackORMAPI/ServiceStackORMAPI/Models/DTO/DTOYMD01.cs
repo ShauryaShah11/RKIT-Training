@@ -13,16 +13,16 @@
         /// <summary>
         /// Gets or Sets the short name or abbreviation of the department.
         /// </summary>
-        public string D02102 { get; set; }
+        public string D01102 { get; set; }
 
         /// <summary>
         /// Gets or Sets the full name of the department.
         /// </summary>
-        public string D03103 { get; set; }
+        public string D01103 { get; set; }
 
         /// <summary>
         /// Gets or Sets the name of the department head.
         /// </summary>
-        public string D04104 { get; set; }
+        public string D01104 { get; set; }
     }
 }

@@ -14,15 +14,15 @@ namespace AdvanceC_FinalDemo.Models.DTO
         /// <summary>
         /// Gets or Sets the Member Id.
         /// </summary>
-        public int H02102 { get; set; }
+        public int H01102 { get; set; }
         /// <summary>
         /// Gets or Sets the Book Issue Date.
         /// </summary>
-        public DateTime H03103 { get; set; }
+        public DateTime H01103 { get; set; }
         /// <summary>
         /// Gets or Sets the Book Return Date.
         /// </summary>
-        public DateTime? H04104 { get; set; }
+        public DateTime? H01104 { get; set; }
 
     }
 }

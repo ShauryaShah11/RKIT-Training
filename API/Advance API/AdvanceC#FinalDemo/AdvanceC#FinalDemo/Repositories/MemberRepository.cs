@@ -31,7 +31,7 @@ namespace AdvanceC_FinalDemo.Repositories
 
         public Response HandleOperation(DTOYMM01 dto, OperationType type)
         {
-            string email = dto.M03103;
+            string email = dto.M01103;
             if (!email.IsValidEmail())
             {
                 return new Response { IsError = true, Message = "Invalid email Format" };
@@ -78,7 +78,7 @@ namespace AdvanceC_FinalDemo.Repositories
             try
             {
                 // Retrieve the member by email from the database
-                bool IsExist = _db.Exists<YMM01>(m => m.M03F03 == email && m.M04F04 == PasswordHasher.HashedPassword(password));
+                bool IsExist = _db.Exists<YMM01>(m => m.M01F03 == email && m.M01F04 == PasswordHasher.HashedPassword(password));
 
                 // Check if the hashed input password matches the stored hashed password
                 if (IsExist)
@@ -106,10 +106,10 @@ namespace AdvanceC_FinalDemo.Repositories
             return new YMM01
             {
                 M01F01 = dto.M01101,
-                M02F02 = dto.M02102,
-                M03F03 = dto.M03103,
-                M04F04 = PasswordHasher.HashedPassword(dto.M04104),
-                M05F05 = DateTime.Now
+                M01F02 = dto.M01102,
+                M01F03 = dto.M01103,
+                M01F04 = PasswordHasher.HashedPassword(dto.M01104),
+                M01F05 = DateTime.Now
             };
         }
 

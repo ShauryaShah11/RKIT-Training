@@ -20,7 +20,7 @@ namespace ServiceStackORMAPI.Models.POCO
         /// The maximum length for this field is 50 characters.
         /// </summary>
         [StringLength(50)]
-        public string D02F02 { get; set; } // Short Department Name
+        public string D01F02 { get; set; } // Short Department Name
 
         /// <summary>
         /// Gets or Sets the full name of the department.
@@ -28,7 +28,7 @@ namespace ServiceStackORMAPI.Models.POCO
         /// </summary>
         [StringLength(50)]
         [Required]
-        public string D03F03 { get; set; } // Full Department Name
+        public string D01F03 { get; set; } // Full Department Name
 
         /// <summary>
         /// Gets or Sets the name of the department head.
@@ -36,6 +36,6 @@ namespace ServiceStackORMAPI.Models.POCO
         /// </summary>
         [StringLength(50)]
         [Required]
-        public string D04F04 { get; set; } // Department Head
+        public string D01F04 { get; set; } // Department Head
     }
 }

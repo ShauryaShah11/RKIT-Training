@@ -22,10 +22,17 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void WriteTextToFile(string content)
         {
-            using (StreamWriter writer = new StreamWriter(filePath))
+            try
             {
-                writer.Write(content);
-                Console.WriteLine("Data written to file.");
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    writer.Write(content);
+                    Console.WriteLine("Data written to file.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while writing text to the file: {ex.Message}");
             }
         }
 
@@ -34,10 +41,17 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void ReadFile()
         {
-            using (StreamReader reader = new StreamReader(filePath))
+            try
             {
-                string fileContents = reader.ReadToEnd(); // Store the contents of the file
-                Console.WriteLine(fileContents);
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    string fileContents = reader.ReadToEnd(); // Store the contents of the file
+                    Console.WriteLine(fileContents);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while reading the file: {ex.Message}");
             }
         }
 
@@ -46,13 +60,20 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void WriteLinesToFile(string[] lines)
         {
-            using (StreamWriter writer = new StreamWriter(filePath))
+            try
             {
-                foreach (var line in lines)
+                using (StreamWriter writer = new StreamWriter(filePath))
                 {
-                    writer.WriteLine(line);
+                    foreach (var line in lines)
+                    {
+                        writer.WriteLine(line);
+                    }
+                    Console.WriteLine("Lines written to file.");
                 }
-                Console.WriteLine("Lines written to file.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while writing lines to the file: {ex.Message}");
             }
         }
 
@@ -61,10 +82,17 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void WriteTextWithEncoding(string content)
         {
-            using (StreamWriter writer = new StreamWriter(filePath, false, System.Text.Encoding.UTF8))
+            try
             {
-                writer.Write(content);
-                Console.WriteLine("Data written with UTF-8 encoding.");
+                using (StreamWriter writer = new StreamWriter(filePath, false, System.Text.Encoding.UTF8))
+                {
+                    writer.Write(content);
+                    Console.WriteLine("Data written with UTF-8 encoding.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while writing text with encoding: {ex.Message}");
             }
         }
 
@@ -73,10 +101,17 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void AppendTextToFile(string content)
         {
-            using (StreamWriter writer = new StreamWriter(filePath, true))
+            try
             {
-                writer.Write(content);
-                Console.WriteLine("Data appended to file.");
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.Write(content);
+                    Console.WriteLine("Data appended to file.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while appending text to the file: {ex.Message}");
             }
         }
     }

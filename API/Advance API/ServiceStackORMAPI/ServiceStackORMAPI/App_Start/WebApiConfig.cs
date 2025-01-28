@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using Swashbuckle.Application;
+using System.Web.Http;
 
 namespace ServiceStackORMAPI
 {
@@ -15,6 +16,15 @@ namespace ServiceStackORMAPI
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
+            );
+
+            // Swagger Redirect Route for Swagger UI configuration
+            config.Routes.MapHttpRoute(
+                name: "SwaggerRedirect",
+                routeTemplate: "",
+                defaults: null,
+                constraints: null,
+                handler: new RedirectHandler(message => message.RequestUri.ToString(), "swagger")
             );
         }
     }

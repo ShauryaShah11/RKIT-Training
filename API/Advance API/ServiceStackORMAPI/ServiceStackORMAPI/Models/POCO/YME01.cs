@@ -21,18 +21,18 @@ namespace ServiceStackORMAPI.Models.POCO
         /// The maximum length for this field is 50 characters.
         /// </summary>
         [StringLength(50)]
-        public string E02F02 { get; set; } // Employee Name
+        public string E01F02 { get; set; } // Employee Name
 
         /// <summary>
         /// Gets or Sets the hire date of the employee.
         /// </summary>
-        public DateTime E03F03 { get; set; } // Hire Date
+        public DateTime E01F03 { get; set; } // Hire Date
 
         /// <summary>
         /// Gets or Sets the department ID, which is a foreign key to the department table (YMD01).
         /// This establishes the relationship between the employee and the department they belong to.
         /// </summary>
         [ForeignKey(typeof(YMD01))]
-        public int E04F04 { get; set; } // Foreign Key -> DEPT01 Table 
+        public int E01F04 { get; set; } // Foreign Key -> DEPT01 Table 
     }
 }

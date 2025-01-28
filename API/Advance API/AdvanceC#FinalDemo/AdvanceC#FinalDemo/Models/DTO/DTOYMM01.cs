@@ -14,18 +14,18 @@ namespace AdvanceC_FinalDemo.Models.DTO
         /// <summary>
         /// Gets or Sets the member name.
         /// </summary>
-        public string M02102 { get; set; }
+        public string M01102 { get; set; }
         /// <summary>
         /// Gets or Sets the Member Email.
         /// </summary>
-        public string M03103 { get; set; }
+        public string M01103 { get; set; }
         /// <summary>
         /// Gets or Sets the Member Password.
         /// </summary>
-        public string M04104 { get; set; }
+        public string M01104 { get; set; }
         /// <summary>
         /// Gets or Sets the Membership Joining Date.
         /// </summary>
-        public DateTime M05105 { get; set; }
+        public DateTime M01105 { get; set; }
     }
 }

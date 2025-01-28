@@ -13,26 +13,26 @@
         /// <summary>
         /// Gets or Sets the Book Author Name.
         /// </summary>
-        public string B02102 { get; set; }
+        public string B01102 { get; set; }
 
         /// <summary>
         /// Gets or Sets the Book Name.
         /// </summary>
-        public string B03103 { get; set; }
+        public string B01103 { get; set; }
 
         /// <summary>
         /// Gets or Sets the Book's category.
         /// </summary>
-        public string B04104 { get; set; }
+        public string B01104 { get; set; }
 
         /// <summary>
         /// Gets or Sets the available copy of books.
         /// </summary>
-        public int B05105 { get; set; }
+        public int B01105 { get; set; }
 
         /// <summary>
         /// Gets or Sets the Book published year (only year, not full date).
         /// </summary>
-        public int B06106 { get; set; }
+        public int B01106 { get; set; }
     }
 }

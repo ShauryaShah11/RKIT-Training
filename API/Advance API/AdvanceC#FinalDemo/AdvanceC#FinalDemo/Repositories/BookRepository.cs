@@ -87,7 +87,7 @@ namespace AdvanceC_FinalDemo.Repositories
             try
             {
                 // Fetch books by category and convert to DataTable
-                var books = _db.Select<YMB01>().Where(b => b.B04F04.Contains(category));
+                var books = _db.Select<YMB01>().Where(b => b.B01F04.Contains(category));
                 DataTable bookDataTable = books.ToDataTable();
                 return new Response { IsError = false, Data = bookDataTable, Message = "Book retrieved successfully." };
             }
@@ -124,11 +124,11 @@ namespace AdvanceC_FinalDemo.Repositories
             return new YMB01
             {
                 B01F01 = dto.B01101,
-                B02F02 = dto.B02102,
-                B03F03 = dto.B03103,
-                B04F04 = dto.B04104,
-                B05F05 = dto.B05105,
-                B06F06 = dto.B06106
+                B01F02 = dto.B01102,
+                B01F03 = dto.B01103,
+                B01F04 = dto.B01104,
+                B01F05 = dto.B01105,
+                B01F06 = dto.B01106
             };
         }
 

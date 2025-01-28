@@ -1,12 +1,22 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Advance_Of_C_.Security_And_CryptoGraphy
 {
+    /// <summary>
+    /// This class demonstrates how to perform symmetric encryption and decryption using the AES algorithm.
+    /// It provides methods to generate a random encryption key and initialization vector (IV), encrypt plain text,
+    /// and decrypt cipher text using AES (Advanced Encryption Standard).
+    /// The key and IV are handled as Base64-encoded strings for easy storage and transmission.
+    /// </summary>
     public class SymmetricEncryptionExample
     {
+        /// <summary>
+        /// Generates a random AES encryption key and returns it as a Base64-encoded string.
+        /// The key is used in both encryption and decryption to secure the data.
+        /// </summary>
+        /// <returns>A Base64-encoded string representing the AES encryption key.</returns>
         public string GetKey()
         {
             string key;
@@ -18,6 +28,11 @@ namespace Advance_Of_C_.Security_And_CryptoGraphy
             return key;
         }
 
+        /// <summary>
+        /// Generates a random AES initialization vector (IV) and returns it as a Base64-encoded string.
+        /// The IV adds randomness to the encryption process and is used along with the key in both encryption and decryption.
+        /// </summary>
+        /// <returns>A Base64-encoded string representing the AES IV.</returns>
         public string GetIV()
         {
             string iv;
@@ -29,7 +44,14 @@ namespace Advance_Of_C_.Security_And_CryptoGraphy
             return iv;
         }
 
-        // Encrypts the plain text using AES with the provided key and IV
+        /// <summary>
+        /// Encrypts the given plain text using AES with the specified key and IV.
+        /// The method converts the plain text into encrypted cipher text and returns it as a Base64 string.
+        /// </summary>
+        /// <param name="plainText">The plain text to encrypt.</param>
+        /// <param name="key">The AES encryption key (Base64-encoded).</param>
+        /// <param name="iv">The AES initialization vector (Base64-encoded).</param>
+        /// <returns>A Base64-encoded string representing the encrypted cipher text.</returns>
         public string Encrypt(string plainText, string key, string iv)
         {
             // Decode the key and IV from Base64 to byte arrays
@@ -59,7 +81,14 @@ namespace Advance_Of_C_.Security_And_CryptoGraphy
             }
         }
 
-        // Decrypts the cipher text using AES with the provided key and IV
+        /// <summary>
+        /// Decrypts the given cipher text using AES with the specified key and IV.
+        /// The method converts the cipher text back into plain text and returns it as a string.
+        /// </summary>
+        /// <param name="cipherText">The encrypted cipher text to decrypt (Base64-encoded).</param>
+        /// <param name="key">The AES encryption key (Base64-encoded).</param>
+        /// <param name="iv">The AES initialization vector (Base64-encoded).</param>
+        /// <returns>The decrypted plain text.</returns>
         public string Decrypt(string cipherText, string key, string iv)
         {
             // Decode the key and IV from Base64 to byte arrays

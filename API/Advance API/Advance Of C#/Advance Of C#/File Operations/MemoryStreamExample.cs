@@ -24,9 +24,16 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void WriteToMemoryStream(string content)
         {
-            byte[] data = System.Text.Encoding.UTF8.GetBytes(content);
-            _memoryStream.Write(data, 0, data.Length);
-            Console.WriteLine("Data written to MemoryStream.");
+            try
+            {
+                byte[] data = System.Text.Encoding.UTF8.GetBytes(content);
+                _memoryStream.Write(data, 0, data.Length);
+                Console.WriteLine("Data written to MemoryStream.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while writing to MemoryStream: {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -35,9 +42,16 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void ResetMemoryStreamPosition()
         {
-            // Reset position to 0 (beginning)
-            _memoryStream.Position = 0;
-            Console.WriteLine("MemoryStream position reset to the beginning.");
+            try
+            {
+                // Reset position to 0 (beginning)
+                _memoryStream.Position = 0;
+                Console.WriteLine("MemoryStream position reset to the beginning.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while resetting MemoryStream position: {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -46,17 +60,24 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void ReadFromMemoryStream()
         {
-            // Ensure we have data to read
-            if (_memoryStream.Length > 0)
+            try
             {
-                byte[] buffer = new byte[_memoryStream.Length];
-                _memoryStream.Read(buffer, 0, buffer.Length);
-                string content = System.Text.Encoding.UTF8.GetString(buffer);
-                Console.WriteLine("Content from MemoryStream: " + content);
+                // Ensure we have data to read
+                if (_memoryStream.Length > 0)
+                {
+                    byte[] buffer = new byte[_memoryStream.Length];
+                    _memoryStream.Read(buffer, 0, buffer.Length);
+                    string content = System.Text.Encoding.UTF8.GetString(buffer);
+                    Console.WriteLine("Content from MemoryStream: " + content);
+                }
+                else
+                {
+                    Console.WriteLine("MemoryStream is empty. No content to read.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("MemoryStream is empty. No content to read.");
+                Console.WriteLine($"An error occurred while reading from MemoryStream: {ex.Message}");
             }
         }
 
@@ -66,10 +87,17 @@ namespace Advance_Of_C_.File_Operations
         /// </summary>
         public void PerformMemoryStreamOperations()
         {
-            string contentToWrite = "Hello, this is a memory stream!";
-            WriteToMemoryStream(contentToWrite); // Write data
-            ResetMemoryStreamPosition();         // Reset position to start reading
-            ReadFromMemoryStream();              // Read and display data
+            try
+            {
+                string contentToWrite = "Hello, this is a memory stream!";
+                WriteToMemoryStream(contentToWrite); // Write data
+                ResetMemoryStreamPosition();         // Reset position to start reading
+                ReadFromMemoryStream();              // Read and display data
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while performing memory stream operations: {ex.Message}");
+            }
         }
     }
 }

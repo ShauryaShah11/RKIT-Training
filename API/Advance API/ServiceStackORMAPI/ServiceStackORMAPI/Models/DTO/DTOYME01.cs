@@ -12,10 +12,10 @@
         /// <summary>
         /// Gets or Sets the employee name.
         /// </summary>
-        public string E02102 { get; set; }
+        public string E01102 { get; set; }
         /// <summary>
         /// Gets or Sets the department id of employee.
         /// </summary>
-        public int E04104 { get; set; }
+        public int E01104 { get; set; }
     }
 }
