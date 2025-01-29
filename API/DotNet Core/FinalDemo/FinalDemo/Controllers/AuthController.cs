@@ -1,52 +1,40 @@
-﻿using FilterPractice.Filters;
-using FilterPractice.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace FilterPractice.Controllers
+namespace FinalDemo.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
-    public class AccountController : ControllerBase
+    public class AuthController : Controller
     {
         private readonly IConfiguration _configuration;
-
-        public AccountController(IConfiguration configuration)
+        public AuthController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        [HttpPost("login")]
+        [HttpPost("/login")]
         [AllowAnonymous]
-        public IActionResult Login([FromBody] LoginModel loginModel)
+        public IActionResult Login([FromBody] string email, [FromBody] string password)
         {
             // In a real-world scenario, replace with proper user authentication
-            if (loginModel.Username == "admin@example.com" && loginModel.Password == "Admin123")
+            if (email == "admin@example.com" && password == "Admin123")
             {
-                var token = GenerateJwtToken(loginModel.Username);
+                var token = GenerateJwtToken(email, "Admin");
                 return Ok(new { Token = token });
             }
             return Unauthorized(new { Message = "Invalid credentials" });
         }
 
-        [HttpPost("logout")]
-        [CustomAuthorizeAttribute]
-        public IActionResult Logout()
-        {
-            // Implement token invalidation logic if needed
-            return Ok(new { Message = "Logged out successfully" });
-        }
-
-        private string GenerateJwtToken(string username)
+        private string GenerateJwtToken(string email, string role)
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, username),
-                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.Role, role),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));

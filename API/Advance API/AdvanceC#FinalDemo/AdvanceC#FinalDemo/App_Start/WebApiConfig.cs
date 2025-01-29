@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Swashbuckle.Application;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -18,6 +19,15 @@ namespace AdvanceC_FinalDemo
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
+            );
+
+            // Swagger Redirect Route (Swagger UI configuration)
+            config.Routes.MapHttpRoute(
+                name: "SwaggerRedirect",
+                routeTemplate: "",
+                defaults: null,
+                constraints: null,
+                handler: new RedirectHandler(message => message.RequestUri.ToString(), "swagger")
             );
         }
     }

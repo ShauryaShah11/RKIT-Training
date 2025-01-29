@@ -1,8 +1,10 @@
 ﻿using Advance_Of_C_.Base_Class_Library;
+using Advance_Of_C_.Data_Serialization;
 using Advance_Of_C_.Database_Operation;
 using Advance_Of_C_.Dynamic;
 using Advance_Of_C_.Extension_Methods;
 using Advance_Of_C_.File_Operations;
+using Advance_Of_C_.Generic_Classes;
 using Advance_Of_C_.LINQOperations;
 using Advance_Of_C_.Security_And_CryptoGraphy;
 using System;
@@ -11,6 +13,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Threading;
 
 namespace Advance_Of_C_
 {
@@ -105,19 +108,70 @@ namespace Advance_Of_C_
             // Example with interface constraint
             //GenericClassWithInterface<DisplayableClass> interfaceConstraint = new GenericClassWithInterface<DisplayableClass>();
             //interfaceConstraint.Display(new DisplayableClass());
+
+            //GenericManager<int, string> manager = new GenericManager<int, string>();
+
+            //// Using Tuple
+            //(int item1, string item2) tupleResult = manager.Add(1, "One");
+            //Console.WriteLine($"Tuple - Item1: {tupleResult.item1}, Item2: {tupleResult.item2}");
+
+            //// Using Out Parameters
+            //manager.AddOutParams(2, "Two", out var item1, out var item2);
+            //Console.WriteLine($"OutParams - Item1: {item1}, Item2: {item2}");
+
+            //// Using Custom Class
+            //Result<int, string> customClassResult = manager.AddCustomClass(3, "Three");
+            //Console.WriteLine($"CustomClass - Item1: {customClassResult.Item1}, Item2: {customClassResult.Item2}");
+
+            //// Using Dictionary
+            //Dictionary<string, object> dictionaryResult = manager.AddToDictionary(4, "Four");
+            //Console.WriteLine($"Dictionary - Item1: {dictionaryResult["Item1"]}, Item2: {dictionaryResult["Item2"]}");
+
+            //// Using List
+            //List<object> listResult = manager.AddToList(5, "Five");
+            //Console.WriteLine($"List - Item1: {listResult[0]}, Item2: {listResult[1]}");
+
             #endregion
 
             #region File Operations
             //File Opearation
-            FileStreamExample fs = new FileStreamExample(@"F:/Shaurya Training/test.txt");
+            //FileStreamExample fs = new FileStreamExample(@"F:/Shaurya Training/test.txt");
             //fs.AppendToFile("Hi I am Shaurya Shah");
             //fs.DisplayFileInfo();
             //fs.CheckFilePermissions();
+
+            //Console.ReadLine();
             //fs.DeleteFile();
 
-            StreamWriterExample sw = new StreamWriterExample(@"F:/Shaurya Training/test.txt");
-            sw.WriteTextToFile("Hi I AM Jeet Shah");
-            sw.ReadFile();
+            //StreamWriterExample sw = new StreamWriterExample(@"F:/Shaurya Training/test.txt");
+            //sw.WriteTextToFile("Hi I AM Shaurya Shah");
+            //sw.ReadFile();
+
+            //string testFilePath = @"F:/Shaurya Training/test.txt";
+            //FileStreamExample fileExample = new FileStreamExample(testFilePath);
+
+            //// Creating threads for different operations
+            //Thread t1 = new Thread(fileExample.Open);       // Open file
+            //Thread t2 = new Thread(fileExample.Read);       // Read from file
+            //Thread t3 = new Thread(() => fileExample.Write("This is new content.")); // Write content
+            //Thread t4 = new Thread(() => fileExample.Append("Appending some content.")); // Append content
+            //Thread t5 = new Thread(fileExample.Delete);     // Delete the file
+
+            //// Start threads
+            //t1.Start();
+            //t2.Start();
+            //t3.Start();
+            //t4.Start();
+            //t5.Start();
+
+            //// Wait for all threads to complete
+            //t1.Join();
+            //t2.Join();
+            //t3.Join();
+            //t4.Join();
+            //t5.Join();
+
+            //Console.WriteLine("All operations completed.");
             #endregion
 
             #region Binary Serialization
@@ -136,9 +190,9 @@ namespace Advance_Of_C_
 
             #region JSON Serialization
             //JSON Serialization
-            //JSONSerialization js = new JSONSerialization();
+            JSONSerialization js = new JSONSerialization();
             //js.Serialize();
-            //js.Deserialize();
+            js.Deserialize();
             #endregion
 
             #region Extension Methods
@@ -149,7 +203,7 @@ namespace Advance_Of_C_
             //Extension Methods
             //string str = "Hello World!";
             //int wordCount = str.WordCount();
-            //Console.WriteLine("WordCount is :"+wordCount);
+            //Console.WriteLine("WordCount is :" + wordCount);
             //int x = 10;
             //x.Increment();
             //Console.WriteLine($"After Increment X value is :{x}");

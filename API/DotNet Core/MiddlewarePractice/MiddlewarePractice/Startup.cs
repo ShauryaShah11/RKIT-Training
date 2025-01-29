@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MiddlewarePractice.Middlewares;
 using System.Text;
 using System.Threading.RateLimiting;
 
@@ -20,6 +21,8 @@ namespace MiddlewarePractice
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddTransient<MyMiddleware>();
 
             // Register services
             services.AddResponseCaching(options =>
@@ -83,7 +86,7 @@ namespace MiddlewarePractice
                         new string[] {}
                     }
                 });
-                        });
+            });
 
             string jwtSecretKey = _configuration["Jwt:SecretKey"]
                 ?? throw new InvalidOperationException("JWT Secret Key is not configured");
@@ -119,50 +122,58 @@ namespace MiddlewarePractice
 
         public void Configure(WebApplication app, IHostEnvironment env)
         {
+            // Developer exception page middleware should be first in development
             if (env.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseHttpsRedirection();
-
-            // Rate limiter middleware should come early to prevent excessive requests
-            app.UseRateLimiter();
-
-            // Response caching middleware must come before authentication and other processing
-            app.UseResponseCaching();
-
-            app.UseStaticFiles(); // Correctly configure static file serving
-
-            app.UseResponseCompression();
-
-
-            app.Use(async (context, next) =>
+            else
             {
-                // Set Cache-Control headers only if not already set
-                if (!context.Response.Headers.ContainsKey("Cache-Control"))
-                {
-                    context.Response.GetTypedHeaders().CacheControl =
-                        new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
-                        {
-                            Public = true,
-                            MaxAge = TimeSpan.FromSeconds(30)
-                        };
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
 
-                    context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
-                        new[] { "Accept-Encoding" };
-                }
-
-                await next();
-            });
-
-
+            // HTTPS redirection
             app.UseHttpsRedirection();
+
+            // Static files middleware
+            app.UseStaticFiles();
+
+            // Enable response caching (added)
+            //app.UseResponseCaching();
+
+            // Routing middleware before authentication and authorization
+            app.UseRouting();
+
+            // Move the 'UseWhen' conditional middleware before routing
+            // So, it executes before other middleware like Authentication/Authorization
+            app.UseWhen(
+                context => context.Request.Query.ContainsKey("IsAuthorized") &&
+                           context.Request.Query["IsAuthorized"] == "true",
+                branch =>
+                {
+                    branch.Use(async (context, next) =>
+                    {
+                        if (!context.Response.HasStarted)
+                        {
+                            await context.Response.WriteAsync("Shaurya here");
+                        }
+                        await next(context);
+                    });
+                }
+            );            
+
+            // Authentication and authorization middleware
             app.UseAuthentication();
             app.UseAuthorization();
 
+            // Map controllers (final step)
             app.MapControllers();
+
+            app.Run();
         }
+
     }
 }

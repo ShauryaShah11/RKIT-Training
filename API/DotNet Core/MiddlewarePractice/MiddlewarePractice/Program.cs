@@ -11,4 +11,4 @@ var app = builder.Build();
 // Configure the middleware pipeline
 startup.Configure(app, app.Environment);
 
-app.Run();
+//app.Run();

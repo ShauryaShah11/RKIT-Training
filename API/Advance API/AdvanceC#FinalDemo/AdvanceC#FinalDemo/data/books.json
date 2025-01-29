@@ -1,10 +1,18 @@
 [
   {
     "B01F01": 1,
-    "B02F02": "Jeet Shah",
-    "B03F03": "Database Management System",
-    "B04F04": "Education",
-    "B05F05": 10,
-    "B06F06": 2025
+    "B01F02": "Shaurya Shah",
+    "B01F03": "DSA",
+    "B01F04": "Educational",
+    "B01F05": 1000,
+    "B01F06": 2024
+  },
+  {
+    "B01F01": 2,
+    "B01F02": "Jeet Shah",
+    "B01F03": "DBMS",
+    "B01F04": "Educational",
+    "B01F05": 1000,
+    "B01F06": 2024
   }
 ]

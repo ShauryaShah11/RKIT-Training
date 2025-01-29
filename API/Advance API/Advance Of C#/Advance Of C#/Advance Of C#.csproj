@@ -136,6 +136,7 @@
     <Compile Include="File Operations\StreamWriterExample.cs" />
     <Compile Include="Generic Classes\GenericClass.cs" />
     <Compile Include="Generic Classes\GenericClassWithWhere.cs" />
+    <Compile Include="Generic Classes\GenericManager.cs" />
     <Compile Include="LambdaExpression.cs" />
     <Compile Include="LINQOperations\Department.cs" />
     <Compile Include="LINQOperations\Employee.cs" />

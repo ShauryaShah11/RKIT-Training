@@ -5,6 +5,9 @@ using AdvanceC_FinalDemo.Repositories;
 using System.Web.Http;
 using System.Linq.Expressions;
 using AdvanceC_FinalDemo.Services;
+using System.IO;
+using System.Net.Http;
+using System.Net;
 
 namespace AdvanceC_FinalDemo.Controllers
 {
@@ -14,8 +17,9 @@ namespace AdvanceC_FinalDemo.Controllers
     [RoutePrefix("api/books")] // Base route for the controller
     public class BookController : ApiController
     {
+        private readonly static string _baseDirectory = @"F:\Shaurya Training\RKIT-Training\API\Advance API\AdvanceC#FinalDemo\AdvanceC#FinalDemo\data";
         private readonly BookRepository _bookRepository = new BookRepository();
-        private readonly LibraryFileService _fileService = new LibraryFileService();
+        private readonly LibraryFileService _fileService = new LibraryFileService(_baseDirectory);
 
         /// <summary>
         /// Retrieves all books from the repository.
@@ -133,21 +137,49 @@ namespace AdvanceC_FinalDemo.Controllers
             return Ok(res.Message); // 200 OK
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("export")]
-        public IHttpActionResult ExportBook()
+        public HttpResponseMessage ExportBook()
         {
-            Response memberResponse = _bookRepository.GetAllBooks();
-            if (memberResponse.IsError)
+            Response bookResponse = _bookRepository.GetAllBooks();
+            if (bookResponse.IsError)
             {
-                return BadRequest(memberResponse.Message);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, bookResponse.Message);
             }
-            Response serializeResponse = _fileService.SerializeDataTable(memberResponse.Data, "books.json");
+
+            // Serialize data and save to file
+            Response serializeResponse = _fileService.SerializeDataTable(bookResponse.Data, "books.json");
             if (serializeResponse.IsError)
             {
-                return BadRequest(serializeResponse.Message);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, serializeResponse.Message);
             }
-            return Ok(serializeResponse.Message);
+
+            // Construct the correct file path
+            string filePath = Path.Combine(_baseDirectory, "books.json");
+
+            if (!File.Exists(filePath))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "File not found.");
+            }
+
+            // Read file bytes
+            byte[] fileBytes = File.ReadAllBytes(filePath);
+
+            // Create response message
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new ByteArrayContent(fileBytes)
+            };
+
+            // Set content type and headers
+            response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
+            {
+                FileName = "books.json"
+            };
+
+            return response;
         }
+
     }
 }

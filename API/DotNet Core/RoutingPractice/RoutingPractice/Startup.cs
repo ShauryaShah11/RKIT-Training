@@ -81,6 +81,18 @@ public class Startup
             endpoints.MapGet("/products/{id:int}", (int id) =>
                 Results.Ok(new Product { Id = id, Name = $"Product {id}" }));
 
+            // Map route with default id value
+            endpoints.MapGet("/products/default/{id=1}", (int id) =>
+            {
+                // Access the id value here
+                return $"Product ID: {id}";
+            });
+
+            endpoints.MapGet("/products/optional/{id?}", (int id) =>
+            {
+                return $"Product Id: {id}";
+            });
+
             endpoints.MapPost("/products", (Product product) =>
                 Results.Created($"/products/{product.Id}", product));
 

@@ -3,6 +3,10 @@ using AdvanceC_FinalDemo.Models;
 using AdvanceC_FinalDemo.Models.DTO;
 using AdvanceC_FinalDemo.Repositories;
 using AdvanceC_FinalDemo.Services;
+using System.IO;
+using System.Net.Http;
+using System.Net;
+using System.Web;
 using System.Web.Http;
 
 namespace AdvanceC_FinalDemo.Controllers
@@ -10,8 +14,9 @@ namespace AdvanceC_FinalDemo.Controllers
     [RoutePrefix("api/members")] // Base route for the controller
     public class MemberController : ApiController
     {
+        private readonly static string _baseDirectory = @"F:\Shaurya Training\RKIT-Training\API\Advance API\AdvanceC#FinalDemo\AdvanceC#FinalDemo\data";
         private readonly MemberRepository _memberRepository = new MemberRepository();
-        private readonly LibraryFileService _fileService = new LibraryFileService();
+        private readonly LibraryFileService _fileService = new LibraryFileService(_baseDirectory);
 
         /// <summary>
         /// Get all members
@@ -109,21 +114,47 @@ namespace AdvanceC_FinalDemo.Controllers
             return Ok(res.Message); // 200 OK
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("export")]
-        public IHttpActionResult ExportBook()
+        public HttpResponseMessage ExportBook()
         {
             Response bookResponse = _memberRepository.GetAllMember();
             if (bookResponse.IsError)
             {
-                return BadRequest(bookResponse.Message);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, bookResponse.Message);
             }
             Response serializeResponse = _fileService.SerializeDataTable(bookResponse.Data, "members.json");
             if (serializeResponse.IsError)
             {
-                return BadRequest(serializeResponse.Message);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, serializeResponse.Message);
             }
-            return Ok(serializeResponse.Message);
+
+            // Use the correct base directory
+            string filePath = Path.Combine(_baseDirectory, "members.json");
+
+            if (!File.Exists(filePath))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "File not found.");
+            }
+
+            // Read file bytes
+            byte[] fileBytes = File.ReadAllBytes(filePath);
+
+            // Create response message
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new ByteArrayContent(fileBytes)
+            };
+
+            // Set content type and headers
+            response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
+            {
+                FileName = "members.json"
+            };
+
+            return response;
         }
+
     }
 }
