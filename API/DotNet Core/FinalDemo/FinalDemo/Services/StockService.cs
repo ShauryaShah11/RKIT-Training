@@ -30,12 +30,21 @@ namespace FinalDemo.Services
 
         public YMS01 PreDelete(DTOYMS01 dto)
         {
-            throw new NotImplementedException();
+            return new YMS01
+            {
+                S01F01 = dto.S01101
+            };
         }
 
         public YMS01 PreSave(DTOYMS01 dto)
         {
-            throw new NotImplementedException();
+            return new YMS01
+            {
+                S01F01 = dto.S01101,
+                S01F02 = dto.S01102,
+                S01F03 = dto.S01103,
+                S01F04 = dto.S01104
+            };
         }
 
         public Response Save(YMS01 poco, OperationType type)

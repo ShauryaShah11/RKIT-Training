@@ -1,6 +1,9 @@
 ﻿using FinalDemo.ExtensionMethods;
+using FinalDemo.Models.POCO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
 using System.Text;
 
 namespace FinalDemo
@@ -16,9 +19,7 @@ namespace FinalDemo
         public void ConfigureServices(IServiceCollection services)
         {
             // Add services to the container.
-
             services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
@@ -53,7 +54,13 @@ namespace FinalDemo
                     policy.RequireRole("Admin"));
             });
 
-            services.AddApplicationServices();
+            // Register OrmLite Database Factory
+            services.AddSingleton<IDbConnectionFactory>(
+                new OrmLiteConnectionFactory(_configuration.GetConnectionString("DefaultConnection"),
+                MySqlDialect.Provider)
+            );
+
+            services.AddApplicationServices(_configuration);
         }
 
         public void Configure(WebApplication app, IHostEnvironment env)
@@ -76,6 +83,19 @@ namespace FinalDemo
             app.UseAuthorization();
 
             app.MapControllers();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbFactory = scope.ServiceProvider.GetRequiredService<IDbConnectionFactory>();
+
+                using (var db = dbFactory.Open())
+                {
+                    db.CreateTableIfNotExists<YMU01>();
+                    db.CreateTableIfNotExists<YMS01>();
+                    db.CreateTableIfNotExists<YMH01>();
+                    db.CreateTableIfNotExists<YMO01>();
+                }
+            }
         }
     }
 }

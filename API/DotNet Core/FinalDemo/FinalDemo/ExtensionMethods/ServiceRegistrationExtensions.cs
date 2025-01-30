@@ -5,13 +5,13 @@ namespace FinalDemo.ExtensionMethods
 {
     public static class ServiceRegistrationExtensions
     {
-        public static void AddApplicationServices(this IServiceCollection services)
+        public static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IStockPriceHistoryService, StockPriceHistoryService>();
             services.AddScoped<IStockService, StockService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddSingleton<IOrmLiteDbFactory, OrmLiteDbFactory>();
+            services.AddSingleton<IOrmLiteDbFactory, OrmLiteDbFactory>(sp => new OrmLiteDbFactory(configuration));
         }
     }
 }

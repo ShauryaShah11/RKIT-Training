@@ -62,5 +62,7 @@ namespace FinalDemo.Interfaces
         /// <param name="poco">The POCO object representing the user to be deleted.</param>
         /// <returns>A response indicating the success or failure of the delete operation.</returns>
         Response Delete(YMU01 poco);
+
+        Response HandleOperation(DTOYMU01 user, OperationType type);
     }
 }

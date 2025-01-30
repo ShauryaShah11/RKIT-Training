@@ -9,6 +9,7 @@ using Advance_Of_C_.LINQOperations;
 using Advance_Of_C_.Security_And_CryptoGraphy;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices;
@@ -135,15 +136,26 @@ namespace Advance_Of_C_
 
             #region File Operations
             //File Opearation
-            //FileStreamExample fs = new FileStreamExample(@"F:/Shaurya Training/test.txt");
-            //fs.AppendToFile("Hi I am Shaurya Shah");
-            //fs.DisplayFileInfo();
-            //fs.CheckFilePermissions();
+            // Get the root directory of the project (outside the bin folder)
+            string rootDirectory1 = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+            string rootDirectory2 = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.FullName;
+            string rootDirectory3 = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName;
 
-            //Console.ReadLine();
-            //fs.DeleteFile();
+            Console.WriteLine(rootDirectory1);
+            Console.WriteLine(rootDirectory2);
+            Console.WriteLine(rootDirectory3);
+            //// Navigate to a custom folder (relative to the root directory)
+            //string customFolder = Path.Combine(rootDirectory, @"Files");
+            ////FileStreamExample fs = new FileStreamExample(@"F:/Shaurya Training/test.txt");
+            ////fs.AppendToFile("Hi I am Shaurya Shah");
+            ////fs.DisplayFileInfo();
+            ////fs.CheckFilePermissions();
 
-            //StreamWriterExample sw = new StreamWriterExample(@"F:/Shaurya Training/test.txt");
+            ////Console.ReadLine();
+            ////fs.DeleteFile();
+            //string filePath = Path.Combine(customFolder, "test.txt");
+
+            //StreamWriterExample sw = new StreamWriterExample(filePath);
             //sw.WriteTextToFile("Hi I AM Shaurya Shah");
             //sw.ReadFile();
 
