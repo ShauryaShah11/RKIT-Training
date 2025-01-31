@@ -10,9 +10,9 @@ namespace AdvanceC_FinalDemo.Services
     {
         private readonly string _baseDirectory;
 
-        public LibraryFileService(string baseDirectory = @"F:\Shaurya Training\RKIT-Training\API\Advance API\AdvanceC#FinalDemo\AdvanceC#FinalDemo\data")
+        public LibraryFileService()
         {
-            _baseDirectory = baseDirectory;
+            _baseDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
             Directory.CreateDirectory(_baseDirectory);
         }
 

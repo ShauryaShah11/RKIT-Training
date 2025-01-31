@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AssemblyReferencePractice;
+using System;
 using System.IO;
 namespace BasicCSharp
 {
@@ -95,8 +96,8 @@ namespace BasicCSharp
             //Enumerations em = new Enumerations();
             //em.EnumPractice();
 
-            DataTableClass dataTableClass = new DataTableClass();
-            dataTableClass.DataTablePractice();
+            //DataTableClass dataTableClass = new DataTableClass();
+            //dataTableClass.DataTablePractice();
 
             //ExceptionHandlingExample exceptionHandlingExample = new ExceptionHandlingExample();
             //exceptionHandlingExample.HandleExceptionWithTryCatchFinally();
@@ -136,6 +137,7 @@ namespace BasicCSharp
 
             //string temp = "1, 22";
             //Console.WriteLine(temp.Contains("2"));
+            Console.ReadKey();
 
         }
     }

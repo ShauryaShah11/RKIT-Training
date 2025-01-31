@@ -11,6 +11,9 @@ using System.Text;
 
 namespace FinalDemo.Controllers
 {
+    /// <summary>
+    /// Controller responsible for user authentication, including login functionality.
+    /// </summary>
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
@@ -18,7 +21,11 @@ namespace FinalDemo.Controllers
         private readonly IDbConnection _dbFactory;
         private readonly IConfiguration _configuration;
 
-        // Constructor
+        /// <summary>
+        /// Constructor to initialize AuthController with necessary dependencies.
+        /// </summary>
+        /// <param name="configuration">Application configuration for retrieving JWT settings.</param>
+        /// <param name="ormLiteDbFactory">Factory to handle database connection.</param>
         public AuthController(IConfiguration configuration, IOrmLiteDbFactory ormLiteDbFactory)
         {
             _configuration = configuration;
@@ -26,7 +33,11 @@ namespace FinalDemo.Controllers
             _dbFactory = _ormLiteDbFactory.OpenConnection();
         }
 
-        // Login Endpoint
+        /// <summary>
+        /// Endpoint for user login. Validates user credentials and returns a JWT token.
+        /// </summary>
+        /// <param name="loginRequest">The login request containing email and password.</param>
+        /// <returns>Returns JWT token if login is successful; Unauthorized if credentials are invalid.</returns>
         [HttpPost("login")]
         [AllowAnonymous]
         public IActionResult Login([FromBody] LoginRequest loginRequest)
@@ -34,7 +45,7 @@ namespace FinalDemo.Controllers
             // Validate user credentials
             List<YMU01> user = _dbFactory.Select<YMU01>(u => u.U01F03 == loginRequest.Email && u.U01F04 == loginRequest.Password);
 
-            if (user == null || !user.Any()) 
+            if (user == null || !user.Any())
             {
                 return Unauthorized(new { Message = "Invalid credentials" });
             }
@@ -45,7 +56,12 @@ namespace FinalDemo.Controllers
             });
         }
 
-        // Helper method to generate JWT token
+        /// <summary>
+        /// Helper method to generate a JWT token for the user.
+        /// </summary>
+        /// <param name="email">User's email to include in the token claim.</param>
+        /// <param name="role">Role of the user to be included in the token claim.</param>
+        /// <returns>A JWT token string.</returns>
         private string GenerateJwtToken(string email, string role)
         {
             Claim[] claims = new[]
@@ -69,7 +85,9 @@ namespace FinalDemo.Controllers
         }
     }
 
-    // DTO for Login request (better approach)
+    /// <summary>
+    /// Data transfer object (DTO) for the login request containing email and password.
+    /// </summary>
     public class LoginRequest
     {
         public string Email { get; set; }

@@ -7,15 +7,34 @@ using System.Text;
 
 namespace FinalDemo.Filters
 {
+    /// <summary>
+    /// Custom authorization filter that validates JWT tokens for incoming requests.
+    /// It checks the token's validity, including issuer, audience, and signature.
+    /// If roles are specified, the filter ensures the user has one of the required roles.
+    /// If the validation fails, the request is unauthorized or forbidden.
+    /// The claims from the token are added to the HttpContext for further use in the controller.
+    /// </summary>
     public class AuthorizationFilter : IAuthorizationFilter
     {
         private readonly IConfiguration _configuration;
         private readonly string[] _roles;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthorizationFilter"/> class.
+        /// </summary>
+        /// <param name="configuration">The application configuration to access JWT settings.</param>
+        /// <param name="roles">Optional array of roles to check against user claims.</param>
         public AuthorizationFilter(IConfiguration configuration, string[] roles = null)
         {
             _configuration = configuration;
             _roles = roles ?? Array.Empty<string>();
         }
+
+        /// <summary>
+        /// Executes the authorization logic for the incoming request.
+        /// Validates the JWT token and checks user roles if provided.
+        /// </summary>
+        /// <param name="context">The context for the authorization request.</param>
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             string? authorizationHeader = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
@@ -74,4 +93,5 @@ namespace FinalDemo.Filters
 
         }
     }
+
 }

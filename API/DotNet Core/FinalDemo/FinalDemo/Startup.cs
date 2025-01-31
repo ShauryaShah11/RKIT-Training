@@ -1,10 +1,12 @@
 ﻿using FinalDemo.ExtensionMethods;
+using FinalDemo.Filters;
 using FinalDemo.Models.POCO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace FinalDemo
 {
@@ -20,6 +22,10 @@ namespace FinalDemo
         {
             // Add services to the container.
             services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<CustomExceptionFilter>();
+            });
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
@@ -59,6 +65,14 @@ namespace FinalDemo
                 new OrmLiteConnectionFactory(_configuration.GetConnectionString("DefaultConnection"),
                 MySqlDialect.Provider)
             );
+
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                    // Or to ignore cycles
+                    // options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                });
 
             services.AddApplicationServices(_configuration);
         }
