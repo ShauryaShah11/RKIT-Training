@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts//jquery-3.5.1.min.js"></script>
+
+    <link rel="stylesheet" href="Content/dx.common.css" />
+    <link rel="stylesheet" href="Content/dx.light.css" />
+
+    <script type="text/javascript" src="Scripts/dx.all.js"></script>
+    <!--<script type="text/javascript" src=""></script>-->
+</head>
+<body>
+    <div id="buttonContainer">
+
+    </div>
+    <script>
+        $(function () {
+            $("#buttonContainer").dxButton({
+                text: "Click Me!",
+                onClick: function () {
+                    alert("CLick me");
+                }
+            });
+        })
+    </script>
+</body>
+</html>

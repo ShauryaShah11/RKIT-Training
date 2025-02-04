@@ -142,6 +142,9 @@ namespace Advance_Of_C_.LINQOperations
                     }
                 }
 
+                var maxSalary = employees.Max(emp => emp.Salary);
+                Console.WriteLine($"Max Salary is: {maxSalary}");
+
                 // All, Any, Contains Example
                 int salaryThreshold = 25000;
                 bool allAboveThreshold = employees.All(e => e.Salary > salaryThreshold);
@@ -150,26 +153,26 @@ namespace Advance_Of_C_.LINQOperations
                 bool anyAboveThreshold = employees.Any(e => e.Salary > 75000);
                 Console.WriteLine($"Any employee salary > 75000: {anyAboveThreshold}");
 
-                var searchEmployee = new Employee() { Id = 1, Name = "John Doe", IsManager = "Yes", Salary = 75000, DepartmentId = 1 };
+                Employee searchEmployee = new Employee() { Id = 1, Name = "John Doe", IsManager = "Yes", Salary = 75000, DepartmentId = 1 };
                 bool employeeFound = employees.Contains(searchEmployee, new EmployeeComparer());
                 Console.WriteLine($"Employee Found: {employeeFound}");
 
                 // LINQ First/FirstOrDefault Example
-                var firstEmployee = employees.FirstOrDefault(e => e.Salary > 50000);
+                Employee firstEmployee = employees.FirstOrDefault(e => e.Salary > 50000);
                 Console.WriteLine($"\nFirst employee with salary > 50000: {firstEmployee?.Name}");
 
                 // LINQ Single Example
-                var singleElement = new List<int>() { 1 }.Single();
+                int singleElement = new List<int>() { 1 }.Single();
                 Console.WriteLine($"\nSingle element: {singleElement}");
 
                 // LINQ Last/LastOrDefault Example
-                var lastElement = new List<int>() { 10, 20, 30, 40, 50 }.Last();
+                int lastElement = new List<int>() { 10, 20, 30, 40, 50 }.Last();
                 Console.WriteLine($"Last element: {lastElement}");
 
                 // LINQ Concat Example: Concatenating two lists
-                var list1 = new List<int> { 1, 2, 3 };
-                var list2 = new List<int> { 4, 5, 6 };
-                var concatenatedList = list1.Concat(list2);
+                List<int> list1 = new List<int> { 1, 2, 3 };
+                List<int> list2 = new List<int> { 4, 5, 6 };
+                IEnumerable<int> concatenatedList = list1.Concat(list2);
                 Console.WriteLine("\nConcatenated List:");
                 foreach (var item in concatenatedList)
                 {
@@ -177,7 +180,7 @@ namespace Advance_Of_C_.LINQOperations
                 }
 
                 // LINQ SequenceEqual Example
-                var isEqual = list1.SequenceEqual(list2);
+                bool isEqual = list1.SequenceEqual(list2);
                 Console.WriteLine($"\nList1 equals List2: {isEqual}");
 
                 // LINQ Aggregate Example: Calculate total salary with bonus
@@ -190,21 +193,21 @@ namespace Advance_Of_C_.LINQOperations
                 Console.WriteLine($"Total Salary with Bonus: {totalSalary}");
 
                 // LINQ DefaultIfEmpty Example
-                var emptyList = new List<int> { };
-                var defaultIfEmptyList = emptyList.DefaultIfEmpty(9999);
+                List<int> emptyList = new List<int> { };
+                IEnumerable<int> defaultIfEmptyList = emptyList.DefaultIfEmpty(9999);
                 Console.WriteLine($"\nDefault if empty: {defaultIfEmptyList.ElementAt(0)}");
 
                 // LINQ Transformation Example: Converting collection to different types
-                var employeesAboveSalary = employees.Where(e => e.Salary > 50000).ToList();
+                List<Employee> employeesAboveSalary = employees.Where(e => e.Salary > 50000).ToList();
                 Console.WriteLine("\nEmployees with salary > 50000:");
                 foreach (var emp in employeesAboveSalary)
                 {
                     Console.WriteLine($"Id: {emp.Id}, Name: {emp.Name}, Salary: {emp.Salary}");
                 }
 
-                var employeeDictionary = employees.ToDictionary(e => e.Id, e => e.Name);
+                Dictionary<int, string> employeeDictionary = employees.ToDictionary(e => e.Id, e => e.Name);
                 Console.WriteLine("\nEmployee Dictionary:");
-                foreach (var kvp in employeeDictionary)
+                foreach (KeyValuePair<int, string> kvp in employeeDictionary)
                 {
                     Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
                 }

@@ -254,8 +254,7 @@ namespace Advance_Of_C_
             //obj2.Test();
 
             // Max salary
-            //var maxSalary = employees.Max(emp => emp.Salary);
-            //Console.WriteLine($"Max Salary is: {maxSalary}");
+            
 
             //// Min salary
             //var minSalary = employees.Min(emp => emp.Salary);
