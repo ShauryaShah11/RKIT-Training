@@ -17,7 +17,7 @@ namespace FilterPractice
         {
             // Add controllers
             services.AddControllers();
-
+            //services.AddScoped<CustomExceptionFilter>();
             // Register the custom filters globally
             services.AddControllers(options =>
             {
