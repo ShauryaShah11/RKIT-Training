@@ -5,7 +5,6 @@ using FinalDemo.Interfaces;
 using FinalDemo.Models;
 using FinalDemo.Models.DTO;
 using FinalDemo.Models.POCO;
-using Newtonsoft.Json;
 using ServiceStack.OrmLite;
 using System.Data;
 using System.Diagnostics;
@@ -125,9 +124,9 @@ namespace FinalDemo.Services
                         return new Response { IsError = false, Message = "User does not exist" };
                     }
 
-                    string jsonstring = JsonConvert.SerializeObject(users, Formatting.Indented);
+                    DataTable data = users.ConvertToDataTable<YMU01>();
 
-                    return new Response { IsError = false, Data = jsonstring, Message = "User retrieved successfully" };
+                    return new Response { IsError = false, Data = data, Message = "User retrieved successfully" };
                 }
             }
             catch (Exception ex)
@@ -154,7 +153,7 @@ namespace FinalDemo.Services
                     {
                         return new Response { IsError = false, Message = "User does not exist" };
                     }
-                    return new Response { IsError = true, Data = users, Message = $"User with ID {id} retrieved successfully" };
+                    return new Response { IsError = true, Data = users.ConvertToDataTable<YMU01>(), Message = $"User with ID {id} retrieved successfully" };
                 }
             }
             catch (Exception ex)

@@ -112,10 +112,12 @@
     <Content Include="html\datebox.html" />
     <Content Include="html\dropdown.html" />
     <Content Include="html\numberbox.html" />
+    <Content Include="html\textarea.html" />
     <Content Include="js\checkbox.js" />
     <Content Include="js\datebox.js" />
     <Content Include="js\dropdown.js" />
     <Content Include="js\numberbox.js" />
+    <Content Include="js\textarea.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr\event.js" />
     <Content Include="Scripts\cldr\supplemental.js" />

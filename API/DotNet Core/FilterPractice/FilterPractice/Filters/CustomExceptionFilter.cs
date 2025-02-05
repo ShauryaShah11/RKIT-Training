@@ -13,6 +13,7 @@ namespace FilterPractice.Filters
             _logger = logger;
         }
 
+        
         public void OnException(ExceptionContext context)
         {
             // Log the exception

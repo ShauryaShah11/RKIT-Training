@@ -81,9 +81,9 @@ namespace WebAPIFinalDemo.Controllers
                 return BadRequest("Task cannot be null");
             }
 
-            var principal = User as ClaimsPrincipal;
-            int id = int.Parse(principal.FindFirst("userId")?.Value);
-            task.UserId = id;
+            ClaimsPrincipal principal = User as ClaimsPrincipal;            
+            int userId = UserClaimService.GetUserId(principal);
+            task.UserId = userId;
             bool isAdded = _taskV2Repository.AddTask(task);
             if (isAdded)
             {
@@ -142,7 +142,7 @@ namespace WebAPIFinalDemo.Controllers
         public IHttpActionResult DeleteTask(int id)
         {
             var principal = User as ClaimsPrincipal;
-            int userId = int.Parse(principal.FindFirst("userId")?.Value);
+            int userId = UserClaimService.GetUserId(principal);
 
             TaskV2 task = _taskV2Repository.GetTaskByID(id);
             if (task.UserId != userId)
@@ -167,19 +167,14 @@ namespace WebAPIFinalDemo.Controllers
         public IHttpActionResult GetMyTasks()
         {
             // Get the current user's ID from the claims
-            var principal = User as ClaimsPrincipal;
-            var userIdClaim = principal?.FindFirst("userId");
+            ClaimsPrincipal principal = User as ClaimsPrincipal;
 
-            if (userIdClaim == null)
+            if (principal == null)
             {
                 return Unauthorized();  // UserId claim is missing
             }
 
-            int userId;
-            if (!int.TryParse(userIdClaim.Value, out userId))
-            {
-                return Unauthorized();  // Invalid userId format
-            }
+            int userId = UserClaimService.GetUserId(principal);            
 
             // Fetch tasks for the current user
             List<TaskV2> tasks = _taskV2Repository.GetTasksByUserId(userId);

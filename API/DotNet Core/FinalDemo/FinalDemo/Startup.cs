@@ -21,7 +21,7 @@ namespace FinalDemo
         public void ConfigureServices(IServiceCollection services)
         {
             // Add services to the container.
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddControllers(options =>
             {
                 options.Filters.Add<CustomExceptionFilter>();

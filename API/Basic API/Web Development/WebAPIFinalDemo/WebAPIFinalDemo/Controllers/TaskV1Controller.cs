@@ -81,8 +81,13 @@ namespace WebAPIFinalDemo.Controllers
                 return BadRequest("Task cannot be null");
             }
 
-            var principal = User as ClaimsPrincipal;
-            int id = int.Parse(principal.FindFirst("userId")?.Value);
+            ClaimsPrincipal principal = User as ClaimsPrincipal;
+
+            if(principal == null)
+            {
+                return Unauthorized();
+            }
+            int id = UserClaimService.GetUserId(principal);
             task.UserId = id;
             bool isAdded = _taskV1Repository.AddTask(task);
             if (isAdded)
@@ -123,8 +128,8 @@ namespace WebAPIFinalDemo.Controllers
         [BearerAuth]
         public IHttpActionResult DeleteTask(int id)
         {
-            var principal = User as ClaimsPrincipal;
-            int userId = int.Parse(principal.FindFirst("userId")?.Value);
+            ClaimsPrincipal principal = User as ClaimsPrincipal;
+            int userId = UserClaimService.GetUserId(principal);
 
             TaskV1 task = _taskV1Repository.GetTaskByID(id);
             if (task.UserId != userId)
@@ -149,19 +154,13 @@ namespace WebAPIFinalDemo.Controllers
         public IHttpActionResult GetMyTasks()
         {
             // Get the current user's ID from the claims
-            var principal = User as ClaimsPrincipal;
-            var userIdClaim = principal?.FindFirst("userId");
-
-            if (userIdClaim == null)
+            ClaimsPrincipal principal = User as ClaimsPrincipal;
+            if(principal == null)
             {
-                return Unauthorized();  // UserId claim is missing
+                return Unauthorized();
             }
 
-            int userId;
-            if (!int.TryParse(userIdClaim.Value, out userId))
-            {
-                return Unauthorized();  // Invalid userId format
-            }
+            int userId = UserClaimService.GetUserId(principal);           
 
             // Fetch tasks for the current user
             List<TaskV1> tasks = _taskV1Repository.GetTasksByUserId(userId);

@@ -83,16 +83,16 @@ namespace WebAPIFinalDemo.Controllers
         [BearerAuth]
         public IHttpActionResult GetUserByToken()
         {
-            var principal = User as ClaimsPrincipal;
+            ClaimsPrincipal principal = User as ClaimsPrincipal;
 
             if (principal == null)
             {
                 return Unauthorized();
             }
 
-            string username = principal.FindFirst("sub")?.Value;
-            string email = principal.FindFirst("email")?.Value;
-            int userId = int.Parse(principal.FindFirst("userId")?.Value);
+            string username = UserClaimService.GetUsername(principal);
+            string email = UserClaimService.GetEmail(principal);
+            int userId = UserClaimService.GetUserId(principal);
 
             User user = _userRepository.GetUserById(userId);
             return Ok(user);

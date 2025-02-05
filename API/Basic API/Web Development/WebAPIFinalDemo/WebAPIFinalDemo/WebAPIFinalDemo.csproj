@@ -238,6 +238,7 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\CacheService.cs" />
     <Compile Include="Services\TokenService.cs" />
+    <Compile Include="Services\UserClaimService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
