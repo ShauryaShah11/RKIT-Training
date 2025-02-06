@@ -18,7 +18,7 @@ namespace AdvanceC_FinalDemo.Controllers
         [Route("")]
         public IHttpActionResult GetAllHistory()
         {
-            var history = _bookHistoryRepository.GetAllBookHistory();
+            Response history = _bookHistoryRepository.GetAllBookHistory();
             return Ok(history); // 200 OK
         }
 
@@ -61,7 +61,7 @@ namespace AdvanceC_FinalDemo.Controllers
         [Route("")]
         public IHttpActionResult AddBookHistory([FromBody] DTOYMH01 dto)
         {
-            if(dto == null)
+            if(!ModelState.IsValid)
             {
                 return BadRequest("Invalid Data.");
             }

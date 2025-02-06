@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 
-namespace AdvanceC_FinalDemo.Extension_Methods
+namespace AdvanceC_FinalDemo.Extensions
 {
     public static class DataTableExtensions
     {

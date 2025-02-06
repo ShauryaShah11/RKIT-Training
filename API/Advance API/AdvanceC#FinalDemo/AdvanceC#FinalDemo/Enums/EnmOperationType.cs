@@ -3,7 +3,7 @@
     /// <summary>
     /// The Operation Type refers types of database operation will be performed.
     /// </summary>
-    public enum OperationType
+    public enum EnmOperationType
     {
         ADD,
         UPDATE,

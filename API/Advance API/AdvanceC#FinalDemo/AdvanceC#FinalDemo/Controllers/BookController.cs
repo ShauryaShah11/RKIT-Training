@@ -1,13 +1,14 @@
 ﻿using AdvanceC_FinalDemo.Enums;
-using AdvanceC_FinalDemo.Models.DTO;
 using AdvanceC_FinalDemo.Models;
+using AdvanceC_FinalDemo.Models.DTO;
+using AdvanceC_FinalDemo.Models.POCO;
 using AdvanceC_FinalDemo.Repositories;
-using System.Web.Http;
-using System.Linq.Expressions;
 using AdvanceC_FinalDemo.Services;
+using System;
 using System.IO;
-using System.Net.Http;
 using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 
 namespace AdvanceC_FinalDemo.Controllers
 {
@@ -17,9 +18,8 @@ namespace AdvanceC_FinalDemo.Controllers
     [RoutePrefix("api/books")] // Base route for the controller
     public class BookController : ApiController
     {
-        private readonly static string _baseDirectory = @"F:\Shaurya Training\RKIT-Training\API\Advance API\AdvanceC#FinalDemo\AdvanceC#FinalDemo\data";
         private readonly BookRepository _bookRepository = new BookRepository();
-        private readonly LibraryFileService _fileService = new LibraryFileService(_baseDirectory);
+        private readonly LibraryFileService _fileService = new LibraryFileService();
 
         /// <summary>
         /// Retrieves all books from the repository.
@@ -72,6 +72,22 @@ namespace AdvanceC_FinalDemo.Controllers
         }
 
         /// <summary>
+        /// Retrieves a total book count.
+        /// </summary>
+        /// <returns>The Book Response containing book count</returns>
+        [HttpGet]
+        [Route("count")]
+        public IHttpActionResult GetBookCount()
+        {
+            Response res = _bookRepository.GetBookCount();
+            if (res.IsError)
+            {
+                return BadRequest(res.Message);
+            }
+            return Ok(res);
+        }
+
+        /// <summary>
         /// Adds a new book to the repository.
         /// </summary>
         /// <param name="book">The book data to add.</param>
@@ -80,17 +96,24 @@ namespace AdvanceC_FinalDemo.Controllers
         [Route("")]
         public IHttpActionResult AddBook([FromBody] DTOYMB01 book)
         {
-            if (book == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid book data."); // 400 Bad Request
+                return BadRequest(ModelState); // 400 Bad Request
             }
 
-            Response res = _bookRepository.HandleOperation(book, OperationType.ADD);
-            if (res.IsError)
+            _bookRepository.type = EnmOperationType.ADD;
+            YMB01 poco = _bookRepository.PreSave(book);
+            Response addResponse = _bookRepository.ValidateOnSave(poco);
+            if (addResponse.IsError)
             {
-                return BadRequest(res.Message); // 400 Bad Request
+                return BadRequest(addResponse.Message); // 400 Bad Request
             }
-            return CreatedAtRoute("GetBookById", new { id = book.B01101 }, res); // 201 Created
+            Response save = _bookRepository.Save(poco);
+            if (save.IsError)
+            {
+                return BadRequest(save.Message);
+            }
+            return CreatedAtRoute("GetBookById", new { id = book.B01F01 }, save); // 201 Created
         }
 
         /// <summary>
@@ -102,17 +125,24 @@ namespace AdvanceC_FinalDemo.Controllers
         [Route("")]
         public IHttpActionResult UpdateBook([FromBody] DTOYMB01 book)
         {
-            if (book == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid book data."); // 400 Bad Request
+                return BadRequest(ModelState); // 400 Bad Request
             }
 
-            Response res = _bookRepository.HandleOperation(book, OperationType.UPDATE);
-            if (res.IsError)
+            _bookRepository.type = EnmOperationType.UPDATE;
+            YMB01 poco = _bookRepository.PreSave(book);
+            Response updateResponse = _bookRepository.ValidateOnSave(poco);
+            if (updateResponse.IsError)
             {
-                return BadRequest(res.Message); // 400 Bad Request
+                return BadRequest(updateResponse.Message); // 400 Bad Request
             }
-            return Ok(res); // 200 OK
+            Response update = _bookRepository.Save(poco);
+            if (update.IsError)
+            {
+                return BadRequest(update.Message);
+            }
+            return Ok(update); // 200 OK
         }
 
         /// <summary>
@@ -124,17 +154,24 @@ namespace AdvanceC_FinalDemo.Controllers
         [Route("")]
         public IHttpActionResult DeleteBook([FromBody] DTOYMB01 book)
         {
-            if (book == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid book data."); // 400 Bad Request
+                return BadRequest(ModelState); // 400 Bad Request
             }
 
-            Response res = _bookRepository.HandleOperation(book, OperationType.DELETE);
-            if (res.IsError)
+            _bookRepository.type = EnmOperationType.DELETE;
+            YMB01 poco = _bookRepository.PreDelete(book);
+            Response deleteResponse = _bookRepository.ValidateOnDelete(poco);
+            if (deleteResponse.IsError)
             {
-                return BadRequest(res.Message); // 400 Bad Request
+                return BadRequest(deleteResponse.Message); // 400 Bad Request
             }
-            return Ok(res.Message); // 200 OK
+            Response delete = _bookRepository.Save(poco);
+            if (delete.IsError)
+            {
+                return BadRequest(delete.Message);
+            }
+            return Ok(delete.Message); // 200 OK
         }
 
         [HttpGet]
@@ -154,8 +191,12 @@ namespace AdvanceC_FinalDemo.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, serializeResponse.Message);
             }
 
-            // Construct the correct file path
-            string filePath = Path.Combine(_baseDirectory, "books.json");
+            string baseDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+
+            string dataFolderPath = Path.Combine(baseDirectory, "data");
+
+            // Use the correct base directory
+            string filePath = Path.Combine(dataFolderPath, "books.json");
 
             if (!File.Exists(filePath))
             {

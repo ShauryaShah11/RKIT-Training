@@ -11,21 +11,18 @@ namespace AdvanceC_FinalDemo.Models.POCO
         /// <summary>
         /// Gets or Sets the Book Id.
         /// </summary>
-        [Required]
         [References(typeof(YMB01))]
         public int H01F01 { get; set; }
 
         /// <summary>
         /// Gets or Sets the Member Id.
         /// </summary>
-        [Required]
         [References(typeof(YMM01))]
         public int H01F02 { get; set; }
 
         /// <summary>
         /// Gets or Sets the Book Issued Date.
         /// </summary>
-        [Required]
         public DateTime H01F03 { get; set; } = DateTime.Now;
 
         /// <summary>

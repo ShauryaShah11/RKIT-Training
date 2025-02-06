@@ -13,6 +13,7 @@ namespace AdvanceC_FinalDemo.Services
         public LibraryFileService()
         {
             _baseDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+            string dataFolderPath = Path.Combine(_baseDirectory, "data");
             Directory.CreateDirectory(_baseDirectory);
         }
 
