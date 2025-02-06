@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>File Upload Example</title>
+    <style>
+        #dropzone-external {
+            width: 350px;
+            height: 350px;
+            background-color: rgb(183 183 183 / 10%);
+            border-width: 2px;
+            border-style: dashed;
+            padding: 10px;
+            border-color: var(--dx-color-border);
+        }
+
+            #dropzone-external > * {
+                pointer-events: none;
+            }
+
+            #dropzone-external.dropzone-active {
+                border-style: solid;
+                border-color: var(--dx-color-primary);
+            }
+
+        .widget-container > span {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        #dropzone-image {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        #dropzone-text > span {
+            font-weight: 100;
+            opacity: 0.5;
+        }
+
+        #upload-progress {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .flex-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <script src="../Scripts//jquery-3.5.1.min.js"></script>
+
+    <link rel="stylesheet" href="../Content/dx.common.css" />
+    <link rel="stylesheet" href="../Content/dx.light.css" />
+
+    <script type="text/javascript" src="../Scripts/dx.all.js"></script>
+    <script type="text/javascript" src="../js/file_uploader.js"></script>
+</head>
+<body>
+    <div id="fileUploaderContainer1" class="widget-container"></div>
+    <div id="fileUploaderContainer2" class="widget-container"></div>
+
+    <!-- Dropzone container for external drag-drop interaction -->
+    <div id="dropzone-external" class="flex-box">
+        <span>Drag your files here</span>
+    </div>
+
+    <!-- Progress Text -->
+    <div id="progress" class="flex-box"></div>
+
+    <!-- Buttons -->
+    <button id="abortUploadButton" class="dx-button">Abort Upload</button>
+    <button id="clearUploaderButton" class="dx-button">Clear Files</button>
+    <button id="resetUploaderButton" class="dx-button">Reset Uploader</button>
+    <button id="submitButton" class="dx-button">Submit</button>
+</body>
+</html>
