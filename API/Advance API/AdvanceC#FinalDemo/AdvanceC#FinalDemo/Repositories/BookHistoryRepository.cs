@@ -93,17 +93,17 @@ namespace AdvanceC_FinalDemo.Repositories
 
             try
             {
-                var query = _db.Select(_db.From<dynamic>()
+                var query = _db.Select(_db.From<YMH01>()
                     .Join<YMH01, YMM01>((ymh, ymm) => ymh.H01F02 == ymm.M01F01)
                     .Join<YMH01, YMB01>((ymh, ymb) => ymh.H01F01 == ymb.B01F01)
                     .Where<YMH01>(ymh => ymh.H01F01 == bookId && ymh.H01F02 == memberId)
-                    .Select<YMH01, YMM01, YMB01>((ymh, ymm, ymb) => new 
+                    .Select<YMH01, YMM01, YMB01>((ymh, ymm, ymb) => new
                     {
                         BookName = ymb.B01F03,
                         MemberName = ymm.M01F02,
                         IssueDate = ymh.H01F03,
                         ReturnDate = ymh.H01F04
-                    }));                                
+                    }));
 
                 return new Response
                 {

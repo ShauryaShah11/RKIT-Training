@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DatabaseOperationAPI.Models.POCO
+﻿namespace DatabaseOperationAPI.Models.POCO
 {
     /// <summary>
     /// The YMD01 Class represents Department entity in Database.
@@ -22,6 +20,6 @@ namespace DatabaseOperationAPI.Models.POCO
         /// <summary>
         /// Gets or sets Head name of the department.
         /// </summary>
-        public string D01F04 { get; set; } 
+        public string D01F04 { get; set; }
     }
 }

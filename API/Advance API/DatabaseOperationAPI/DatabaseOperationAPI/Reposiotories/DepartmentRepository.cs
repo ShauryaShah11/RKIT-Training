@@ -82,7 +82,7 @@ namespace DatabaseOperationAPI.Repositories
         public Response GetDepartmentById(int id)
         {
             List<YMD01> departments = new List<YMD01>();
-            const string sql = "SELECT * FROM YMD01 WHERE D01F01 = @id";
+            string sql = "SELECT * FROM YMD01 WHERE D01F01 = @id";
 
             try
             {

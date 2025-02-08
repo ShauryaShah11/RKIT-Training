@@ -111,6 +111,7 @@
     <Content Include="html\checkbox.html" />
     <Content Include="html\datebox.html" />
     <Content Include="html\dropdown.html" />
+    <Content Include="html\file_uploader.html" />
     <Content Include="html\numberbox.html" />
     <Content Include="html\selectbox.html" />
     <Content Include="html\textarea.html" />
@@ -118,6 +119,7 @@
     <Content Include="js\checkbox.js" />
     <Content Include="js\datebox.js" />
     <Content Include="js\dropdown.js" />
+    <Content Include="js\file_uploader.js" />
     <Content Include="js\numberbox.js" />
     <Content Include="js\selectbox.js" />
     <Content Include="js\textarea.js" />
