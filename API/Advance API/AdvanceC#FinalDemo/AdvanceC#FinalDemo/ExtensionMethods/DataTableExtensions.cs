@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Reflection;
-using System.Web;
 
 namespace AdvanceC_FinalDemo.Extensions
 {
+    /// <summary>
+    /// The DataTableExtension Provides methods to convert IEnumerable of any type to DataTable.
+    /// </summary>
     public static class DataTableExtensions
     {
         /// <summary>

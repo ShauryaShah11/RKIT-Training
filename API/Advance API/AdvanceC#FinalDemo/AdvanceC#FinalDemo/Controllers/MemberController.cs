@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Http;
 using AdvanceC_FinalDemo.Models.POCO;
 using System;
+using AdvanceC_FinalDemo.Security;
 
 namespace AdvanceC_FinalDemo.Controllers
 {
@@ -84,6 +85,7 @@ namespace AdvanceC_FinalDemo.Controllers
 
             _memberRepository.type = EnmOperationType.ADD;
             YMM01 poco = _memberRepository.PreSave(member);
+            poco.M01F04 = PasswordHasher.HashedPassword(poco.M01F04);
             Response addResponse = _memberRepository.ValidateOnSave(poco);
             if (addResponse.IsError)
             {

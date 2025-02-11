@@ -26,7 +26,7 @@ namespace AdvanceC_FinalDemo.Controllers
         /// </summary>
         /// <returns>A list of all books or a bad request if an error occurs.</returns>
         [HttpGet]
-        [Route("")]
+        [Route("all")]
         public IHttpActionResult GetAllBooks()
         {
             Response res = _bookRepository.GetAllBooks();
@@ -166,7 +166,7 @@ namespace AdvanceC_FinalDemo.Controllers
             {
                 return BadRequest(deleteResponse.Message); // 400 Bad Request
             }
-            Response delete = _bookRepository.Save(poco);
+            Response delete = _bookRepository.Delete(poco);
             if (delete.IsError)
             {
                 return BadRequest(delete.Message);

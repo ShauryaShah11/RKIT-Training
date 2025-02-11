@@ -147,15 +147,15 @@ namespace AdvanceC_FinalDemo.Repositories
         /// <summary>
         /// Validates the member data before saving based on the operation type (ADD, UPDATE).
         /// </summary>
-        /// <param name="poco">The POCO to validate.</param>
+        /// <param name="pocoM01">The POCO to validate.</param>
         /// <returns>A response indicating whether validation passed or failed.</returns>
-        public Response ValidateOnSave(YMM01 poco)
+        public Response ValidateOnSave(YMM01 pocoM01)
         {
-            if (type == EnmOperationType.ADD && _db.Exists<YMM01>(m => m.M01F01 == poco.M01F01)) // Check if the member already exists
+            if (type == EnmOperationType.ADD && _db.Exists<YMM01>(m => m.M01F01 == pocoM01.M01F01)) // Check if the member already exists
             {
                 return new Response { IsError = true, Message = "Member already exists." };
             }
-            else if (type == EnmOperationType.UPDATE && !_db.Exists<YMM01>(m => m.M01F01 == poco.M01F01))
+            else if (type == EnmOperationType.UPDATE && !_db.Exists<YMM01>(m => m.M01F01 == pocoM01.M01F01))
             {
                 return new Response { IsError = true, Message = "Member not found." };
             }
@@ -166,11 +166,11 @@ namespace AdvanceC_FinalDemo.Repositories
         /// <summary>
         /// Validates the member data before deleting.
         /// </summary>
-        /// <param name="poco">The POCO to validate for deletion.</param>
+        /// <param name="pocoM01">The POCO to validate for deletion.</param>
         /// <returns>A response indicating whether the deletion can proceed or not.</returns>
-        public Response ValidateOnDelete(YMM01 poco)
+        public Response ValidateOnDelete(YMM01 pocoM01)
         {
-            bool isExist = _db.Exists<YMM01>(m => m.M01F01 == poco.M01F01);
+            bool isExist = _db.Exists<YMM01>(m => m.M01F01 == pocoM01.M01F01);
             if (!isExist)
             {
                 return new Response { IsError = true, Message = "Member not found for deletion." };
@@ -181,23 +181,23 @@ namespace AdvanceC_FinalDemo.Repositories
         /// <summary>
         /// Saves a member to the database (either adds or updates based on the operation type).
         /// </summary>
-        /// <param name="poco">The POCO to save.</param>
+        /// <param name="pocoM01">The POCO to save.</param>
         /// <param name="type">The type of operation (ADD, UPDATE).</param>
         /// <returns>A response indicating whether the operation was successful or not.</returns>
-        public Response Save(YMM01 poco)
+        public Response Save(YMM01 pocoM01)
         {
             try
             {
                 if (type == EnmOperationType.ADD)
                 {
                     // Add a new record
-                    _db.Insert(poco);
+                    _db.Insert(pocoM01);
                     return new Response { IsError = false, Message = "Member added successfully." };
                 }
                 else
                 {
                     // Update an existing record
-                    _db.Update(poco);
+                    _db.Update(pocoM01);
                     return new Response { IsError = false, Message = "Member updated successfully." };
                 }
             }
@@ -214,14 +214,14 @@ namespace AdvanceC_FinalDemo.Repositories
         /// <summary>
         /// Deletes a member from the database based on the provided POCO.
         /// </summary>
-        /// <param name="poco">The POCO of the member to delete.</param>
+        /// <param name="pocoM01">The POCO of the member to delete.</param>
         /// <returns>A response indicating whether the delete operation was successful or not.</returns>
-        public Response Delete(YMM01 poco)
+        public Response Delete(YMM01 pocoM01)
         {
             try
             {
                 // Delete the member with the given ID
-                _db.Delete<YMM01>(m => m.M01F01 == poco.M01F01);
+                _db.Delete<YMM01>(m => m.M01F01 == pocoM01.M01F01);
                 return new Response { IsError = false, Message = "Member deleted successfully." };
             }
             catch (Exception ex)

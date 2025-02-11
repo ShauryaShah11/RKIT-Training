@@ -11,6 +11,9 @@ using AdvanceC_FinalDemo.Extensions;
 
 namespace AdvanceC_FinalDemo.Repositories
 {
+    /// <summary>
+    /// Represents a book history record containing information about book loans to members
+    /// </summary>
     public class BookHistory
     {
         public string BookName { get; set; }
@@ -19,11 +22,19 @@ namespace AdvanceC_FinalDemo.Repositories
         public DateTime? ReturnDate { get; set; } // Nullable DateTime for the return date
     }
 
+    /// <summary>
+    /// Repository class for managing book history records in the library system.
+    /// Handles CRUD operations for book loans and returns.
+    /// </summary>
     public class BookHistoryRepository : IDisposable
     {
         private readonly IDbConnection _db;
         private readonly string _connectionString;
 
+        /// <summary>
+        /// Initializes a new instance of the BookHistoryRepository class.
+        /// Sets up the database connection using the connection string from configuration.
+        /// </summary>
         public BookHistoryRepository()
         {
             _connectionString = ConfigurationManager.ConnectionStrings["MyDbConnection"].ConnectionString;
@@ -31,31 +42,37 @@ namespace AdvanceC_FinalDemo.Repositories
             _db = dbFactory.Open();
         }
 
+        /// <summary>
+        /// Retrieves all book history records from the database.
+        /// </summary>
+        /// <returns>A Response object containing a DataTable with all book history records or error information if the operation fails.</returns>
         public Response GetAllBookHistory()
         {
             try
             {
-                using (var conn = new MySqlConnection(_connectionString))
+                string query = string.Format(@"
+                                    SELECT 
+                                        ymb.B01F03 AS BookName, 
+                                        ymm.M01F02 AS MemberName, 
+                                        ymh.H01F03 AS IssueDate, 
+                                        ymh.H01F04 AS ReturnDate
+                                    FROM 
+                                        YMH01 ymh
+                                    JOIN 
+                                        YMM01 ymm ON ymm.M01F01 = ymh.H01F02
+                                    JOIN 
+                                        YMB01 ymb ON ymb.B01F01 = ymh.H01F01");
+
+                using (MySqlConnection conn = new MySqlConnection(_connectionString))
                 {
                     conn.Open();
-                    using (var cmd = new MySqlCommand())
+                    using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = conn;
-                        cmd.CommandText = @"
-                            SELECT 
-                                ymb.B01F03 AS BookName, 
-                                ymm.M01F02 AS MemberName, 
-                                ymh.H01F03 AS IssueDate, 
-                                ymh.H01F04 AS ReturnDate
-                            FROM 
-                                YMH01 ymh
-                            JOIN 
-                                YMM01 ymm ON ymm.M01F01 = ymh.H01F02
-                            JOIN 
-                                YMB01 ymb ON ymb.B01F01 = ymh.H01F01";
+                        cmd.CommandText = query;
 
-                        var dataTable = new DataTable();
-                        using (var adapter = new MySqlDataAdapter(cmd))
+                        DataTable dataTable = new DataTable();
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
                         {
                             adapter.Fill(dataTable);
                         }
@@ -79,6 +96,12 @@ namespace AdvanceC_FinalDemo.Repositories
             }
         }
 
+        /// <summary>
+        /// Retrieves book history records for a specific book and member combination.
+        /// </summary>
+        /// <param name="bookId">The ID of the book to search for.</param>
+        /// <param name="memberId">The ID of the member to search for.</param>
+        /// <returns>A Response object containing the matching book history records or error information if the operation fails.</returns>
         public Response GetBookHistoryById(int bookId, int memberId)
         {
             if (bookId <= 0 || memberId <= 0)
@@ -132,18 +155,17 @@ namespace AdvanceC_FinalDemo.Repositories
             }
         }
 
-
+        /// <summary>
+        /// Retrieves all book history records where the book has not been returned yet.
+        /// </summary>
+        /// <returns>A Response object containing unreturned book records or error information if the operation fails.</returns>
         public Response GetUnreturnedBookHistory()
         {
             try
             {
-                using (var conn = new MySqlConnection(_connectionString))
+                using (MySqlConnection conn = new MySqlConnection(_connectionString))
                 {
-                    conn.Open();
-                    using (var cmd = new MySqlCommand())
-                    {
-                        cmd.Connection = conn;
-                        cmd.CommandText = @"
+                    string query = string.Format(@"
                             SELECT 
                                 ymb.B01F03 AS BookName, 
                                 ymm.M01F02 AS MemberName, 
@@ -156,7 +178,12 @@ namespace AdvanceC_FinalDemo.Repositories
                             JOIN 
                                 YMB01 ymb ON ymb.B01F01 = ymh.H01F01
                             WHERE 
-                                ymh.H01F04 IS NULL";
+                                ymh.H01F04 IS NULL");
+                    conn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = query;
 
                         var dataTable = new DataTable();
                         using (var adapter = new MySqlDataAdapter(cmd))
@@ -183,16 +210,21 @@ namespace AdvanceC_FinalDemo.Repositories
             }
         }
 
+        /// <summary>
+        /// Adds a new book history record to the database.
+        /// </summary>
+        /// <param name="dto">The data transfer object containing the book history information to add.</param>
+        /// <returns>A Response object indicating success or failure of the operation.</returns>
         public Response AddBookHistoryRecord(DTOYMH01 dto)
         {
             try
             {
-                var poco = PreSave(dto);
+                YMH01 poco = PreSave(dto);
 
-                using (var conn = new MySqlConnection(_connectionString))
+                using (MySqlConnection conn = new MySqlConnection(_connectionString))
                 {
                     conn.Open();
-                    using (var cmd = new MySqlCommand())
+                    using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = conn;
                         cmd.CommandText = @"
@@ -226,6 +258,13 @@ namespace AdvanceC_FinalDemo.Repositories
             }
         }
 
+        /// <summary>
+        /// Updates an existing book history record in the database.
+        /// </summary>
+        /// <param name="dto">The data transfer object containing the updated book history information.</param>
+        /// <param name="bookId">The ID of the book to update.</param>
+        /// <param name="memberId">The ID of the member to update.</param>
+        /// <returns>A Response object indicating success or failure of the operation.</returns>
         public Response UpdateBookHistoryRecord(DTOYMH01 dto, int bookId, int memberId)
         {
             if (bookId <= 0 || memberId <= 0)
@@ -236,15 +275,14 @@ namespace AdvanceC_FinalDemo.Repositories
                     IsError = true
                 };
             }
-
             try
             {
-                var poco = PreSave(dto);
+                YMH01 poco = PreSave(dto);
 
-                using (var conn = new MySqlConnection(_connectionString))
+                using (MySqlConnection conn = new MySqlConnection(_connectionString))
                 {
                     conn.Open();
-                    using (var cmd = new MySqlCommand())
+                    using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = conn;
                         cmd.CommandText = @"
@@ -280,6 +318,12 @@ namespace AdvanceC_FinalDemo.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes a book history record from the database.
+        /// </summary>
+        /// <param name="bookId">The ID of the book to delete.</param>
+        /// <param name="memberId">The ID of the member to delete.</param>
+        /// <returns>A Response object indicating success or failure of the operation.</returns>
         public Response DeleteBookHistoryRecord(int bookId, int memberId)
         {
             if (bookId <= 0 || memberId <= 0)
@@ -293,10 +337,10 @@ namespace AdvanceC_FinalDemo.Repositories
 
             try
             {
-                using (var conn = new MySqlConnection(_connectionString))
+                using (MySqlConnection conn = new MySqlConnection(_connectionString))
                 {
                     conn.Open();
-                    using (var cmd = new MySqlCommand())
+                    using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = conn;
                         cmd.CommandText = @"
@@ -325,11 +369,19 @@ namespace AdvanceC_FinalDemo.Repositories
             }
         }
 
+        /// <summary>
+        /// Converts a DTO to a POCO before saving to the database.
+        /// </summary>
+        /// <param name="dto">The DTO to convert.</param>
+        /// <returns>The converted POCO object.</returns>
         private YMH01 PreSave(DTOYMH01 dto)
         {
             return dto.ToPoco<YMH01>();
         }
 
+        /// <summary>
+        /// Disposes of the database connection.
+        /// </summary>
         public void Dispose()
         {
             _db?.Dispose();

@@ -6,6 +6,9 @@ using System.IO;
 
 namespace AdvanceC_FinalDemo.Services
 {
+    /// <summary>
+    /// The LibraryFileService class contains method performing serialization and deserizalization operation with file.
+    /// </summary>
     public class LibraryFileService
     {
         private readonly string _baseDirectory;
