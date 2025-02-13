@@ -112,6 +112,10 @@
     <Content Include="Data Binding\index.js" />
     <Content Include="Editing\index.html" />
     <Content Include="Editing\index.js" />
+    <Content Include="Filtering\index.html" />
+    <Content Include="Filtering\index.js" />
+    <Content Include="Grouping\index.html" />
+    <Content Include="Grouping\index.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr\event.js" />
     <Content Include="Scripts\cldr\supplemental.js" />
