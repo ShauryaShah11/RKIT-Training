@@ -26,7 +26,7 @@ namespace MiddlewarePractice.Controllers
             // In a real-world scenario, replace with proper user authentication
             if (loginModel.Username == "admin@example.com" && loginModel.Password == "Admin123")
             {
-                var token = GenerateJwtToken(loginModel.Username);
+                string? token = GenerateJwtToken(loginModel.Username);
                 return Ok(new { Token = token });
             }
             return Unauthorized(new { Message = "Invalid credentials" });

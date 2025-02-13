@@ -46,7 +46,7 @@ namespace AdvanceC_FinalDemo.Repositories
             {
                 var members = _db.Select<YMM01>();
                 DataTable memberTable = members.ToDataTable();
-                return new Response { IsError = false, Message = "Member Retrieved Successfully.", Data = memberTable };
+                return new Response { Message = "Member Retrieved Successfully.", Data = memberTable };
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace AdvanceC_FinalDemo.Repositories
             {
                 var members = _db.Select<YMM01>().Where(m => m.M01F01 == id);
                 DataTable memberDataTable = members.ToDataTable();
-                return new Response { IsError = false, Data = memberDataTable, Message = "Member retrieved successfully." };
+                return new Response { Data = memberDataTable, Message = "Member retrieved successfully." };
             }
             catch (Exception ex)
             {
@@ -88,7 +88,7 @@ namespace AdvanceC_FinalDemo.Repositories
 
                 if (isExist)
                 {
-                    return new Response { IsError = false, Message = "Login successful." };
+                    return new Response { Message = "Login successful." };
                 }
                 else
                 {
@@ -115,12 +115,12 @@ namespace AdvanceC_FinalDemo.Repositories
                 // The query returns a single value: the count of records in the table YMM01
                 int count = _db.Scalar<int>("SELECT COUNT(*) FROM YMM01");
 
-                return new Response { IsError = false, Message = $"Total Member count is : {count}" }; // Return the count of rows
+                return new Response { Message = $"Total Member count is : {count}" }; // Return the count of rows
             }
             catch (Exception ex)
             {
                 // Handle any potential exceptions (e.g., database connectivity issues)
-                return new Response { IsError = false, Message = $"Total Member count is : {0}" }; // Return the count of rows
+                return new Response { IsError = true, Message = $"Total Member count is : {0}" }; // Return the count of rows
             }
         }
 
@@ -192,13 +192,13 @@ namespace AdvanceC_FinalDemo.Repositories
                 {
                     // Add a new record
                     _db.Insert(pocoM01);
-                    return new Response { IsError = false, Message = "Member added successfully." };
+                    return new Response { Message = "Member added successfully." };
                 }
                 else
                 {
                     // Update an existing record
                     _db.Update(pocoM01);
-                    return new Response { IsError = false, Message = "Member updated successfully." };
+                    return new Response { Message = "Member updated successfully." };
                 }
             }
             catch (Exception ex)
@@ -222,7 +222,7 @@ namespace AdvanceC_FinalDemo.Repositories
             {
                 // Delete the member with the given ID
                 _db.Delete<YMM01>(m => m.M01F01 == pocoM01.M01F01);
-                return new Response { IsError = false, Message = "Member deleted successfully." };
+                return new Response { Message = "Member deleted successfully." };
             }
             catch (Exception ex)
             {

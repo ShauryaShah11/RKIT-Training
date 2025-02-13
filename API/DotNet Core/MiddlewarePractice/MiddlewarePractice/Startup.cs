@@ -168,6 +168,7 @@ namespace MiddlewarePractice
             // Authentication and authorization middleware
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseRequestCulture();
 
             // Map controllers (final step)
             app.MapControllers();

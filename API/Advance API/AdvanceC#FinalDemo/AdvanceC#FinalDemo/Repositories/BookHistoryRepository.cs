@@ -80,7 +80,6 @@ namespace AdvanceC_FinalDemo.Repositories
                         return new Response
                         {
                             Data = dataTable,
-                            IsError = false,
                             Message = dataTable.Rows.Count > 0 ? "Data retrieved successfully." : "No records found."
                         };
                     }
@@ -131,7 +130,6 @@ namespace AdvanceC_FinalDemo.Repositories
                 return new Response
                 {
                     Data = query.ConvertToDataTable(),
-                    IsError = false,
                     Message = "Data retrieved successfully."
                 };
             }
@@ -194,7 +192,6 @@ namespace AdvanceC_FinalDemo.Repositories
                         return new Response
                         {
                             Data = dataTable,
-                            IsError = false,
                             Message = dataTable.Rows.Count > 0 ? "Data retrieved successfully." : "No unreturned books found."
                         };
                     }
@@ -243,7 +240,6 @@ namespace AdvanceC_FinalDemo.Repositories
                         return new Response
                         {
                             Message = $"{rowsAffected} row(s) inserted successfully.",
-                            IsError = false
                         };
                     }
                 }
@@ -303,7 +299,6 @@ namespace AdvanceC_FinalDemo.Repositories
                         return new Response
                         {
                             Message = $"{rowsAffected} row(s) updated successfully.",
-                            IsError = false
                         };
                     }
                 }
@@ -354,7 +349,6 @@ namespace AdvanceC_FinalDemo.Repositories
                         return new Response
                         {
                             Message = $"{rowsAffected} row(s) deleted successfully.",
-                            IsError = false
                         };
                     }
                 }

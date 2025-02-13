@@ -61,7 +61,7 @@ namespace AdvanceC_FinalDemo.Repositories
             {
                 var booksList = _db.Select<YMB01>();
                 DataTable bookDataTable = booksList.ToDataTable();
-                return new Response { IsError = false, Data = bookDataTable, Message = "Book retrieved successfully." };
+                return new Response { Data = bookDataTable, Message = "Book retrieved successfully." };
             }
             catch (Exception ex)
             {
@@ -80,7 +80,7 @@ namespace AdvanceC_FinalDemo.Repositories
             {
                 var books = _db.Select<YMB01>().Where(b => b.B01F01 == id);
                 DataTable bookDataTable = books.ToDataTable();
-                return new Response { IsError = false, Data = bookDataTable, Message = "Book retrieved successfully." };
+                return new Response { Data = bookDataTable, Message = "Book retrieved successfully." };
             }
             catch (Exception ex)
             {
@@ -99,7 +99,7 @@ namespace AdvanceC_FinalDemo.Repositories
             {
                 var books = _db.Select<YMB01>().Where(b => b.B01F04.Contains(category));
                 DataTable bookDataTable = books.ToDataTable();
-                return new Response { IsError = false, Data = bookDataTable, Message = "Book retrieved successfully." };
+                return new Response { Data = bookDataTable, Message = "Book retrieved successfully." };
             }
             catch (Exception ex)
             {
@@ -116,7 +116,7 @@ namespace AdvanceC_FinalDemo.Repositories
             try
             {
                 int count = _db.Scalar<int>("SELECT COUNT(*) FROM YMB01");
-                return new Response { IsError = false, Message = $"Total Book count is : {count}" };
+                return new Response { Message = $"Total Book count is : {count}" };
             }
             catch (Exception ex)
             {
@@ -151,15 +151,20 @@ namespace AdvanceC_FinalDemo.Repositories
         /// <returns>A response indicating the validation result.</returns>
         public Response ValidateOnSave(YMB01 poco)
         {
+            Response res = new Response();
             if (type == EnmOperationType.ADD && _db.Exists<YMB01>(b => b.B01F01 == poco.B01F01))
             {
-                return new Response { IsError = true, Message = "Book already exists." };
+                res.IsError = true;
+                res.Message = "Book already exists.";
+                return res;
             }
             else if (type == EnmOperationType.UPDATE && !_db.Exists<YMB01>(b => b.B01F01 == poco.B01F01))
             {
-                return new Response { IsError = true, Message = "Book not found." };
+                res.IsError = true;
+                res.Message = "Book not found.";
+                return res;
             }
-            return new Response { IsError = false };
+            return res;
         }
 
         /// <summary>
@@ -169,12 +174,15 @@ namespace AdvanceC_FinalDemo.Repositories
         /// <returns>A response indicating the validation result.</returns>
         public Response ValidateOnDelete(YMB01 poco)
         {
+            Response res = new Response();
             bool isExist = _db.Exists<YMB01>(b => b.B01F01 == poco.B01F01);
             if (!isExist)
             {
-                return new Response { IsError = true, Message = "Book not found." };
+                res.IsError = true;
+                res.Message = "Booom not found.";
+                return res;
             }
-            return new Response { IsError = false };
+            return res;
         }
 
         /// <summary>
@@ -186,16 +194,20 @@ namespace AdvanceC_FinalDemo.Repositories
         {
             try
             {
+                Response res = new Response();
                 if (type == EnmOperationType.ADD)
                 {
                     long result = _db.InsertOnly(poco, x => x.B01F01);
                     if (result > 0)
                     {
-                        return new Response { IsError = false, Message = "Book added successfully." };
+                        res.Message = "Book added successfully.";
+                        return res;
                     }
                     else
                     {
-                        return new Response { IsError = true, Message = "Book already exists." };
+                        res.IsError = true;
+                        res.Message = "Book already exists.";
+                        return res;
                     }
                 }
                 else
@@ -206,11 +218,14 @@ namespace AdvanceC_FinalDemo.Repositories
                     );
                     if (result > 0)
                     {
-                        return new Response { IsError = false, Message = "Book updated successfully." };
+                        res.Message = "Book updated successfully.";
+                        return res;
                     }
                     else
                     {
-                        return new Response { IsError = true, Message = "Book not found to update." };
+                        res.IsError = true;
+                        res.Message = "Book not found to update.";
+                        return res;
                     }
                 }
             }
@@ -227,14 +242,18 @@ namespace AdvanceC_FinalDemo.Repositories
         /// <returns>A response indicating the result of the delete operation.</returns>
         public Response Delete(YMB01 poco)
         {
+            Response res = new Response();
             try
             {
                 _db.Delete<YMB01>(b => b.B01F01 == poco.B01F01);
-                return new Response { IsError = false, Message = "Book deleted successfully." };
+                res.Message = "Book deleted successfully.";
+                return res;
             }
             catch (Exception ex)
             {
-                return new Response { IsError = true, Message = $"An error occurred: {ex.Message}" };
+                res.IsError = true;
+                res.Message = $"An error occurred: {ex.Message}";
+                return res;
             }
         }
 

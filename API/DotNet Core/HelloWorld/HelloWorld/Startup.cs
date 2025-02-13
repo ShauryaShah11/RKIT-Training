@@ -31,6 +31,9 @@
             {
                 endpoints.MapControllers();
             });
+
+            //app.UseResponseCompression();
+            //app.UseStatusCodePages();
         }
     }
 
