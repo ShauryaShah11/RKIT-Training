@@ -108,6 +108,8 @@
     <Content Include="Content\dx.material.teal.light.css" />
     <Content Include="Content\dx.softblue.compact.css" />
     <Content Include="Content\dx.softblue.css" />
+    <Content Include="Columns\index.html" />
+    <Content Include="Columns\index.js" />
     <Content Include="Data Binding\index.html" />
     <Content Include="Data Binding\index.js" />
     <Content Include="Editing\index.html" />
@@ -116,6 +118,10 @@
     <Content Include="Filtering\index.js" />
     <Content Include="Grouping\index.html" />
     <Content Include="Grouping\index.js" />
+    <Content Include="Selection\index.html" />
+    <Content Include="Selection\index.js" />
+    <Content Include="Sorting\index.html" />
+    <Content Include="Sorting\index.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr\event.js" />
     <Content Include="Scripts\cldr\supplemental.js" />
