@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Extereme Grid Summary Demo </title>
+    <script src="../Scripts//jquery-3.5.1.min.js"></script>
+
+    <link rel="stylesheet" href="../Content/dx.common.css" />
+    <link rel="stylesheet" href="../Content/dx.light.css" />
+    <script type="text/javascript" src="../Scripts/dx.all.js"></script>
+</head>
+
+<body>
+    <div id="gridContainer"></div>
+    <script>
+        $(function () {
+            const data = [
+                { Product: "Apple", Category: "Fruit", Quantity: 20, Price: 1.5 },
+                { Product: "Banana", Category: "Fruit", Quantity: 35, Price: 0.5 },
+                { Product: "Carrot", Category: "Vegetable", Quantity: 40, Price: 0.8 },
+                { Product: "Cucumber", Category: "Fruit", Quantity: 50, Price: 1.2 },
+                { Product: "Grapes", Category: "Fruit", Quantity: 25, Price: 2.0 },
+                { Product: "Lettuce", Category: "Vegetable", Quantity: 30, Price: 1.0 },
+                { Product: "Orange", Category: "Fruit", Quantity: 15, Price: 1.8 },
+                { Product: "Tomato", Category: "Vegetable", Quantity: 20, Price: 1.3 },
+                { Product: "Potato", Category: "Vegetable", Quantity: 60, Price: 0.4 },
+                { Product: "Peach", Category: "Fruit", Quantity: 30, Price: 2.5 }
+            ];
+
+            let gridContainer = $('#gridContainer').dxDataGrid({
+                dataSource: data,
+                columns: [
+                    {
+                        dataField: "Product",
+                        caption: "Product"
+                    },
+                    {
+                        dataField: "Category",
+                        caption: "Category",
+                        groupIndex: 0
+                    },
+                    {
+                        dataField: "Quantity",
+                        caption: "Quantity",
+                    },
+                    {
+                        dataField: "Price",
+                        caption: "Price"
+                    },
+                    {
+                        type: "buttons",
+                        buttons: [
+                            {
+                                name: "edit",
+                                hint: "Edit",
+                                icon: "edit"
+                            },
+                            {
+                                name: "delete",
+                                hint: "Delete",
+                                icon: "trash"
+                            },
+
+                        ]
+                    }
+                ],
+                showBorders: true,
+                editing: {
+                    mode: 'cell',
+                    allowAdding: true,
+                    allowUpdating: true,
+                    allowDeleting: true
+                },
+                // Grouping options
+                grouping: {
+                    // Automatically expand all groups when the grid is loaded
+                    autoExpandAll: true,
+
+                    // Enable the context menu for groups
+                    contextMenuEnabled: true,
+
+                    // Disable column dragging within groups
+                    allowColumnDragging: false,
+
+                    // Set the mode of expansion to row click (clicking a row expands it)
+                    expandMode: "rowClick",
+
+                    // Allow collapsing of grouped rows
+                    allowCollapsing: true
+                },
+                groupPanel: {
+                    visible: true
+                },
+                sortByGroupSummaryInfo: [{
+                    summaryItem: 'count',
+                }],
+                summary: {
+                    groupItems: [
+                        {
+                            column: "Quantity",
+                            summaryType: "sum",
+                            displayFormat: "Total Quantity: {0}",
+                            // showInGroupFooter: true,
+                            alignByColumn: true
+                        },
+                        {
+                            column: "Price",
+                            summaryType: "sum",
+                            displayFormat: "Total Price: {0}",
+                            showInGroupFooter: true,
+                            alignByColumn: false
+                        },
+                        {
+                            column: "Product",
+                            summaryType: "count",
+                            displayFormat: "{0} Product",
+                            alignByColumn: false
+                        }
+                    ],
+                }
+            }).dxDataGrid('instance');
+        })
+    </script>
+</body>
+
+</html>

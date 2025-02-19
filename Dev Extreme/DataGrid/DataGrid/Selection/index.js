@@ -1,67 +1,56 @@
 $(function () {
-    // Initialize a custom store for the grid
+    // Creating a custom store for data management with CRUD operations
     let virtualStore = new DevExpress.data.CustomStore({
-        key: 'id',  // Define the unique identifier (primary key) for records in the store
+        key: 'id',  // Unique identifier for each record
 
-        // Load data from an external API
+        // Function to load data from API
         load: async function () {
             try {
-                // Fetch data from the API (Dummy JSON API used for illustration)
-                let data = await $.get("https://dummyjson.com/users?limit=50&skip=0");
-                return data.users;  // Return the 'users' array from the API response
+                let data = await $.get("https://67ac7b0a5853dfff53dae5a1.mockapi.io/api/v1/users");
+                return data;
             } catch (error) {
-                // Handle error if the data loading fails
-                DevExpress.ui.notify('Error loading data', 'error', 2000); // Notify the user
-                console.error('Load Error:', error);  // Log the error to the console
+                DevExpress.ui.notify('Error loading data', 'error', 2000);
+                console.error('Load Error:', error);
             }
         },
 
-        // Insert new record into the store
+        // Function to insert new data into API
         insert: async function (values) {
             try {
-                // Send a POST request to add a new user
-                let result = await $.post("https://dummyjson.com/users/add", values);
-                // Notify the user that the row was added
+                let result = await $.post("https://67ac7b0a5853dfff53dae5a1.mockapi.io/api/v1/users/add", values);
                 DevExpress.ui.notify(`Row added: ${JSON.stringify(result)}`, 'success', 2000);
-                return result;  // Return the result of the insert
+                return result;
             } catch (error) {
-                // Handle error if the insert fails
                 DevExpress.ui.notify('Error adding data', 'error', 2000);
                 console.error('Insert Error:', error);
             }
         },
 
-        // Update existing record
+        // Function to update an existing record
         update: async function (key, values) {
             try {
-                // Send a PUT request to update the user by their key (ID)
                 let result = await $.ajax({
-                    url: `https://dummyjson.com/users/${key}`,
+                    url: `https://67ac7b0a5853dfff53dae5a1.mockapi.io/api/v1/users/${key}`,
                     method: 'PUT',
                     data: values
                 });
-                // Notify the user that the row was updated
                 DevExpress.ui.notify(`Row updated: ${JSON.stringify(result)}`, 'success', 2000);
-                return result;  // Return the updated result
+                return result;
             } catch (error) {
-                // Handle error if the update fails
                 DevExpress.ui.notify('Error updating data', 'error', 2000);
                 console.error('Update Error:', error);
             }
         },
 
-        // Remove record from the store
+        // Function to delete a record
         remove: async function (key) {
             try {
-                // Send a DELETE request to remove the user by their key (ID)
                 await $.ajax({
-                    url: `https://dummyjson.com/users/${key}`,
+                    url: `https://67ac7b0a5853dfff53dae5a1.mockapi.io/api/v1/users/${key}`,
                     method: 'DELETE'
                 });
-                // Notify the user that the row was removed
                 DevExpress.ui.notify(`Row removed: ID = ${key}`, 'success', 2000);
             } catch (error) {
-                // Handle error if the remove fails
                 DevExpress.ui.notify('Error removing data', 'error', 2000);
                 console.error('Remove Error:', error);
             }
@@ -103,7 +92,7 @@ $(function () {
 
     // Initialize the second data grid
     let gridContainer2 = $('#gridContainer2').dxDataGrid({
-        dataSource: virtualStore,  // Set the data source to the same virtual store
+        dataSource: virtualStore,  // Set the data source to the same virtual store 
         keyExpr: 'id',  // Define the key field for identifying records
         columns: [
             { dataField: 'id', caption: 'ID', width: 50 },  // Display 'ID'

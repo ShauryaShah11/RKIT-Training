@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     // Sample static array of employee data
     const employees = [
         { ID: 1, Name: "John Doe", Position: "Manager", Age: 35 },
@@ -33,7 +33,7 @@
         columns: [
             { dataField: 'id', caption: 'ID', width: 50 },  // ID column with custom width
             {
-                dataField: 'name', caption: 'Name',
+                dataField: 'name', caption: 'Name', 
                 calculateCellValue: function (data) {
                     // Combine firstName and lastName into a single "Name" column
                     return `${data.firstName} ${data.lastName}`;
@@ -56,5 +56,5 @@
             showNavigationButtons: true,  // Display navigation buttons for paging
             visible: 'auto'  // Automatically show/hide the pager based on data size
         }
-    });
+    });    
 });
