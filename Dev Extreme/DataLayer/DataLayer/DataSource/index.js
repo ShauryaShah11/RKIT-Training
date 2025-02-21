@@ -160,7 +160,5 @@
         dataSource.cancel(initialLoadPromise.operationId);
     }
 
-    // Note: Move dispose to a cleanup function or event handler
-    // Don't dispose immediately as it's needed for the demo
     // dataSource.dispose();
 });

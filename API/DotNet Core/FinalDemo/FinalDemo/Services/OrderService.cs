@@ -18,56 +18,11 @@ namespace FinalDemo.Services
         private readonly IOrmLiteDbFactory _dbFactory;
         private IDbConnection _dbConnection;
 
+        public EnmOperationType type { get; set; }
+
         public OrderService(IOrmLiteDbFactory dbFactory)
         {
             _dbFactory = dbFactory;
-        }
-
-        /// <summary>
-        /// Handles various operations (Add, Update, Delete) based on the operation type provided.
-        /// </summary>
-        /// <param name="dto">DTO containing order data</param>
-        /// <param name="type">Operation type (Add, Update, Delete)</param>
-        /// <returns>A response indicating the result of the operation</returns>
-        public Response HandleOperation(DTOYMO01 dto, EnmOperationType type)
-        {
-            if (((type & EnmOperationType.Add) == EnmOperationType.Add) || ((type & EnmOperationType.Update) == EnmOperationType.Update))
-            {
-                YMO01 poco = PreSave(dto);
-                Response response = ValidateOnSave(poco, type);
-                if (response.IsError)
-                {
-                    return response;
-                }
-
-                Response saveResponse = Save(poco, type);
-                if (saveResponse.IsError)
-                {
-                    saveResponse.Message = "Error while saving order in database";
-                    return saveResponse;
-                }
-                return saveResponse;
-            }
-
-            if ((type & EnmOperationType.Delete) == EnmOperationType.Delete)
-            {
-                YMO01 poco = PreDelete(dto);
-                Response response = ValidateOnDelete(poco);
-                if (response.IsError)
-                {
-                    return response;
-                }
-
-                Response deleteResponse = Delete(poco);
-                if (deleteResponse.IsError)
-                {
-                    deleteResponse.Message = "Error while deleting order from database";
-                    return deleteResponse;
-                }
-                return deleteResponse;
-            }
-
-            return new Response { IsError = true, Message = "Invalid operation type" };
         }
 
         /// <summary>

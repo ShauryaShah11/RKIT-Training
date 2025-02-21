@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DependencyInjection.Controllers
 {
+    /// <summary>
+    /// Controller to handle greeting and cached data requests.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class GreetController : ControllerBase
@@ -11,6 +14,12 @@ namespace DependencyInjection.Controllers
         private readonly ICacheService _cacheService;
         private readonly ILoggingService _loggingService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GreetController"/> class.
+        /// </summary>
+        /// <param name="greetingService">Service for generating greetings.</param>
+        /// <param name="cacheService">Service for caching data.</param>
+        /// <param name="loggingService">Service for logging messages.</param>
         public GreetController(IGreetingService greetingService, ICacheService cacheService, ILoggingService loggingService)
         {
             _greetingService = greetingService;
@@ -18,7 +27,11 @@ namespace DependencyInjection.Controllers
             _loggingService = loggingService;
         }
 
-        // Endpoint to greet a user
+        /// <summary>
+        /// Greets a user with a personalized message.
+        /// </summary>
+        /// <param name="name">The name of the user to greet.</param>
+        /// <returns>A greeting message.</returns>
         [HttpGet("/greet")]
         public IActionResult Get([FromQuery] string name)
         {
@@ -31,7 +44,10 @@ namespace DependencyInjection.Controllers
             return Ok(new { Message = greetingMessage });
         }
 
-        // Endpoint to fetch products with caching
+        /// <summary>
+        /// Retrieves cached product data or fetches new data if not cached.
+        /// </summary>
+        /// <returns>Product data, either from cache or freshly fetched.</returns>
         [HttpGet("/cached-data")]
         public IActionResult GetData()
         {

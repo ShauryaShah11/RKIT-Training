@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevExtereme Navigation Demo</title>
+    <style>
+        #product-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        img {
+            height: 250px;
+        }
+    </style>
+    <script src="./Scripts//jquery-3.5.1.min.js"></script>
+
+    <link rel="stylesheet" href="./Content/dx.common.css" />
+    <link rel="stylesheet" href="./Content/dx.light.css" />
+    <script type="text/javascript" src="./Scripts/dx.all.js"></script>
+</head>
+
+<body>
+    <!-- Menu -->
+    <div id="treeView"></div>
+    <div id="product-details" class="hidden">
+        <img src="" />
+        <div class="name"></div>
+        <div class="price"></div>
+    </div>
+
+    <script src="treeview.js"></script>
+</body>
+
+</html>

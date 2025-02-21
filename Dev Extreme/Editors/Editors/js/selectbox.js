@@ -75,6 +75,8 @@
 
         // Provides a hint when the SelectBox is not focused
         hint: "Select a Product",
+
+        // Event triggered when a custom value is created
         onCustomItemCreating: function (e) {
             var newValue = e.text;  // The custom value entered by the user
             var newId = data.length + 1; // Generate a new ID for the custom item
@@ -125,7 +127,7 @@
         inputAttr: { 'aria-label': 'Templated Product' },
         displayExpr: 'Name',
         valueExpr: 'ID',
-        value: products[3].ID,
+        value: products[0].ID,
 
         // Custom template for the field (input box)
         fieldTemplate(data, container) {
@@ -144,6 +146,46 @@
             return `<div class='custom-item'><img alt='Product name' src='${data.ImageSrc}' /><div class='product-name'>${data.Name}</div></div>`;
         }
     });
+
+    // 🔹 Button Handlers for Dynamic Updates
+    $("#clearSelectBox").click(function () {
+        $("#selectBox").dxSelectBox("instance").reset();
+        console.log("SelectBox Cleared");
+    });
+    $("#disableSelectBox").click(function () {
+        $("#selectBox").dxSelectBox("instance").option("disabled", true);
+        console.log("SelectBox Disabled");
+    });
+    $("#enableSelectBox").click(function () {
+        $("#selectBox").dxSelectBox("instance").option("disabled", false);
+        console.log("SelectBox Enabled");
+    });
+    $("#focusSelectBox").click(function () {
+        $("#selectBox").dxSelectBox("instance").focus();
+    });
+    $("#repaintSelectBox").click(function () {
+        $("#selectBox").dxSelectBox("instance").repaint();
+    });
+    $("#resetSelectBox").click(function () {
+        $("#selectBox").dxSelectBox("instance").option("value", null);
+        console.log("SelectBox Reset");
+    });
+
+    // // Update the value
+    // $("#selectBox").dxSelectBox("instance").option("value", newValue);
+
+    // // Enable or disable the SelectBox
+    // $("#selectBox").dxSelectBox("instance").option("disabled", true);  // Disable
+    // $("#selectBox").dxSelectBox("instance").option("disabled", false); // Enable
+
+    // // Update the placeholder
+    // $("#selectBox").dxSelectBox("instance").option("inputAttr", { placeholder: "New Placeholder" });
+
+    // // Update the data source
+    // $("#selectBox").dxSelectBox("instance").option("dataSource", newDataSource);
+
+    // // Update the display expression
+    // $("#selectBox").dxSelectBox("instance").option("displayExpr", newDisplayExpr);
 });
 
 // List of simple products

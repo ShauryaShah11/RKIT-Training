@@ -1,17 +1,46 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevExtreme SelectBox Demo</title>
+    <style>
+        #simple-select,
+        #placeholder-select,
+        #products-data-source,
+        #selectBox,
+        #custom-templates {
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            /* Align items vertically in the center */
+            gap: 10px;
+            /* Add space between the image and the product name */
+            padding: 10px;
+        }
+
+        .container img {
+            width: 50px;
+            /* Set a fixed size for the image */
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    </style>
     <script src="../Scripts//jquery-3.5.1.min.js"></script>
 
     <link rel="stylesheet" href="../Content/dx.common.css" />
     <link rel="stylesheet" href="../Content/dx.light.css" />
 
     <script type="text/javascript" src="../Scripts/dx.all.js"></script>
-    <script type="text/javascript" src="../js/selectbox.js"></script>
 </head>
+
 <body>
+
     <div id="selectBox"></div>
 
     <div id="simple-select"></div>
@@ -21,5 +50,9 @@
     <div id="products-data-source"></div>
 
     <div id="custom-templates"></div>
+
+
+    <script src="../js/selectbox.js"></script>
 </body>
+
 </html>

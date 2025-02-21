@@ -1,9 +1,8 @@
 ﻿$(function () {
-
+    
     // Normal Validation
-
     // Initialize email field with validation
-    var emailValidator = $("#email").dxTextBox({
+    var emailValidator = $("#normalEmail").dxTextBox({
         placeholder: 'Email',
     }).dxValidator({
         validationRules: [{
@@ -16,7 +15,7 @@
     }).dxValidator("instance");
 
     // Initialize password field with validation
-    var passwordValidator = $("#password").dxTextBox({
+    var passwordValidator = $("#normalPassword").dxTextBox({
         placeholder: 'Password',
         mode: 'password',
     }).dxValidator({
@@ -27,12 +26,12 @@
     }).dxValidator("instance");
 
     // Initialize submit button
-    $("#submit").dxButton({
+    $("#normalSubmit").dxButton({
         text: "Submit",
         onClick: function () {
             // Trigger validation for email and password fields individually
-            var emailValidationResult = $("#email").dxValidator("instance").validate();
-            var passwordValidationResult = $("#password").dxValidator("instance").validate();
+            var emailValidationResult = $("#normalEmail").dxValidator("instance").validate();
+            var passwordValidationResult = $("#normalPassword").dxValidator("instance").validate();
 
             if (emailValidationResult.isValid && passwordValidationResult.isValid) {
                 alert("Submitting...");
@@ -41,7 +40,7 @@
             }
         }
     });
-
+    
     // Group Validation
     let loginGroup = 'loginGroup';
 
@@ -55,7 +54,7 @@
         validationGroup: loginGroup
     });
 
-    let passwordInstance = $('#password').dxTextBox({
+    let passwordInstance = $('#loginPassword').dxTextBox({
         placeholder: 'Password',
         mode: 'password',
         buttons: [{
@@ -90,11 +89,11 @@
         }
     });
 
-    $('#summary').dxValidationSummary({
+    $('#loginSummary').dxValidationSummary({
         validationGroup: loginGroup
     });
 
-    // 2
+    // Group Validation With Custom Validation on Last Name with help of checkbox
 
     let validateGroup2 = 'validateGroup2';
     $('#firstName').dxTextBox({
@@ -141,32 +140,26 @@
         value: false
     });
 
-    // 3
+    // Contact Validation
 
-    // Define validation group name
     const contactGroup = "contactGroup";
 
-    // Array to store validation callbacks
     const callbacks = [];
 
-    // Revalidation function
     const revalidate = function () {
         callbacks.forEach(func => func());
     };
 
-    // Initialize phone textbox
-    const phone = $("#phone").dxTextBox({
+    const phone = $("#contactPhone").dxTextBox({
         placeholder: "Phone",
         onValueChanged: revalidate
     }).dxTextBox("instance");
 
-    // Initialize email textbox
-    const email = $("#email").dxTextBox({
+    const email = $("#contactEmail").dxTextBox({
         placeholder: "Email",
         onValueChanged: revalidate
     }).dxTextBox("instance");
 
-    // Initialize validator
     const validator = $("#contacts").dxValidator({
         validationGroup: contactGroup,
         validationRules: [{
@@ -193,16 +186,13 @@
         }
     }).dxValidator("instance");
 
-    // Initialize submit button
-    $("#button").dxButton({
+    $("#contactButton").dxButton({
         text: "Contact me",
         validationGroup: contactGroup,
         onClick: function (e) {
-            // First, trigger validation
             const result = DevExpress.validationEngine.validateGroup(contactGroup);
 
             if (result.isValid) {
-                // Check if either field has a value
                 const phoneValue = phone.option("value");
                 const emailValue = email.option("value");
 
@@ -217,8 +207,7 @@
         }
     });
 
-    // Initialize validation summary
-    $("#summary2").dxValidationSummary({
+    $("#contactSummary").dxValidationSummary({
         validationGroup: contactGroup
     });
 });

@@ -2,23 +2,34 @@
 using Microsoft.OpenApi.Models;
 
 namespace FilterPractice
-{    
+{
     public class Startup
     {
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration settings.</param>
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        // ConfigureServices is used to register services
+        /// <summary>
+        /// Configures services for dependency injection and middleware.
+        /// </summary>
+        /// <param name="services">The collection of services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add controllers
+            /// <summary>
+            /// Adds controllers to the application.
+            /// </summary>
             services.AddControllers();
-            //services.AddScoped<CustomExceptionFilter>();
-            // Register the custom filters globally
+
+            /// <summary>
+            /// Registers global filters for handling exceptions, resources, actions, and results.
+            /// </summary>
             services.AddControllers(options =>
             {
                 options.Filters.Add<CustomExceptionFilter>();
@@ -27,13 +38,17 @@ namespace FilterPractice
                 options.Filters.Add<CustomResultFilter>();
             });
 
-            // Configure Swagger
+            /// <summary>
+            /// Configures Swagger for API documentation.
+            /// </summary>
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
 
-                // Define the security scheme
+                /// <summary>
+                /// Defines the JWT authentication scheme for Swagger UI.
+                /// </summary>
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -44,37 +59,50 @@ namespace FilterPractice
                     Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token."
                 });
 
-                // Add security requirement
+                /// <summary>
+                /// Adds a security requirement to enforce authentication in Swagger UI.
+                /// </summary>
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
                 {
-                    new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference
+                        new OpenApiSecurityScheme
                         {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    new string[] {}
-                }
-            });
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
             });
         }
 
-        // Configure is used to set up the middleware pipeline
+        /// <summary>
+        /// Configures the middleware pipeline.
+        /// </summary>
+        /// <param name="app">The application builder.</param>
+        /// <param name="env">The hosting environment.</param>
         public void Configure(WebApplication app, IHostEnvironment env)
         {
-            // Enable Swagger only in development
+            /// <summary>
+            /// Enables Swagger UI only in the development environment.
+            /// </summary>
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
+            /// <summary>
+            /// Enforces HTTPS redirection.
+            /// </summary>
             app.UseHttpsRedirection();
 
-            // Map controllers
+            /// <summary>
+            /// Maps controller routes.
+            /// </summary>
             app.MapControllers();
         }
     }

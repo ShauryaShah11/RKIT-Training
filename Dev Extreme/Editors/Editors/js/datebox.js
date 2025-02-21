@@ -13,15 +13,17 @@
 
         // Sets the display format for the date
         // Supported formats: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
-        displayFormat: 'MM/dd/yyyy',
+        displayFormat: "EEEE, d 'of' MMM", // "Tuesday, 16 of Oct" 
+        useMaskBehavior: true,
 
         // Set date range constraints
         min: new Date(2020, 0, 1),    // January 1, 2020
         max: new Date(2025, 11, 31),  // December 31, 2025
+        dateOutOfRangeMessage: "Date is out of range",
 
         // Event handler for date changes
         onChange: function (e) {
-            console.log("Date Changed:", e.value);
+            console.log("Date Changed:", e.component._changedValue);
         },
 
         // Default value (current date)
@@ -41,7 +43,11 @@
 
         // Calendar popup configuration
         openOnFieldClick: true,    // Open calendar when clicking the input
-        pickerType: 'rollers',    // 'calendar' or 'rollers'
+        type: 'datetime',
+        // type: 'time',
+        pickerType: 'list',    // 'calendar' or 'rollers'
+        // list is available when type is time
+        interval: 20,
         showAnalogClock: true,     // Show analog clock in time picker
 
         // Validation
@@ -52,12 +58,12 @@
         },
 
         // Styling
-        stylingMode: "outlined",   // "outlined" | "underlined" | "filled"
+        stylingMode: "filled",   // "outlined" | "underlined" | "filled"
         width: 'auto',            // Widget width
 
         // Calendar specific options
-        firstDayOfWeek: 0,        // 0 = Sunday, 1 = Monday
-        showWeekNumbers: false,    // Show week numbers in calendar
+        firstDayOfWeek: 2,        // 0 = Sunday, 1 = Monday
+        showWeekNumbers: true,    // Show week numbers in calendar
 
         // Advanced event handlers
         onClosed: function () {
@@ -71,6 +77,13 @@
         }
     }).dxDateBox("instance");
 
+    // ✅ Dynamic Updates
+    $("#updateButton").click(function () {
+        const newDate = new Date(2024, 5, 15); // Example new date
+        dateBoxInstance.option("value", newDate);
+        console.log("DateBox value updated to:", newDate);
+    });
+
     dateBoxInstance.beginUpdate();
 
     $("#blur").click(function () {
@@ -79,9 +92,34 @@
 
     $("#focus").click(function () {
         dateBoxInstance.focus();
-    })
+    });
 
     dateBoxInstance.endUpdate();
+
+    let value = dateBoxInstance.option("value");
+    console.log(value);
+
+    dateBoxInstance.option("value", new Date(2023, 0, 5));
+
+    let format = dateBoxInstance.option("displayFormat");
+    console.log(format);
+
+    let type = dateBoxInstance.option("type");
+    console.log(type);
+
+    let minDate = dateBoxInstance.option("min");
+    let maxDate = dateBoxInstance.option("max");
+    console.log(minDate, maxDate);
+
+    let placeholder = dateBoxInstance.option("placeholder");
+    console.log(placeholder);
+
+    // dateBoxInstance.option("disabled", true); // Disables
+    console.log(dateBoxInstance.option("disabled")); // true
+
+    dateBoxInstance.option("onValueChanged", function (e) {
+        console.log("New Date Selected:", e.value);
+    });
 
     const now = new Date();
 
@@ -205,4 +243,4 @@ const federalHolidays = [
     new Date(2017, 10, 11), // Veterans Day
     new Date(2017, 10, 23), // Thanksgiving Day
     new Date(2017, 11, 25), // Christmas Day
-];  
+];

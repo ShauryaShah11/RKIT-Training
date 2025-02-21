@@ -1,12 +1,25 @@
 ﻿using RoutingPractice.Models;
+
 public class Startup
 {
+    /// <summary>
+    /// Gets the configuration settings.
+    /// </summary>
     public IConfiguration Configuration { get; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Startup"/> class.
+    /// </summary>
+    /// <param name="configuration">The configuration settings.</param>
     public Startup(IConfiguration configuration)
     {
         Configuration = configuration;
     }
 
+    /// <summary>
+    /// Configures the services for the application.
+    /// </summary>
+    /// <param name="services">The service collection to add services to.</param>
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
@@ -14,6 +27,11 @@ public class Startup
         services.AddSwaggerGen();
     }
 
+    /// <summary>
+    /// Configures the HTTP request pipeline.
+    /// </summary>
+    /// <param name="app">The application builder.</param>
+    /// <param name="env">The hosting environment.</param>
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
@@ -27,13 +45,13 @@ public class Startup
         app.UseAuthorization();
 
         app.MapWhen(
-                context => context.Request.Path.StartsWithSegments("/admin"),
-                branch => branch.Use(async (context, next) =>
-                {
-                    await context.Response.WriteAsync("Admin Area");
-                    await next();
-                })
-            );
+            context => context.Request.Path.StartsWithSegments("/admin"),
+            branch => branch.Use(async (context, next) =>
+            {
+                await context.Response.WriteAsync("Admin Area");
+                await next();
+            })
+        );
 
         app.MapWhen(
             context => context.Request.Query.ContainsKey("special"),
@@ -71,8 +89,7 @@ public class Startup
             })
         );
 
-
-    app.UseEndpoints(endpoints =>
+        app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
 
@@ -104,7 +121,6 @@ public class Startup
 
             endpoints.MapDelete("/products/{id:int}", (int id) =>
                 Results.Ok($"Product with ID {id} has been deleted"));
-           
         });
     }
 }

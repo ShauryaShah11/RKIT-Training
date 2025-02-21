@@ -117,4 +117,20 @@
     $("#textAreaContainer").keyup(function (e) {
         alert("Hello from jQuery keyup event.");
     });
+
+    // // Update the value
+    // textAreaInstance.option("value", "New Value");
+
+    // // Enable or disable the TextArea
+    // textAreaInstance.option("disabled", true);  // Disable
+    // textAreaInstance.option("disabled", false); // Enable
+
+    // // Update the placeholder
+    // textAreaInstance.option("placeholder", "New Placeholder");
+
+    // // Update the height
+    // textAreaInstance.option("height", 300);
+
+    // // Update the styling mode
+    // textAreaInstance.option("stylingMode", "underlined");
 });

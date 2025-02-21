@@ -16,6 +16,7 @@ namespace FinalDemo.Services
     /// </summary>
     public class UserService : IUserService
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IOrmLiteDbFactory _dbFactory;
         private IDbConnection _dbConnection;
 
@@ -24,57 +25,15 @@ namespace FinalDemo.Services
         /// Injects the database factory dependency to manage database connections.
         /// </summary>
         /// <param name="dbFactory">The ORM Lite database factory for handling connections.</param>
-        public UserService(IOrmLiteDbFactory dbFactory)
+        public UserService(IOrmLiteDbFactory dbFactory, IHttpContextAccessor httpContextAccessor)
         {
+            _httpContextAccessor = httpContextAccessor;
             _dbFactory = dbFactory;
         }
 
-        /// <summary>
-        /// Handles the specified operation (Add, Update, or Delete) on the user data.
-        /// </summary>
-        /// <param name="user">The user data to operate on.</param>
-        /// <param name="type">The type of operation to perform (Add, Update, or Delete).</param>
-        /// <returns>A response indicating the result of the operation.</returns>
-        public Response HandleOperation(DTOYMU01 user, EnmOperationType type)
+        public string GetUserIP()
         {
-            if (((type & EnmOperationType.Add) == EnmOperationType.Add) || ((type & EnmOperationType.Update) == EnmOperationType.Update))
-            {
-                YMU01 poco = PreSave(user);
-                Response userResponse = ValidateOnSave(poco, type);
-                if (userResponse.IsError)
-                {
-                    return userResponse;
-                }
-
-                Response saveResponse = Save(poco, type);
-                if (saveResponse.IsError)
-                {
-                    saveResponse.Message = "Error While Storing user in database";
-                    return saveResponse;
-                }
-                return saveResponse;
-            }
-
-            if ((type & EnmOperationType.Delete) == EnmOperationType.Delete)
-            {
-                YMU01 poco = PreDelete(user);
-                Response userResponse = ValidateOnDelete(poco);
-                if (userResponse.IsError)
-                {
-                    return userResponse;
-                }
-
-                Response deleteResponse = Delete(poco);
-                if (deleteResponse.IsError)
-                {
-                    deleteResponse.Message = "Error While Deleting user in database";
-                    return deleteResponse;
-                }
-                return deleteResponse;
-            }
-
-            // Default return statement in case no operation type matches
-            return new Response { IsError = true, Message = "Invalid operation type" };
+            return _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "Unknown";
         }
 
         /// <summary>

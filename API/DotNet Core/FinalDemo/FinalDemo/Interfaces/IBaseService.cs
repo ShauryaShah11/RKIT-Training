@@ -55,15 +55,5 @@ namespace FinalDemo.Interfaces
         /// <param name="poco">The entity to delete.</param>
         /// <returns>A response indicating the result of the delete operation.</returns>
         Response Delete(T1 poco);
-
-        // <summary>
-        /// Handles an operation (Insert, Update, Delete) on a DTO entity.
-        /// This method determines the operation type and executes the appropriate logic.
-        /// </summary>
-        /// <param name="dto">The entity data transfer object to process.</param>
-        /// <param name="type">The type of operation to perform.</param>
-        /// <returns>A response indicating the result of the operation.</returns>
-        Response HandleOperation(T2 dto, EnmOperationType type);
-
     }
 }

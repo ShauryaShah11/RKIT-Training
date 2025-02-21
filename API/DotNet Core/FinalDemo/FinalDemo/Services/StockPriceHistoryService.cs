@@ -30,53 +30,6 @@ namespace FinalDemo.Services
         }
 
         /// <summary>
-        /// Handles different operations (Add, Update, Delete) for stock price history based on the operation type.
-        /// </summary>
-        /// <param name="dto">Data transfer object for stock price history.</param>
-        /// <param name="type">The operation type (Add, Update, Delete).</param>
-        /// <returns>A response indicating the success or failure of the operation.</returns>
-        public Response HandleOperation(DTOYMH01 dto, EnmOperationType type)
-        {
-            if (((type & EnmOperationType.Add) == EnmOperationType.Add) || ((type & EnmOperationType.Update) == EnmOperationType.Update))
-            {
-                YMH01 poco = PreSave(dto);
-                Response response = ValidateOnSave(poco, type);
-                if (response.IsError)
-                {
-                    return response;
-                }
-
-                Response saveResponse = Save(poco, type);
-                if (saveResponse.IsError)
-                {
-                    saveResponse.Message = "Error while storing stock price history in database";
-                    return saveResponse;
-                }
-                return saveResponse;
-            }
-
-            if ((type & EnmOperationType.Delete) == EnmOperationType.Delete)
-            {
-                YMH01 poco = PreDelete(dto);
-                Response response = ValidateOnDelete(poco);
-                if (response.IsError)
-                {
-                    return response;
-                }
-
-                Response deleteResponse = Delete(poco);
-                if (deleteResponse.IsError)
-                {
-                    deleteResponse.Message = "Error while deleting stock price history in database";
-                    return deleteResponse;
-                }
-                return deleteResponse;
-            }
-
-            return new Response { IsError = true, Message = "Invalid operation type" };
-        }
-
-        /// <summary>
         /// Deletes a stock price history record from the database.
         /// </summary>
         /// <param name="poco">The stock price history object to delete.</param>

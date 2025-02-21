@@ -1,14 +1,28 @@
-using MiddlewarePractice;
+namespace MiddlewarePractice
+{
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    public class Program
+    {
+        /// <summary>
+        /// The main method which is the entry point of the application.
+        /// </summary>
+        /// <param name="args">An array of command-line arguments.</param>
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-var builder = WebApplication.CreateBuilder(args);
+            var startup = new Startup(builder.Configuration);
 
-var startup = new Startup(builder.Configuration);
+            startup.ConfigureServices(builder.Services);
 
-startup.ConfigureServices(builder.Services);
+            var app = builder.Build();
 
-var app = builder.Build();
+            // Configure the middleware pipeline
+            startup.Configure(app, app.Environment);
 
-// Configure the middleware pipeline
-startup.Configure(app, app.Environment);
-
-//app.Run();
+            //app.Run();
+        }
+    }
+}

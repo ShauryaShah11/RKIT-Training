@@ -7,13 +7,14 @@
         DevExpress.validationEngine.validateGroup(validationGroup);
     };
 
-    // Initialize the components without validation rules
+    // Initialize the CheckBox component with revalidation on value change
     $("#checkBoxContainer").dxCheckBox({
         text: "Accept Terms and Conditions",
         value: false,
         onValueChanged: revalidate
     });
 
+    // Initialize the first DateBox component with revalidation on value change
     $("#dateBoxContainer1").dxDateBox({
         type: "date",
         value: new Date(),
@@ -21,6 +22,7 @@
         onValueChanged: revalidate
     });
 
+    // Initialize the second DateBox component with min and max date constraints
     $("#dateBoxContainer2").dxDateBox({
         type: "date",
         value: new Date(),
@@ -30,6 +32,7 @@
         onValueChanged: revalidate
     });
 
+    // Initialize the NumberBox component with min and max constraints
     $("#numberBoxContainer").dxNumberBox({
         value: 10,
         showSpinButtons: true,
@@ -38,18 +41,21 @@
         onValueChanged: revalidate
     });
 
+    // Initialize the SelectBox component with predefined options
     $("#selectBoxContainer").dxSelectBox({
         items: ["Option 1", "Option 2", "Option 3"],
         value: "Option 1",
         onValueChanged: revalidate
     });
 
+    // Initialize the TextBox component with a placeholder
     $("#textBoxContainer").dxTextBox({
         value: "",
         placeholder: "Enter some text...",
         onValueChanged: revalidate
     });
 
+    // Initialize the TextArea component with a placeholder and height
     $("#textAreaContainer").dxTextArea({
         value: "",
         placeholder: "Write your comments here...",
@@ -57,6 +63,7 @@
         onValueChanged: revalidate
     });
 
+    // Initialize the FileUploader component with image file acceptance
     $("#fileUploaderContainer").dxFileUploader({
         selectButtonText: "Upload Image",
         labelText: "",
@@ -64,6 +71,7 @@
         onValueChanged: revalidate
     });
 
+    // Initialize the RadioGroup component with predefined options
     $("#radioGroupContainer").dxRadioGroup({
         items: ["Option A", "Option B", "Option C"],
         value: "Option A",
@@ -87,6 +95,8 @@
     });
 
     // Validator components applying rules outside the individual components
+
+    // Validator for CheckBox
     $("#checkBoxContainer").dxValidator({
         validationGroup: validationGroup,
         validationRules: [{
@@ -95,6 +105,7 @@
         }]
     }).dxValidator("instance");
 
+    // Validator for first DateBox
     $("#dateBoxContainer1").dxValidator({
         validationGroup: validationGroup,
         validationRules: [{
@@ -103,6 +114,7 @@
         }]
     }).dxValidator("instance");
 
+    // Validator for second DateBox
     $("#dateBoxContainer2").dxValidator({
         validationGroup: validationGroup,
         validationRules: [{
@@ -111,6 +123,7 @@
         }]
     }).dxValidator("instance");
 
+    // Validator for NumberBox
     $("#numberBoxContainer").dxValidator({
         validationGroup: validationGroup,
         validationRules: [{
@@ -121,6 +134,7 @@
         }]
     }).dxValidator("instance");
 
+    // Validator for SelectBox
     $("#selectBoxContainer").dxValidator({
         validationGroup: validationGroup,
         validationRules: [{
@@ -129,6 +143,7 @@
         }]
     }).dxValidator("instance");
 
+    // Validator for TextBox
     $("#textBoxContainer").dxValidator({
         validationGroup: validationGroup,
         validationRules: [{
@@ -137,6 +152,7 @@
         }]
     }).dxValidator("instance");
 
+    // Validator for TextArea
     $("#textAreaContainer").dxValidator({
         validationGroup: validationGroup,
         validationRules: [{
@@ -145,6 +161,7 @@
         }]
     }).dxValidator("instance");
 
+    // Validator for FileUploader
     $("#fileUploaderContainer").dxValidator({
         validationGroup: validationGroup,
         validationRules: [{
@@ -153,6 +170,7 @@
         }]
     }).dxValidator("instance");
 
+    // Validator for RadioGroup
     $("#radioGroupContainer").dxValidator({
         validationGroup: validationGroup,
         validationRules: [{
@@ -160,5 +178,4 @@
             message: "You must select an option"
         }]
     }).dxValidator("instance");
-
 });

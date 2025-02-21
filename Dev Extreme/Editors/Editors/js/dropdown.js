@@ -15,7 +15,7 @@
                     e.component.option("value", arg.addedItems[0]);
                     e.component.close();
                 }
-            })
+            });
             return $list;
         },
     });
@@ -63,65 +63,65 @@
     // Main enhanced dropdown implementation with detailed configuration
     let dropDownBox = $("#dropDownBoxContainer").dxDropDownBox({
         // Basic Configuration
-        value: null,
-        valueExpr: "ID",
+        value: null,                    // Initial value
+        valueExpr: "ID",                // Value expression (ID field)
 
         // Display Configuration
-        displayExpr: function (item) {
+        displayExpr: function (item) {   // Display expression
             return `${item.companyName} (${item.city})`;
         },
-        displayValueFormatter: function (value) {
+        displayValueFormatter: function (value) {  // Display value formatter
             return value ? `${value}` : "Select a value";
         },
 
         // Input Attributes
-        inputAttr: {
+        inputAttr: {                    // Input attributes
             placeholder: "Select a value"
         },
 
         // Data Source Configuration
-        dataSource: new DevExpress.data.ArrayStore({
+        dataSource: new DevExpress.data.ArrayStore({  // Data source
             data: customers,
             key: "ID"
         }),
 
         // Custom Button Template
-        dropDownButtonTemplate: function (e) {
+        dropDownButtonTemplate: function (e) {  // Custom button template
             return $("<div>")
                 .addClass("dx-button")
                 .append("<span class='dx-icon dx-icon-user'></span>");
         },
 
         // Element Attributes
-        elementAttr: {
+        elementAttr: {                  // Element attributes
             id: "myDropDown",
             class: "custom-dropdown",
             "data-type": "dropdown-menu"
         },
 
         // State Configuration
-        focusStateEnabled: true,
-        hint: 'select a value',
-        hoverStateEnabled: true,
-        isValid: true,
-        maxLength: 100,
-        name: 'drop-down',
+        focusStateEnabled: true,        // Enable focus state
+        hint: 'select a value',         // Hint text
+        hoverStateEnabled: true,        // Enable hover state
+        isValid: true,                  // Initial validation state
+        maxLength: 100,                 // Maximum length of input
+        name: 'drop-down',              // Name attribute
 
         // Event Handlers
-        onChange: function (e) {
+        onChange: function (e) {          // Change event handler
             selectionHistory.splice(currentHistoryIndex + 1);
             selectionHistory.push(e.value);
             currentHistoryIndex++;
         },
 
-        onClosed: function (e) {
+        onClosed: function (e) {          // Closed event handler
             const currentValue = e.component.option("value");
             if (!currentValue) {
                 console.log("No selection made");
             }
         },
 
-        onCopy: function (e) {
+        onCopy: function (e) {            // Copy event handler
             const selectedItem = customers.find(c => c.ID === e.component.option("value"));
             if (selectedItem) {
                 e.originalEvent.clipboardData.setData('text/plain',
@@ -130,7 +130,7 @@
             }
         },
 
-        onCut: function (e) {
+        onCut: function (e) {             // Cut event handler
             const selectedItem = customers.find(c => c.ID === e.component.option("value"));
             if (selectedItem) {
                 e.originalEvent.clipboardData.setData('text/plain',
@@ -140,51 +140,51 @@
             }
         },
 
-        onDisposing: function (e) {
+        onDisposing: function (e) {       // Disposing event handler
             selectionHistory = [];
             currentHistoryIndex = -1;
         },
 
-        onEnterKey: function (e) {
+        onEnterKey: function (e) {        // Enter key event handler
             const currentValue = e.component.option("value");
             if (!currentValue) {
                 e.component.open();
             }
         },
 
-        onFocusIn: function (e) {
+        onFocusIn: function (e) {         // Focus in event handler
             console.log("Dropdown focused");
         },
 
-        onFocusOut: function (e) {
+        onFocusOut: function (e) {        // Focus out event handler
             const currentValue = e.component.option("value");
             if (!currentValue) {
                 console.log("No value selected");
             }
         },
 
-        onInitialized: function (e) {
+        onInitialized: function (e) {     // Initialized event handler
             console.log("Dropdown initialized");
         },
 
-        onKeyDown: function (e) {        // ✅ Fixed typo (oonKeyDown -> onKeyDown)
+        onKeyDown: function (e) {         // Key down event handler
             if (e.event.key === "ArrowUp" || e.event.key === "ArrowDown") {
                 e.event.preventDefault();
                 e.component.open();
             }
         },
 
-        onOpened: function (e) {
+        onOpened: function (e) {          // Opened event handler
             console.log("Dropdown opened");
         },
 
-        onOptionChanged: function (e) {
+        onOptionChanged: function (e) {   // Option changed event handler
             if (e.name === "value") {
                 console.log("Value changed to:", e.value);
             }
         },
 
-        onValueChanged: function (e) {
+        onValueChanged: function (e) {    // Value changed event handler
             if (e.value !== null) {
                 const selectedItem = customers.find(c => c.ID === e.value);
                 if (selectedItem) {
@@ -194,38 +194,38 @@
         },
 
         // Visual Configuration
-        readOnly: false,
-        rtlEnabled: false,
-        showClearButton: true,
-        showDropDownButton: true,
-        stylingMode: 'filled',
+        readOnly: false,                // Read-only state
+        rtlEnabled: false,              // Right-to-left support
+        showClearButton: true,          // Show clear button
+        showDropDownButton: true,       // Show dropdown button
+        stylingMode: 'filled',          // Styling mode
 
-        // Validation Configuration (Ensure these are defined)
-        validationError: null,
-        validationErrors: [],
-        validationMessageMode: "always",
-        validationStatus: "valid",
+        // Validation Configuration
+        validationError: null,                // Validation error
+        validationErrors: [],                // Validation errors
+        validationMessageMode: "always",      // Validation message mode
+        validationStatus: "valid",            // Validation status
 
         // Dropdown Panel Configuration
-        dropDownOptions: {
-            width: "100%",
-            height: 200,
-            fullScreen: false,
-            closeOnOutsideClick: false,
-            animation: {
+        dropDownOptions: {               // Dropdown panel options
+            width: "100%",              // Width of the dropdown panel
+            height: 200,                // Height of the dropdown panel
+            fullScreen: false,          // Fullscreen mode
+            closeOnOutsideClick: false, // Close on outside click
+            animation: {                // Animation settings
                 show: { type: "fade", duration: 300 },
                 hide: { type: "fade", duration: 300 }
             }
         },
 
         // Content Template
-        contentTemplate: function (e) {
+        contentTemplate: function (e) {   // Content template
             const $dataGrid = $("<div>").dxDataGrid({
                 dataSource: e.component.option("dataSource"),
                 columns: ["companyName", "city", "phone"],
                 height: 265,
                 selection: { mode: "single" },
-                selectedRowKeys: [],  // ✅ Removed undefined `selectedValue`
+                selectedRowKeys: [],  // Removed undefined `selectedValue`
                 onSelectionChanged: function (selectedItems) {
                     const keys = selectedItems.selectedRowKeys;
                     const hasSelection = keys.length;
@@ -237,11 +237,11 @@
         },
 
         // Custom Value Configuration
-        acceptCustomValue: true,
-        activeStateEnabled: true,
+        acceptCustomValue: true,         // Accept custom values
+        activeStateEnabled: true,        // Enable active state
 
         // Custom Value Handler
-        onCustomCreating: function (args) {
+        onCustomCreating: function (args) {  // Custom value creation handler
             if (args.text.trim()) {
                 const newValue = {
                     ID: customers.length + 1,
@@ -256,11 +256,11 @@
         },
 
         // Button Configuration
-        buttons: [
-            "clear",
-            "dropDown",
+        buttons: [                       // Button configuration
+            "clear",                     // Clear button
+            "dropDown",                  // Dropdown button
             {
-                name: "customButton",
+                name: "customButton",    // Custom button
                 location: "after",
                 options: {
                     icon: "plus",
@@ -273,10 +273,11 @@
         ],
 
         // Rendering Configuration
-        deferRendering: true,
-        disabled: false
+        deferRendering: true,            // Defer rendering
+        disabled: false                  // Disabled state
     }).dxDropDownBox("instance");
 
+    // Dynamic Updates
     $("#clear").click(function () {
         dropDownBox.clear();
     });
@@ -293,10 +294,6 @@
         dropDownBox.repaint();
     });
 
-    $("#clear").click(function () {
-        dropDownBox.clear();
-    });
-
     $("#open").click(function () {
         dropDownBox.open();
     });
@@ -307,6 +304,25 @@
 
     let dataSource = dropDownBox.getDataSource();
     console.log(dataSource.items());
+
+    // // Update the value
+    // dropDownBox.option("value", newValue);
+
+    // // Update the data source
+    // dropDownBox.option("dataSource", newDataSource);
+
+    // // Update the display format
+    // dropDownBox.option("displayExpr", newDisplayExpr);
+
+    // // Update the placeholder
+    // dropDownBox.option("inputAttr", { placeholder: "New Placeholder" });
+
+    // // Update the dropdown options
+    // dropDownBox.option("dropDownOptions", {
+    //     width: "80%",
+    //     height: 300,
+    //     closeOnOutsideClick: true
+    // });
 
     // Sample hierarchical data
     const hierarchicalData = [
@@ -345,6 +361,7 @@
 
     selectedValue = null;
 
+    // Nested dropdown implementation
     $("#nestedDropDownContainer").dxDropDownBox({
         value: selectedValue,
         valueExpr: "ID",

@@ -63,12 +63,8 @@ namespace FinalDemo.Controllers
         [HttpPost]
         public IActionResult AddUser([FromBody] DTOYMU01 user)
         {
-            if (user == null)
-            {
-                return BadRequest(new { Message = "Invalid user data" });
-            }
-
-            Response addUserResponse = _userService.HandleOperation(user, EnmOperationType.Add);
+            
+            Response addUserResponse = _userService.PreSave(user);
             if (addUserResponse.IsError)
             {
                 return BadRequest(addUserResponse);

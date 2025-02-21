@@ -8,7 +8,8 @@ namespace Controller_Action_Practice.Controllers
     public class ProductController : Controller
     {
         private static readonly List<Product> _products = new List<Product>();
-        public ProductController() 
+
+        public ProductController()
         {
             if (!_products.Any())
             {
@@ -18,51 +19,73 @@ namespace Controller_Action_Practice.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets all available products.
+        /// </summary>
         [HttpGet]
-        public ActionResult<List<Product>> GetAllProduct()
+        public ActionResult<List<Product>> GetAllProducts()
         {
             return Ok(_products);
         }
 
+        /// <summary>
+        /// Gets a product by its ID.
+        /// </summary>
         [HttpGet("{id:int}")]
         public ActionResult<Product> GetProductById(int id)
         {
-            Product? product = _products.FirstOrDefault(p => p.Id == id);
-            if(product == null)
+            var product = _products.FirstOrDefault(p => p.Id == id);
+            if (product == null)
             {
-                return NotFound();
+                return NotFound("Product not found");
             }
             return Ok(product);
         }
 
+        /// <summary>
+        /// Adds a new product.
+        /// </summary>
         [HttpPost]
-        public IActionResult AddProduct([FromBody]Product product)
+        public IActionResult AddProduct([FromBody] Product product)
         {
+            if (_products.Any(p => p.Id == product.Id))
+            {
+                return BadRequest("Product with the same ID already exists.");
+            }
+
             _products.Add(product);
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
         }
 
+        /// <summary>
+        /// Updates an existing product.
+        /// </summary>
         [HttpPut("{id:int}")]
-        public IActionResult UpdateProduct(int id, [FromBody]Product product)
+        public IActionResult UpdateProduct(int id, [FromBody] Product product)
         {
-            Product? existingProduct = _products.FirstOrDefault(p =>  product.Id == id);
-            if(existingProduct == null)
+            var existingProduct = _products.FirstOrDefault(p => p.Id == id);
+            if (existingProduct == null)
             {
-                return NotFound("Product Not Found");
+                return NotFound("Product not found");
             }
+
             existingProduct.Name = product.Name;
             existingProduct.Price = product.Price;
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes a product by ID.
+        /// </summary>
         [HttpDelete("{id:int}")]
         public IActionResult DeleteProduct(int id)
         {
-            Product? product = _products.FirstOrDefault(p => p.Id == id);
-            if(product == null)
+            var product = _products.FirstOrDefault(p => p.Id == id);
+            if (product == null)
             {
-                return NotFound("Product Not Found");
+                return NotFound("Product not found");
             }
+
             _products.Remove(product);
             return NoContent();
         }

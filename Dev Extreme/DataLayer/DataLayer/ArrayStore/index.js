@@ -26,19 +26,23 @@ $(function () {
             // loadOptions.filter = [["id", "<", 2], "or", ["capital", "=", "Juneau"]];
             // loadOptions.filter = ["date", ">", new Date(2024, 0, 1)];
             // loadOptions.filter = ["id", "in", [1, 2, 3]];    
+            loadOptions.sort = [{ selector: "state", desc: false }];
+            loadOptions.skip = 0; // Start from the first record
+            loadOptions.take = 2; // Load only 2 records
+            
             console.log('Loading data with options:', loadOptions);
         },
         onInserting: function (values) {
             // Prevent inserting a duplicate state
             var isDuplicate = false;
             store.byKey(values.id)
-                .done(function (existingItem) {
+                .done(function(existingItem) {
                     if (existingItem) {
                         isDuplicate = true;
                         console.log('Duplicate ID, cannot insert');
                     }
                 })
-                .fail(function () {
+                .fail(function() {
                     // If no item is found, we can insert
                     console.log('Inserting:', values);
                 });
@@ -50,6 +54,12 @@ $(function () {
         },
         onModifying: function () {
             console.log('Data is being modified');
+        },
+        onModified: function (values, key) {
+            console.log('Modified item with key:', key, 'and values:', values);
+        },
+        onRemoving: function (key) {
+            console.log('Removing item with key:', key);
         },
         onRemoved: function (key) {
             console.log('Item removed with key:', key);
@@ -93,21 +103,30 @@ $(function () {
     var keyProps = store.key(); // Get the key field
     console.log('Key properties:', keyProps);
 
-    // // Composite key store
+    // Dynamic property getter
+    function getProperty(key, property) {
+        store.byKey(key).done(function(item) {
+            console.log('Property value:', item[property]);
+        }).fail(function(error) {
+            console.log('Error getting property:', error);
+        });
+    }
 
-    // var compositeKeyStore = new DevExpress.data.ArrayStore({
-    //     key: ["state", "capital"],
-    //     data: states
-    // });
+    // Dynamic property setter
+    function setProperty(key, property, value) {
+        store.byKey(key).done(function(item) {
+            item[property] = value;
+            store.update(key, item).done(function() {
+                console.log('Property set successfully');
+            }).fail(function(error) {
+                console.log('Error setting property:', error);
+            });
+        }).fail(function(error) {
+            console.log('Error getting item for setting property:', error);
+        });
+    }
 
-    // // Fetch by composite key
-    // compositeKeyStore.byKey({ state: "Arizona", capital: "Phoenix" })
-    //     .done(function (dataItem) {
-    //         console.log('Found item:', dataItem);
-    //     })
-    //     .fail(function (error) {
-    //         console.log('Error fetching item:', error);
-    //     });
-
-    // compositeKeyStore.clear();
+    // Example usage of dynamic property getter and setter
+    getProperty(1, 'state'); // Get the 'state' property of the item with key 1
+    setProperty(1, 'capital', 'New Montgomery'); // Set the 'capital' property of the item with key 1 to 'New Montgomery'
 });

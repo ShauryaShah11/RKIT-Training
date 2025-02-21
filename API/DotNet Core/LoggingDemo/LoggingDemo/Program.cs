@@ -1,29 +1,75 @@
-using LoggingDemo;
-using Serilog;
+using NLog;
+using NLog.Web;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace LoggingDemo
+{
+    /// <summary>
+    /// Starting point of application
+    /// </summary>
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()         // Log to console (optional)
-    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day) // Log to file with daily rolling logs
-    .CreateLogger();
+            /// <summary>
+            /// Setup NLog for logging.
+            /// Loads configuration from "nlog.config".
+            /// </summary>
+            var logger = LogManager.Setup().LoadConfigurationFromFile("nlog.config").GetCurrentClassLogger();
+            logger.Info("Application is starting...");
 
-// Add Serilog to the logging pipeline (this should be done before adding other logging providers)
-builder.Host.UseSerilog();
+            /// <summary>
+            /// Configure Logging settings.
+            /// </summary>
+            builder.Logging.ClearProviders(); /// <remarks>Removes default logging providers (e.g., Console, Debug).</remarks>
+            builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace); /// <remarks>Sets the minimum logging level to capture detailed logs.</remarks>
+            builder.Host.UseNLog(); /// <remarks>Integrates NLog as the logging provider for the application.</remarks>
 
-// Add logging services
-builder.Logging.ClearProviders(); // Clear default providers (this will remove the built-in console and debug logging)
-builder.Logging.AddConsole();    // Add Console logging (optional, since it's handled by Serilog)
-builder.Logging.AddDebug();      // Add Debug logging (optional, since it's handled by Serilog)
+            try
+            {
+                /// <summary>
+                /// Create an instance of Startup and configure services.
+                /// </summary>
+                var startup = new Startup(builder.Configuration);
+                startup.ConfigureServices(builder.Services);
 
-builder.Logging.AddFilter("LoggingDemo", LogLevel.Debug); // Only log for this namespace
+                /// <summary>
+                /// Build the application.
+                /// </summary>
+                var app = builder.Build();
 
-var startup = new Startup(builder.Configuration);
+                /// <summary>
+                /// Configure the application pipeline.
+                /// </summary>
+                startup.Configure(app, app.Environment);
 
-startup.ConfigureServices(builder.Services);
+                /// <summary>
+                /// Log that the application has started successfully.
+                /// </summary>
+                logger.Info("Application has started successfully.");
 
-var app = builder.Build();
-
-startup.Configure(app, app.Environment);
-
-app.Run();
+                /// <summary>
+                /// Start the application and begin processing requests.
+                /// </summary>
+                app.Run();
+            }
+            catch (Exception ex)
+            {
+                /// <summary>
+                /// Log any exceptions that cause the application to stop unexpectedly.
+                /// </summary>
+                logger.Error(ex, "Application encountered an exception and stopped.");
+                throw;
+            }
+            finally
+            {
+                /// <summary>
+                /// Log application shutdown and ensure all logs are flushed before exiting.
+                /// </summary>
+                logger.Info("Application has stopped");
+                LogManager.Shutdown();
+            }
+        }
+    }
+}

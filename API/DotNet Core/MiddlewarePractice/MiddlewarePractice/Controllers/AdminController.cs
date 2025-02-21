@@ -3,10 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MiddlewarePractice.Controllers
 {
+    /// <summary>
+    /// Controller for admin-related actions.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
+        /// <summary>
+        /// Gets the admin dashboard.
+        /// </summary>
+        /// <returns>A welcome message for the admin dashboard.</returns>
         [Authorize(Policy = "AdminPolicy")]
         [HttpGet("dashboard")]
         public IActionResult AdminDashboard()
@@ -17,6 +24,10 @@ namespace MiddlewarePractice.Controllers
             });
         }
 
+        /// <summary>
+        /// Gets the user profile.
+        /// </summary>
+        /// <returns>A welcome message for the user profile.</returns>
         [Authorize]
         [HttpGet("profile")]
         public IActionResult UserProfile()

@@ -112,12 +112,20 @@
     <Content Include="Columns\index.js" />
     <Content Include="Data Binding\index.html" />
     <Content Include="Data Binding\index.js" />
+    <Content Include="DataSummaries\customSummary.html" />
+    <Content Include="DataSummaries\groupSummary.html" />
+    <Content Include="DataSummaries\index.html" />
+    <Content Include="DataSummaries\index.js" />
     <Content Include="Editing\index.html" />
     <Content Include="Editing\index.js" />
     <Content Include="Filtering\index.html" />
     <Content Include="Filtering\index.js" />
+    <Content Include="Final Demo\index.html" />
+    <Content Include="Final Demo\index.js" />
     <Content Include="Grouping\index.html" />
     <Content Include="Grouping\index.js" />
+    <Content Include="Master-Detail\index.html" />
+    <Content Include="Master-Detail\index.js" />
     <Content Include="Selection\index.html" />
     <Content Include="Selection\index.js" />
     <Content Include="Sorting\index.html" />
@@ -185,6 +193,8 @@
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.node.js" />
     <Content Include="Scrolling\index.html" />
     <Content Include="Scrolling\index.js" />
+    <Content Include="Template\index.html" />
+    <Content Include="Template\index.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

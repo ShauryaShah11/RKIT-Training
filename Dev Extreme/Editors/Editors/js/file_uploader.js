@@ -1,5 +1,5 @@
 ﻿$(function () {
-    // FileUploader for the first container
+    // Initialize FileUploader for the first container
     $("#fileUploaderContainer1").dxFileUploader({
         multiple: true, // Allow multiple files to be uploaded at once
         uploadUrl: "https://js.devexpress.com/Demos/NetCore/FileUploader/Upload", // URL to which files are uploaded
@@ -13,7 +13,7 @@
         allowCanceling: true, // Allow file upload cancellation (true/false)
     });
 
-    // FileUploader for the second container with additional configurations
+    // Initialize FileUploader for the second container with additional configurations
     let fileUploader = $("#fileUploaderContainer2").dxFileUploader({
         multiple: true, // Allow multiple file uploads
         uploadUrl: "https://js.devexpress.com/Demos/NetCore/FileUploader/Upload", // URL to which files are uploaded

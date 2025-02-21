@@ -9,15 +9,26 @@ using System.Threading.RateLimiting;
 
 namespace MiddlewarePractice
 {
+    /// <summary>
+    /// Configures services and the application's request pipeline.
+    /// </summary>
     public class Startup
     {
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration settings.</param>
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Configures the services for the application.
+        /// </summary>
+        /// <param name="services">The service collection to add services to.</param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -120,6 +131,11 @@ namespace MiddlewarePractice
             });
         }
 
+        /// <summary>
+        /// Configures the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app">The application builder.</param>
+        /// <param name="env">The hosting environment.</param>
         public void Configure(WebApplication app, IHostEnvironment env)
         {
             // Developer exception page middleware should be first in development
@@ -163,7 +179,7 @@ namespace MiddlewarePractice
                         await next(context);
                     });
                 }
-            );            
+            );
 
             // Authentication and authorization middleware
             app.UseAuthentication();
@@ -175,6 +191,5 @@ namespace MiddlewarePractice
 
             app.Run();
         }
-
     }
 }

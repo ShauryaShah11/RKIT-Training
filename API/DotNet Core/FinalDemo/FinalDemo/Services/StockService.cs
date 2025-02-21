@@ -31,57 +31,6 @@ namespace FinalDemo.Services
         }
 
         /// <summary>
-        /// Handles different operations (Add, Update, Delete) for stock records.
-        /// It validates and performs actions based on the operation type.
-        /// </summary>
-        /// <param name="stock">DTO object representing the stock details.</param>
-        /// <param name="type">The type of operation to perform (Add, Update, Delete).</param>
-        /// <returns>A Response object containing the status and message of the operation.</returns>
-        public Response HandleOperation(DTOYMS01 stock, EnmOperationType type)
-        {
-            // Handle Add or Update operations
-            if (((type & EnmOperationType.Add) == EnmOperationType.Add) || ((type & EnmOperationType.Update) == EnmOperationType.Update))
-            {
-                YMS01 poco = PreSave(stock);
-                Response stockResponse = ValidateOnSave(poco, type);
-                if (stockResponse.IsError)
-                {
-                    return stockResponse;
-                }
-
-                Response saveResponse = Save(poco, type);
-                if (saveResponse.IsError)
-                {
-                    saveResponse.Message = "Error While Storing stock in database";
-                    return saveResponse;
-                }
-                return saveResponse;
-            }
-
-            // Handle Delete operations
-            if ((type & EnmOperationType.Delete) == EnmOperationType.Delete)
-            {
-                YMS01 poco = PreDelete(stock);
-                Response stockResponse = ValidateOnDelete(poco);
-                if (stockResponse.IsError)
-                {
-                    return stockResponse;
-                }
-
-                Response deleteResponse = Delete(poco);
-                if (deleteResponse.IsError)
-                {
-                    deleteResponse.Message = "Error While Deleting stock in database";
-                    return deleteResponse;
-                }
-                return deleteResponse;
-            }
-
-            // Default return statement in case no operation type matches
-            return new Response { IsError = true, Message = "Invalid operation type" };
-        }
-
-        /// <summary>
         /// Deletes a stock record from the database.
         /// </summary>
         /// <param name="poco">The POCO object representing the stock to be deleted.</param>

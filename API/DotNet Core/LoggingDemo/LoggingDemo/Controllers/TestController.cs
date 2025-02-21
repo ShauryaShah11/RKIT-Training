@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Serilog;
 
 namespace LoggingDemo.Controllers
 {
@@ -44,8 +43,8 @@ namespace LoggingDemo.Controllers
             // Log a message with 'Critical' level
             _logger.LogCritical("This is a Critical log.");
 
-            // Serilog-specific log, will also be written to file as per the configuration
-            Log.Information("This is an Information log (Serilog)");
+            //// Serilog-specific log, will also be written to file as per the configuration
+            //Log.Information("This is an Information log (Serilog)");
 
             // Return a response indicating that the logs were written, and user should check logs
             return Ok("Check the console or debug output for logged messages.");
