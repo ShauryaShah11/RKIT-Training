@@ -5,10 +5,8 @@ using FinalDemo.Interfaces;
 using FinalDemo.Models;
 using FinalDemo.Models.DTO;
 using FinalDemo.Models.POCO;
-using Newtonsoft.Json;
 using ServiceStack.OrmLite;
 using System.Data;
-using System.Diagnostics;
 
 namespace FinalDemo.Services
 {

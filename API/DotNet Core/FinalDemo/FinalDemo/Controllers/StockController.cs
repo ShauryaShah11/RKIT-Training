@@ -1,8 +1,10 @@
 ﻿using FinalDemo.Enums;
+using FinalDemo.Helpers;
 using FinalDemo.Interfaces;
 using FinalDemo.Models;
 using FinalDemo.Models.DTO;
 using FinalDemo.Models.POCO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalDemo.Controllers
@@ -16,14 +18,16 @@ namespace FinalDemo.Controllers
     public class StockController : ControllerBase
     {
         private readonly IStockService _stockService;
+        private readonly JwtHelper _jwtHelper;
 
         /// <summary>
         /// Constructor to initialize StockController with the required stock service.
         /// </summary>
         /// <param name="stockService">The stock service to handle stock-related operations.</param>
-        public StockController(IStockService stockService)
+        public StockController(IStockService stockService, JwtHelper jwtHelper)
         {
             _stockService = stockService;
+            _jwtHelper = jwtHelper;
         }
 
         /// <summary>
@@ -31,6 +35,7 @@ namespace FinalDemo.Controllers
         /// </summary>
         /// <returns>Returns a list of all stocks or an error message if retrieval fails.</returns>
         [HttpGet]
+        [Authorize]
         public IActionResult GetAllStocks()
         {
             Response response = _stockService.GetAllStocks();
@@ -79,6 +84,7 @@ namespace FinalDemo.Controllers
         /// <param name="stock">The stock data to add.</param>
         /// <returns>Returns the created stock or an error message if the addition fails.</returns>
         [HttpPost]
+        [Authorize]
         public IActionResult AddStock([FromBody] DTOYMS01 stock)
         {
             Response response;
@@ -90,7 +96,7 @@ namespace FinalDemo.Controllers
                 return BadRequest(response.Message);
             }
             response = _stockService.Save(poco);
-            return CreatedAtAction(nameof(GetStockById), new { id = ((YMS01)response.Data).S01F01 }, response.Data);
+            return CreatedAtAction(nameof(GetStockById), new { id = stock.S01F01 }, stock);
         }
 
         /// <summary>
@@ -100,6 +106,7 @@ namespace FinalDemo.Controllers
         /// <param name="stock">The updated stock data.</param>
         /// <returns>Returns the updated stock data or an error message if the update fails.</returns>
         [HttpPut("{id}")]
+        [Authorize]
         public IActionResult UpdateStock(int id, [FromBody] DTOYMS01 stock)
         {
             Response response;
@@ -121,6 +128,7 @@ namespace FinalDemo.Controllers
         /// <param name="id">ID of the stock to delete.</param>
         /// <returns>Returns a success message or an error message if deletion fails.</returns>
         [HttpDelete("{id}")]
+        [Authorize]
         public IActionResult DeleteStock(int id)
         {
             Response response;

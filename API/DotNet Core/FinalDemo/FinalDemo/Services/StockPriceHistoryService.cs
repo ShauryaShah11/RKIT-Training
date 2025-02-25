@@ -5,7 +5,6 @@ using FinalDemo.Interfaces;
 using FinalDemo.Models;
 using FinalDemo.Models.DTO;
 using FinalDemo.Models.POCO;
-using Newtonsoft.Json;
 using ServiceStack.OrmLite;
 using System.Data;
 
@@ -263,6 +262,63 @@ namespace FinalDemo.Services
             catch (Exception ex)
             {
                 return new Response { IsError = true, Message = $"An error occurred during validation: {ex.Message}" };
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the date when the stock price was at its maximum.
+        /// </summary>
+        /// <param name="stockId">The stock ID to filter the stock price history by.</param>
+        /// <returns>A response containing the date when the stock price was at its maximum.</returns>
+        public Response GetMaxStockPriceDate(int stockId)
+        {
+            try
+            {
+                using (_dbConnection = _dbFactory.OpenConnection())
+                {
+                    var q = _dbConnection.From<YMH01>()
+                         .Where(x => x.H01F02 == stockId)
+                         .OrderByDescending(x => x.H01F03)
+                         .Take(1);
+
+                    var maxPriceRecord = _dbConnection.Select(q);
+
+                    if (maxPriceRecord == null)
+                    {
+                        return new Response { Message = "No stock price history found for this stock" };
+                    }
+
+                    return new Response { Data = maxPriceRecord, Message = "Max stock price date retrieved successfully" };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response { IsError = true, Message = "An error occurred while processing the request: " + ex.Message };
+            }
+        }
+
+        public Response GetMinStockPriceDate(int stockId)
+        {
+            try
+            {
+                using (_dbConnection = _dbFactory.OpenConnection())
+                {
+                    var q = _dbConnection.From<YMH01>()
+                         .Where(x => x.H01F02 == stockId)
+                         .OrderBy(x => x.H01F03)
+                         .Take(1);
+                    var minPriceRecord = _dbConnection.Select(q);
+
+                    if (minPriceRecord == null)
+                    {
+                        return new Response { Message = "No stock price history found for this stock" };
+                    }
+                    return new Response { Data = minPriceRecord, Message = "Min stock price date retrieved successfully" };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response { IsError = true, Message = "An error occurred while processing the request: " + ex.Message };
             }
         }
     }

@@ -1,36 +1,31 @@
-﻿using FinalDemo.Interfaces;
+﻿using FinalDemo.Helpers;
+using FinalDemo.Interfaces;
 using FinalDemo.Models.POCO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using ServiceStack.OrmLite;
-using System.Data;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace FinalDemo.Controllers
 {
     /// <summary>
     /// Controller responsible for user authentication, including login functionality.
     /// </summary>
+    [ApiController]
     [Route("api/[controller]")]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         private readonly IOrmLiteDbFactory _ormLiteDbFactory;
-        private readonly IDbConnection _dbFactory;
-        private readonly IConfiguration _configuration;
+        private readonly JwtHelper _jwtHelper;
 
         /// <summary>
         /// Constructor to initialize AuthController with necessary dependencies.
         /// </summary>
-        /// <param name="configuration">Application configuration for retrieving JWT settings.</param>
         /// <param name="ormLiteDbFactory">Factory to handle database connection.</param>
-        public AuthController(IConfiguration configuration, IOrmLiteDbFactory ormLiteDbFactory)
+        /// <param name="jwtHelper">Helper class for generating JWT tokens.</param>
+        public AuthController(IOrmLiteDbFactory ormLiteDbFactory, JwtHelper jwtHelper)
         {
-            _configuration = configuration;
             _ormLiteDbFactory = ormLiteDbFactory;
-            _dbFactory = _ormLiteDbFactory.OpenConnection();
+            _jwtHelper = jwtHelper;
         }
 
         /// <summary>
@@ -42,51 +37,34 @@ namespace FinalDemo.Controllers
         [AllowAnonymous]
         public IActionResult Login([FromBody] LoginRequest loginRequest)
         {
-            // Validate user credentials
-            List<YMU01> user = _dbFactory.Select<YMU01>(u => u.U01F03 == loginRequest.Email && u.U01F04 == loginRequest.Password);
-
-            if (user == null || !user.Any())
+            if (loginRequest == null || string.IsNullOrEmpty(loginRequest.Email) || string.IsNullOrEmpty(loginRequest.Password))
             {
-                return Unauthorized(new { Message = "Invalid credentials" });
+                return BadRequest(new { Message = "Email and password are required." });
             }
 
-            return Ok(new
+            // Open DB connection per request
+            using (var db = _ormLiteDbFactory.OpenConnection())
             {
-                Token = GenerateJwtToken(loginRequest.Email, "user") // Generate token
-            });
-        }
+                YMU01 user = db.Select<YMU01>(u => u.U01F03 == loginRequest.Email && u.U01F04 == loginRequest.Password).FirstOrDefault();
 
-        /// <summary>
-        /// Helper method to generate a JWT token for the user.
-        /// </summary>
-        /// <param name="email">User's email to include in the token claim.</param>
-        /// <param name="role">Role of the user to be included in the token claim.</param>
-        /// <returns>A JWT token string.</returns>
-        private string GenerateJwtToken(string email, string role)
-        {
-            Claim[] claims = new[]
-            {
-                new Claim(ClaimTypes.Email, email),
-                new Claim(ClaimTypes.Role, role),
-            };
+                if (user == null)
+                {
+                    return Unauthorized(new { Message = "Invalid credentials" });
+                }
 
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
-            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                // Generate JWT token for the authenticated user
+                var token = _jwtHelper.GenerateJwtToken(user, "user");
 
-            JwtSecurityToken token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(30),
-                signingCredentials: creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token); // Return the JWT as string
+                return Ok(new
+                {
+                    Token = token // Return the generated token
+                });
+            }
         }
     }
 
     /// <summary>
-    /// Data transfer object (DTO) for the login request containing email and password.
+    /// Model for login request containing email and password.
     /// </summary>
     public class LoginRequest
     {

@@ -1,10 +1,11 @@
 ﻿using FinalDemo.Enums;
+using FinalDemo.Helpers;
 using FinalDemo.Interfaces;
 using FinalDemo.Models;
 using FinalDemo.Models.DTO;
 using FinalDemo.Models.POCO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace FinalDemo.Controllers
 {
@@ -17,14 +18,16 @@ namespace FinalDemo.Controllers
     public class OrderbookController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly JwtHelper _jwtHelper;
 
         /// <summary>
         /// Constructor to initialize OrderbookController with the required order service.
         /// </summary>
         /// <param name="orderService">The order service to handle order-related operations.</param>
-        public OrderbookController(IOrderService orderService)
+        public OrderbookController(IOrderService orderService, JwtHelper jwtHelper)
         {
             _orderService = orderService;
+            _jwtHelper = jwtHelper;
         }
 
         /// <summary>
@@ -64,8 +67,15 @@ namespace FinalDemo.Controllers
         /// <param name="dto">The order data to add.</param>
         /// <returns>Returns the created order or an error message if the addition fails.</returns>
         [HttpPost("add")]
+        [Authorize]
         public IActionResult AddOrder([FromBody] DTOYMO01 dto)
         {
+            int? userId = _jwtHelper.GetUserIdFromClaims(User);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            dto.O01F01 = userId.Value;
             Response response;
             _orderService.SetOperationType(EnmOperationType.Add);
             YMO01 poco = _orderService.PreSave(dto);
@@ -74,7 +84,7 @@ namespace FinalDemo.Controllers
             {
                 return BadRequest(response.Message);
             }
-            return CreatedAtAction(nameof(GetOrderById), new { id = (dto.O01F01) }, response.Message);
+            return CreatedAtAction(nameof(GetOrderById), new { id = (dto.O01F01) }, dto);
         }
 
         /// <summary>
@@ -83,8 +93,15 @@ namespace FinalDemo.Controllers
         /// <param name="dto">The updated order data.</param>
         /// <returns>Returns the updated order or an error message if the update fails.</returns>
         [HttpPut("update")]
+        [Authorize]
         public IActionResult UpdateOrder([FromBody] DTOYMO01 dto)
         {
+            int? userId = _jwtHelper.GetUserIdFromClaims(User);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            dto.O01F01 = userId.Value;
             Response response;
             _orderService.SetOperationType(EnmOperationType.Add);
             YMO01 poco = _orderService.PreSave(dto);
@@ -103,8 +120,14 @@ namespace FinalDemo.Controllers
         /// <param name="id">ID of the order to delete.</param>
         /// <returns>Returns a success message or an error message if deletion fails.</returns>
         [HttpDelete("delete")]
+        [Authorize]
         public IActionResult DeleteOrder([FromBody] DTOYMO01 dto)
         {
+            int? userId = _jwtHelper.GetUserIdFromClaims(User);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
             Response response;
             YMO01 poco = _orderService.PreDelete(dto);
             response = _orderService.ValidateOnDelete(poco);

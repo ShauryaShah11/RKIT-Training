@@ -1,4 +1,5 @@
-﻿using FinalDemo.Interfaces;
+﻿using FinalDemo.Helpers;
+using FinalDemo.Interfaces;
 using FinalDemo.Services;
 
 namespace FinalDemo.ExtensionMethods
@@ -19,6 +20,8 @@ namespace FinalDemo.ExtensionMethods
             services.AddScoped<IStockPriceHistoryService, StockPriceHistoryService>();
             services.AddScoped<IStockService, StockService>();
             services.AddScoped<IUserService, UserService>();
+
+            services.AddSingleton<JwtHelper>();
 
             // Registering the OrmLiteDbFactory as a singleton with the configuration
             services.AddSingleton<IOrmLiteDbFactory, OrmLiteDbFactory>(sp => new OrmLiteDbFactory(configuration));

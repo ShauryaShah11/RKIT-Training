@@ -1,8 +1,10 @@
 ﻿using FinalDemo.Enums;
+using FinalDemo.Helpers;
 using FinalDemo.Interfaces;
 using FinalDemo.Models;
 using FinalDemo.Models.DTO;
 using FinalDemo.Models.POCO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalDemo.Controllers
@@ -15,14 +17,16 @@ namespace FinalDemo.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly JwtHelper _jwtHelper;
 
         /// <summary>
         /// Constructor to initialize UserController with the required user service.
         /// </summary>
         /// <param name="userService">User service to handle user-related operations.</param>
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, JwtHelper jwtHelper)
         {
             _userService = userService;
+            _jwtHelper = jwtHelper;
         }
 
         /// <summary>
@@ -30,6 +34,7 @@ namespace FinalDemo.Controllers
         /// </summary>
         /// <returns>Returns a list of all users or an error response if any.</returns>
         [HttpGet]
+        [Authorize]
         public IActionResult GetAllUsers()
         {
             Response response = _userService.GetAllUsers();
@@ -75,7 +80,8 @@ namespace FinalDemo.Controllers
                 return BadRequest(new { Message = response.Message });
             }
             response = _userService.Save(poco);
-            return CreatedAtAction(nameof(GetUserById), new { id = ((YMU01)response.Data).U01F01 }, response.Data);
+            return CreatedAtAction(nameof(GetUserById), new { id = poco.U01F01 },
+                new { Status = "Success", Message = response.Message});
         }
 
         /// <summary>
@@ -87,6 +93,11 @@ namespace FinalDemo.Controllers
         [HttpPut("{id:int}")]
         public IActionResult UpdateUser(int id, [FromBody] DTOYMU01 dto)
         {
+            int? userId = _jwtHelper.GetUserIdFromClaims(User);
+            if (userId == null || dto.U01F01 != userId.Value)
+            {
+                return Unauthorized();
+            }
             Response response;
             dto.U01F01 = id;
             _userService.SetOperationType(EnmOperationType.Update);
@@ -108,6 +119,11 @@ namespace FinalDemo.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult DeleteUser(int id)
         {
+            int? userId = _jwtHelper.GetUserIdFromClaims(User);
+            if (userId == null || id != userId.Value)
+            {
+                return Unauthorized();
+            }
             DTOYMU01 dto = new DTOYMU01 { U01F01 = id }; // Assuming U01F01 is the ID field
             _userService.SetOperationType(EnmOperationType.Delete);
             YMU01 poco = _userService.PreDelete(dto);
