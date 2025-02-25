@@ -7,7 +7,6 @@ using FinalDemo.Models.DTO;
 using FinalDemo.Models.POCO;
 using ServiceStack.OrmLite;
 using System.Data;
-using System.Diagnostics;
 
 namespace FinalDemo.Services
 {
@@ -21,16 +20,35 @@ namespace FinalDemo.Services
         private IDbConnection _dbConnection;
 
         /// <summary>
+        /// Gets or sets the operation type (Add, Update, Delete).
+        /// </summary>
+        public EnmOperationType type { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UserService"/> class.
         /// Injects the database factory dependency to manage database connections.
         /// </summary>
         /// <param name="dbFactory">The ORM Lite database factory for handling connections.</param>
+        /// <param name="httpContextAccessor">The HTTP context accessor for retrieving user IP address.</param>
         public UserService(IOrmLiteDbFactory dbFactory, IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
             _dbFactory = dbFactory;
         }
 
+        /// <summary>
+        /// Sets the operation type for the service.
+        /// </summary>
+        /// <param name="operationType">The operation type to set.</param>
+        public void SetOperationType(EnmOperationType operationType)
+        {
+            type = operationType;
+        }
+
+        /// <summary>
+        /// Gets the IP address of the current user.
+        /// </summary>
+        /// <returns>The IP address of the current user.</returns>
         public string GetUserIP()
         {
             return _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "Unknown";
@@ -52,7 +70,7 @@ namespace FinalDemo.Services
 
                     // Return success if rows were affected, otherwise return failure
                     return rowsAffected > 0
-                        ? new Response { IsError = false, Message = "User deleted successfully" }
+                        ? new Response { Message = "User deleted successfully" }
                         : new Response { IsError = true, Message = "User not found or not deleted" };
                 }
             }
@@ -80,12 +98,12 @@ namespace FinalDemo.Services
 
                     if (users == null)
                     {
-                        return new Response { IsError = false, Message = "User does not exist" };
+                        return new Response { Message = "User does not exist" };
                     }
 
                     DataTable data = users.ConvertToDataTable<YMU01>();
 
-                    return new Response { IsError = false, Data = data, Message = "User retrieved successfully" };
+                    return new Response { Data = data, Message = "User retrieved successfully" };
                 }
             }
             catch (Exception ex)
@@ -110,9 +128,9 @@ namespace FinalDemo.Services
 
                     if (users == null)
                     {
-                        return new Response { IsError = false, Message = "User does not exist" };
+                        return new Response { IsError = true, Message = "User does not exist" };
                     }
-                    return new Response { IsError = true, Data = users.ConvertToDataTable<YMU01>(), Message = $"User with ID {id} retrieved successfully" };
+                    return new Response { Data = users.ConvertToDataTable<YMU01>(), Message = $"User with ID {id} retrieved successfully" };
                 }
             }
             catch (Exception ex)
@@ -146,9 +164,8 @@ namespace FinalDemo.Services
         /// Saves a user to the database, either by adding or updating.
         /// </summary>
         /// <param name="poco">The user data to save.</param>
-        /// <param name="type">The type of operation (Add or Update).</param>
         /// <returns>A response indicating the result of the save operation.</returns>
-        public Response Save(YMU01 poco, EnmOperationType type)
+        public Response Save(YMU01 poco)
         {
             try
             {
@@ -159,14 +176,14 @@ namespace FinalDemo.Services
                     if ((type & EnmOperationType.Add) == EnmOperationType.Add)
                     {
                         _dbConnection.Insert(poco); // Insert the new user record
-                        return new Response { IsError = false, Message = "User added successfully" };
+                        return new Response { Message = "User added successfully" };
                     }
 
                     // Update Operation: Update the existing user record
                     if ((type & EnmOperationType.Update) == EnmOperationType.Update)
                     {
                         _dbConnection.Update(poco); // Update the existing user record
-                        return new Response { IsError = false, Message = "User updated successfully" };
+                        return new Response { Message = "User updated successfully" };
                     }
 
                     // If none of the operation types match, return an error
@@ -202,7 +219,7 @@ namespace FinalDemo.Services
                     }
 
                     // Validation successful
-                    return new Response { IsError = false, Message = "Validation successful" };
+                    return new Response { Message = "Validation successful" };
                 }
             }
             catch (Exception ex)
@@ -216,9 +233,8 @@ namespace FinalDemo.Services
         /// Validates if a user can be saved based on the specified operation type.
         /// </summary>
         /// <param name="poco">The user data to validate.</param>
-        /// <param name="type">The type of operation (Add or Update).</param>
         /// <returns>A response indicating the validation result.</returns>
-        public Response ValidateOnSave(YMU01 poco, EnmOperationType type)
+        public Response ValidateOnSave(YMU01 poco)
         {
             try
             {
@@ -246,7 +262,7 @@ namespace FinalDemo.Services
                     }
 
                     // Validation successful
-                    return new Response { IsError = false, Message = "Validation successful" };
+                    return new Response { Message = "Validation successful" };
                 }
             }
             catch (Exception ex)

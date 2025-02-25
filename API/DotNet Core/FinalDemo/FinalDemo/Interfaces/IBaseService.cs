@@ -23,17 +23,15 @@ namespace FinalDemo.Interfaces
         /// Validates a POCO entity before saving.
         /// </summary>
         /// <param name="poco">The entity to validate.</param>
-        /// <param name="type">The type of operation (Insert, Update, etc.).</param>
         /// <returns>A response indicating success or validation errors.</returns>
-        Response ValidateOnSave(T1 poco, EnmOperationType type);
+        Response ValidateOnSave(T1 poco);
 
         /// <summary>
         /// Saves a POCO entity to the database.
         /// </summary>
         /// <param name="poco">The entity to save.</param>
-        /// <param name="type">The type of operation (Insert, Update, etc.).</param>
         /// <returns>A response indicating the result of the save operation.</returns>
-        Response Save(T1 poco, EnmOperationType type);
+        Response Save(T1 poco);
 
         /// <summary>
         /// Prepares the DTO before converting it to POCO for deletion.
@@ -55,5 +53,11 @@ namespace FinalDemo.Interfaces
         /// <param name="poco">The entity to delete.</param>
         /// <returns>A response indicating the result of the delete operation.</returns>
         Response Delete(T1 poco);
+
+        /// <summary>
+        /// Set Operation Type
+        /// </summary>
+        /// <param name="type"></param>
+        void SetOperationType(EnmOperationType type);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using FinalDemo.Enums;
+using FinalDemo.Models;
 using FinalDemo.Models.DTO;
+using FinalDemo.Models.POCO;
 using FinalDemo.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,7 +32,7 @@ namespace FinalDemo.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAllStockPriceHistory()
         {
-            var response = _stockPriceHistoryService.GetAllStockPriceHistory();
+            Response response = _stockPriceHistoryService.GetAllStockPriceHistory();
             if (response.IsError)
             {
                 return BadRequest(new { Message = response.Message });
@@ -47,7 +49,7 @@ namespace FinalDemo.Controllers
         [HttpGet("GetById/{id}")]
         public IActionResult GetStockPriceHistoryById(int id)
         {
-            var response = _stockPriceHistoryService.GetStockPriceHistoryById(id);
+            Response response = _stockPriceHistoryService.GetStockPriceHistoryById(id);
             if (response.IsError)
             {
                 return NotFound(new { Message = response.Message });
@@ -64,7 +66,7 @@ namespace FinalDemo.Controllers
         [HttpGet("GetByStockId/{stockId}")]
         public IActionResult GetStockPriceHistoryByStockId(int stockId)
         {
-            var response = _stockPriceHistoryService.GetStockPriceHistoryByStockId(stockId);
+            Response response = _stockPriceHistoryService.GetStockPriceHistoryByStockId(stockId);
             if (response.IsError)
             {
                 return NotFound(new { Message = response.Message });
@@ -74,20 +76,45 @@ namespace FinalDemo.Controllers
         }
 
         /// <summary>
-        /// Endpoint to save (add or update) stock price history record.
+        /// Endpoint to add a new stock price history record.
         /// </summary>
-        /// <param name="dto">DTO containing the stock price history data to save.</param>
-        /// <returns>Returns a success message or an error response if the operation fails.</returns>
-        [HttpPost("Save")]
-        public IActionResult SaveStockPriceHistory([FromBody] DTOYMH01 dto)
+        /// <param name="dto">DTO containing the stock price history data to add.</param>
+        /// <returns>Returns the created stock price history record or an error response if the addition fails.</returns>
+        [HttpPost]
+        public IActionResult AddStockPriceHistory([FromBody] DTOYMH01 dto)
         {
-            var response = _stockPriceHistoryService.HandleOperation(dto, EnmOperationType.Add);
+            Response response;
+            _stockPriceHistoryService.SetOperationType(EnmOperationType.Add);
+            YMH01 poco = _stockPriceHistoryService.PreSave(dto);
+            response = _stockPriceHistoryService.ValidateOnSave(poco);
             if (response.IsError)
             {
                 return BadRequest(new { Message = response.Message });
             }
+            response = _stockPriceHistoryService.Save(poco);
+            return CreatedAtAction(nameof(GetStockPriceHistoryById), new { id = ((YMH01)response.Data).H01F01 }, response.Data);
+        }
 
-            return Ok(new { Message = response.Message });
+        /// <summary>
+        /// Endpoint to update an existing stock price history record.
+        /// </summary>
+        /// <param name="id">ID of the stock price history record to update.</param>
+        /// <param name="dto">DTO containing the updated stock price history data.</param>
+        /// <returns>Returns the updated stock price history record or an error response if the update fails.</returns>
+        [HttpPut("{id}")]
+        public IActionResult UpdateStockPriceHistory(int id, [FromBody] DTOYMH01 dto)
+        {
+            Response response;
+            dto.H01F01 = id;
+            _stockPriceHistoryService.SetOperationType(EnmOperationType.Update);
+            YMH01 poco = _stockPriceHistoryService.PreSave(dto);
+            response = _stockPriceHistoryService.ValidateOnSave(poco);
+            if (response.IsError)
+            {
+                return BadRequest(new { Message = response.Message });
+            }
+            response = _stockPriceHistoryService.Save(poco);
+            return Ok(new { Message = response.Message, Data = response.Data });
         }
 
         /// <summary>
@@ -95,18 +122,19 @@ namespace FinalDemo.Controllers
         /// </summary>
         /// <param name="id">ID of the stock price history record to delete.</param>
         /// <returns>Returns a success message or an error response if the deletion fails.</returns>
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteStockPriceHistory(int id)
         {
-            var dto = new DTOYMH01 { H01F01 = id }; // Assuming H01F01 is the ID field
-            var response = _stockPriceHistoryService.HandleOperation(dto, EnmOperationType.Delete);
+            DTOYMH01 dto = new DTOYMH01 { H01F01 = id }; // Assuming H01F01 is the ID field
+            _stockPriceHistoryService.SetOperationType(EnmOperationType.Delete);
+            YMH01 poco = _stockPriceHistoryService.PreDelete(dto);
+            Response response = _stockPriceHistoryService.ValidateOnDelete(poco);
             if (response.IsError)
             {
                 return BadRequest(new { Message = response.Message });
             }
-
+            response = _stockPriceHistoryService.Delete(poco);
             return Ok(new { Message = response.Message });
         }
     }
 }
-

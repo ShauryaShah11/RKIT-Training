@@ -22,12 +22,26 @@ namespace FinalDemo.Services
         private IDbConnection _dbConnection; // Database connection instance
 
         /// <summary>
+        /// Gets or sets the operation type (Add, Update, Delete).
+        /// </summary>
+        public EnmOperationType type { get; set; }
+
+        /// <summary>
         /// Initializes the StockService with a database factory to open database connections.
         /// </summary>
         /// <param name="dbFactory">Database factory for creating database connections.</param>
         public StockService(IOrmLiteDbFactory dbFactory)
         {
             _dbFactory = dbFactory;
+        }
+
+        /// <summary>
+        /// Sets the operation type for the service.
+        /// </summary>
+        /// <param name="operationType">The operation type to set.</param>
+        public void SetOperationType(EnmOperationType operationType)
+        {
+            type = operationType;
         }
 
         /// <summary>
@@ -44,7 +58,7 @@ namespace FinalDemo.Services
                     int rowsAffected = _dbConnection.DeleteById<YMS01>(poco.S01F01);
 
                     return rowsAffected > 0
-                        ? new Response { IsError = false, Message = "Stock deleted successfully" }
+                        ? new Response { Message = "Stock deleted successfully" }
                         : new Response { IsError = true, Message = "Stock not found or not deleted" };
                 }
             }
@@ -69,12 +83,11 @@ namespace FinalDemo.Services
 
                     if (stocks == null)
                     {
-                        return new Response { IsError = false, Message = "Stocks do not exist" };
+                        return new Response { IsError = true, Message = "Stocks do not exist" };
                     }
 
-                    string jsonstring = JsonConvert.SerializeObject(stocks, Formatting.Indented);
-
-                    return new Response { IsError = false, Data = jsonstring, Message = "Stocks retrieved successfully" };
+                    DataTable data = stocks.ConvertToDataTable<YMS01>();
+                    return new Response { Data = data, Message = "Stocks retrieved successfully" };
                 }
             }
             catch (Exception ex)
@@ -99,9 +112,10 @@ namespace FinalDemo.Services
 
                     if (stocks == null)
                     {
-                        return new Response { IsError = false, Message = "Stock does not exist" };
+                        return new Response { IsError = true, Message = "Stock does not exist" };
                     }
-                    return new Response { IsError = true, Data = stocks, Message = $"Stock with ID {id} retrieved successfully" };
+                    DataTable data = stocks.ConvertToDataTable<YMS01>();
+                    return new Response { Data = data, Message = $"Stock with ID {id} retrieved successfully" };
                 }
             }
             catch (Exception ex)
@@ -126,10 +140,10 @@ namespace FinalDemo.Services
 
                     if (stocks == null)
                     {
-                        return new Response { IsError = false, Message = "Stock not found by name" };
+                        return new Response { IsError = true, Message = "Stock not found by name" };
                     }
 
-                    return new Response { IsError = true, Data = stocks, Message = $"Stock with name {name} retrieved successfully" };
+                    return new Response { Data = stocks, Message = $"Stock with name {name} retrieved successfully" };
                 }
             }
             catch (Exception ex)
@@ -163,9 +177,8 @@ namespace FinalDemo.Services
         /// Saves (inserts or updates) a stock record based on the specified operation type.
         /// </summary>
         /// <param name="poco">The POCO object representing the stock to save.</param>
-        /// <param name="type">The type of operation to perform (Add or Update).</param>
         /// <returns>A Response object containing the status and message of the operation.</returns>
-        public Response Save(YMS01 poco, EnmOperationType type)
+        public Response Save(YMS01 poco)
         {
             try
             {
@@ -225,9 +238,8 @@ namespace FinalDemo.Services
         /// Validates the stock record before saving (Add or Update).
         /// </summary>
         /// <param name="poco">The POCO object representing the stock to validate.</param>
-        /// <param name="type">The type of operation to validate (Add or Update).</param>
         /// <returns>A Response object indicating the validation result.</returns>
-        public Response ValidateOnSave(YMS01 poco, EnmOperationType type)
+        public Response ValidateOnSave(YMS01 poco)
         {
             try
             {

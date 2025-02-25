@@ -2,6 +2,7 @@
 using FinalDemo.Interfaces;
 using FinalDemo.Models;
 using FinalDemo.Models.DTO;
+using FinalDemo.Models.POCO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalDemo.Controllers
@@ -11,7 +12,7 @@ namespace FinalDemo.Controllers
     /// </summary>
     [Route("api/users")]
     [ApiController]
-    public class UserController : ControllerBase // Use ControllerBase for API-only controllers
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 
@@ -31,12 +32,13 @@ namespace FinalDemo.Controllers
         [HttpGet]
         public IActionResult GetAllUsers()
         {
-            Response userResponse = _userService.GetAllUsers();
-            if (userResponse.IsError)
+            Response response = _userService.GetAllUsers();
+            if (response.IsError)
             {
-                return BadRequest(userResponse);
+                return BadRequest(new { Message = response.Message });
             }
-            return Ok(userResponse);
+
+            return Ok(response);
         }
 
         /// <summary>
@@ -45,72 +47,77 @@ namespace FinalDemo.Controllers
         /// <param name="id">ID of the user to retrieve.</param>
         /// <returns>Returns the user data or a not found response if the user doesn't exist.</returns>
         [HttpGet("{id:int}")]
-        public IActionResult GetUser(int id)
+        public IActionResult GetUserById(int id)
         {
-            Response userResponse = _userService.GetUserById(id);
-            if (userResponse.IsError)
+            Response response = _userService.GetUserById(id);
+            if (response.IsError)
             {
-                return NotFound(userResponse); // Use NotFound for missing users
+                return NotFound(new { Message = response.Message });
             }
-            return Ok(userResponse);
+
+            return Ok(new { Message = response.Message, Data = response.Data });
         }
 
         /// <summary>
         /// Endpoint to add a new user.
         /// </summary>
-        /// <param name="user">User data to be added.</param>
+        /// <param name="dto">User data to be added.</param>
         /// <returns>Returns a created response with the user data or an error response if the creation fails.</returns>
         [HttpPost]
-        public IActionResult AddUser([FromBody] DTOYMU01 user)
+        public IActionResult AddUser([FromBody] DTOYMU01 dto)
         {
-            
-            Response addUserResponse = _userService.PreSave(user);
-            if (addUserResponse.IsError)
+            Response response;
+            _userService.SetOperationType(EnmOperationType.Add);
+            YMU01 poco = _userService.PreSave(dto);
+            response = _userService.ValidateOnSave(poco);
+            if (response.IsError)
             {
-                return BadRequest(addUserResponse);
+                return BadRequest(new { Message = response.Message });
             }
-
-            return CreatedAtAction(nameof(GetUser), new { id = user.U01F01 }, addUserResponse);
+            response = _userService.Save(poco);
+            return CreatedAtAction(nameof(GetUserById), new { id = ((YMU01)response.Data).U01F01 }, response.Data);
         }
 
         /// <summary>
         /// Endpoint to update an existing user.
         /// </summary>
         /// <param name="id">ID of the user to update.</param>
-        /// <param name="user">Updated user data.</param>
+        /// <param name="dto">Updated user data.</param>
         /// <returns>Returns the updated user data or an error response if the update fails.</returns>
         [HttpPut("{id:int}")]
-        public IActionResult UpdateUser(int id, [FromBody] DTOYMU01 user)
+        public IActionResult UpdateUser(int id, [FromBody] DTOYMU01 dto)
         {
-            if (user == null)
+            Response response;
+            dto.U01F01 = id;
+            _userService.SetOperationType(EnmOperationType.Update);
+            YMU01 poco = _userService.PreSave(dto);
+            response = _userService.ValidateOnSave(poco);
+            if (response.IsError)
             {
-                return BadRequest(new { Message = "Invalid user data" });
+                return BadRequest(new { Message = response.Message });
             }
-
-            Response updateUserResponse = _userService.HandleOperation(user, EnmOperationType.Update);
-            if (updateUserResponse.IsError)
-            {
-                return BadRequest(updateUserResponse);
-            }
-            return Ok(updateUserResponse);
+            response = _userService.Save(poco);
+            return Ok(new { Message = response.Message, Data = response.Data });
         }
 
         /// <summary>
         /// Endpoint to delete a user by ID.
         /// </summary>
         /// <param name="id">ID of the user to delete.</param>
-        /// <param name="user">User data to be deleted.</param>
-        /// <returns>Returns a response indicating success or failure of the deletion.</returns>
+        /// <returns>Returns a success message or an error response if the deletion fails.</returns>
         [HttpDelete("{id:int}")]
-        public IActionResult DeleteUser(int id, [FromBody] DTOYMU01 user)
+        public IActionResult DeleteUser(int id)
         {
-            Response deleteUserResponse = _userService.HandleOperation(user, EnmOperationType.Delete);
-            if (deleteUserResponse.IsError)
+            DTOYMU01 dto = new DTOYMU01 { U01F01 = id }; // Assuming U01F01 is the ID field
+            _userService.SetOperationType(EnmOperationType.Delete);
+            YMU01 poco = _userService.PreDelete(dto);
+            Response response = _userService.ValidateOnDelete(poco);
+            if (response.IsError)
             {
-                return BadRequest(deleteUserResponse);
+                return BadRequest(new { Message = response.Message });
             }
-            return Ok(deleteUserResponse);
+            response = _userService.Delete(poco);
+            return Ok(new { Message = response.Message });
         }
     }
 }
-

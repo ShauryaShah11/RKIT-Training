@@ -1,6 +1,8 @@
 ﻿using FinalDemo.Enums;
 using FinalDemo.Interfaces;
+using FinalDemo.Models;
 using FinalDemo.Models.DTO;
+using FinalDemo.Models.POCO;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -32,12 +34,12 @@ namespace FinalDemo.Controllers
         [HttpGet("all")]
         public IActionResult GetAllOrders()
         {
-            var response = _orderService.GetAllOrder();
+            Response response = _orderService.GetAllOrder();
             if (response.IsError)
             {
                 return BadRequest(response.Message);
             }
-            return Ok(JsonConvert.DeserializeObject(response.Data.ToString()));
+            return Ok(response.Data);
         }
 
         /// <summary>
@@ -48,7 +50,7 @@ namespace FinalDemo.Controllers
         [HttpGet("{id}")]
         public IActionResult GetOrderById(int id)
         {
-            var response = _orderService.GetOrderById(id);
+            Response response = _orderService.GetOrderById(id);
             if (response.IsError)
             {
                 return NotFound(response.Message);
@@ -64,7 +66,10 @@ namespace FinalDemo.Controllers
         [HttpPost("add")]
         public IActionResult AddOrder([FromBody] DTOYMO01 dto)
         {
-            var response = _orderService.HandleOperation(dto, EnmOperationType.Add);
+            Response response;
+            _orderService.SetOperationType(EnmOperationType.Add);
+            YMO01 poco = _orderService.PreSave(dto);
+            response = _orderService.ValidateOnSave(poco);
             if (response.IsError)
             {
                 return BadRequest(response.Message);
@@ -80,11 +85,15 @@ namespace FinalDemo.Controllers
         [HttpPut("update")]
         public IActionResult UpdateOrder([FromBody] DTOYMO01 dto)
         {
-            var response = _orderService.HandleOperation(dto, EnmOperationType.Update);
+            Response response;
+            _orderService.SetOperationType(EnmOperationType.Add);
+            YMO01 poco = _orderService.PreSave(dto);
+            response = _orderService.ValidateOnSave(poco);
             if (response.IsError)
             {
                 return BadRequest(response.Message);
             }
+            response = _orderService.Save(poco);
             return Ok(response.Message);
         }
 
@@ -93,15 +102,17 @@ namespace FinalDemo.Controllers
         /// </summary>
         /// <param name="id">ID of the order to delete.</param>
         /// <returns>Returns a success message or an error message if deletion fails.</returns>
-        [HttpDelete("delete/{id}")]
-        public IActionResult DeleteOrder(int id)
+        [HttpDelete("delete")]
+        public IActionResult DeleteOrder([FromBody] DTOYMO01 dto)
         {
-            DTOYMO01 dto = new DTOYMO01 { O01F01 = id };
-            var response = _orderService.HandleOperation(dto, EnmOperationType.Delete);
+            Response response;
+            YMO01 poco = _orderService.PreDelete(dto);
+            response = _orderService.ValidateOnDelete(poco);
             if (response.IsError)
             {
                 return BadRequest(response.Message);
             }
+            response = _orderService.Delete(poco);
             return Ok(response.Message);
         }
     }

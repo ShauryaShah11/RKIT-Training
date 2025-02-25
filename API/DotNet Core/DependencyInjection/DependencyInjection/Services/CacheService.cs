@@ -17,11 +17,16 @@ namespace DependencyInjection.Services
         /// </summary>
         /// <param name="cacheKey">The key used to retrieve cached data.</param>
         /// <returns>Returns the cached data if found, otherwise returns null.</returns>
-        public string GetCachedData(string cacheKey)
+        public string GetCacheedData(string cacheKey)
         {
             _cache.TryGetValue(cacheKey, out string data);
             return data;
         }
+
+        //public string GetCacheedData(string cacheKey)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         /// <summary>
         /// Stores data in the cache with a specified key.

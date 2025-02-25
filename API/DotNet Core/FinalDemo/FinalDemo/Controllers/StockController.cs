@@ -1,5 +1,6 @@
 ﻿using FinalDemo.Enums;
 using FinalDemo.Interfaces;
+using FinalDemo.Models;
 using FinalDemo.Models.DTO;
 using FinalDemo.Models.POCO;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,7 @@ namespace FinalDemo.Controllers
         [HttpGet]
         public IActionResult GetAllStocks()
         {
-            var response = _stockService.GetAllStocks();
+            Response response = _stockService.GetAllStocks();
             if (response.IsError)
             {
                 return BadRequest(response.Message);
@@ -48,7 +49,7 @@ namespace FinalDemo.Controllers
         [HttpGet("{id}")]
         public IActionResult GetStockById(int id)
         {
-            var response = _stockService.GetStockById(id);
+            Response response = _stockService.GetStockById(id);
             if (response.IsError)
             {
                 return NotFound(response.Message);
@@ -64,7 +65,7 @@ namespace FinalDemo.Controllers
         [HttpGet("name/{name}")]
         public IActionResult GetStockByName(string name)
         {
-            var response = _stockService.GetStockByName(name);
+            Response response = _stockService.GetStockByName(name);
             if (response.IsError)
             {
                 return NotFound(response.Message);
@@ -80,11 +81,15 @@ namespace FinalDemo.Controllers
         [HttpPost]
         public IActionResult AddStock([FromBody] DTOYMS01 stock)
         {
-            var response = _stockService.HandleOperation(stock, EnmOperationType.Add);
+            Response response;
+            _stockService.SetOperationType(EnmOperationType.Add);
+            YMS01 poco = _stockService.PreSave(stock);
+            response = _stockService.ValidateOnSave(poco);
             if (response.IsError)
             {
                 return BadRequest(response.Message);
             }
+            response = _stockService.Save(poco);
             return CreatedAtAction(nameof(GetStockById), new { id = ((YMS01)response.Data).S01F01 }, response.Data);
         }
 
@@ -97,16 +102,16 @@ namespace FinalDemo.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateStock(int id, [FromBody] DTOYMS01 stock)
         {
-            if (id != stock.S01F01) // Assuming S01F01 is the ID
-            {
-                return BadRequest("Stock ID mismatch");
-            }
-
-            var response = _stockService.HandleOperation(stock, EnmOperationType.Update);
+            Response response;
+            stock.S01F01 = id;
+            _stockService.SetOperationType(EnmOperationType.Update);
+            YMS01 poco = _stockService.PreSave(stock);
+            response = _stockService.ValidateOnSave(poco);
             if (response.IsError)
             {
                 return BadRequest(response.Message);
             }
+            response = _stockService.Save(poco);
             return Ok(response.Data);
         }
 
@@ -118,12 +123,15 @@ namespace FinalDemo.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteStock(int id)
         {
-            var stock = new DTOYMS01 { S01F01 = id }; // Assuming you are passing ID to delete
-            var response = _stockService.HandleOperation(stock, EnmOperationType.Delete);
+            Response response;
+            DTOYMS01 stock = new DTOYMS01 { S01F01 = id };
+            YMS01 poco = _stockService.PreDelete(stock);
+            response = _stockService.ValidateOnDelete(poco);
             if (response.IsError)
             {
                 return BadRequest(response.Message);
             }
+            response = _stockService.Delete(poco);
             return Ok(response.Message);
         }
     }

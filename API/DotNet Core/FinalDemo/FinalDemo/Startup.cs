@@ -34,7 +34,10 @@ namespace FinalDemo
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure JSON serialization settings
-            services.AddControllers()
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<CustomExceptionFilter>();
+            })
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     options.InvalidModelStateResponseFactory = context =>
@@ -60,23 +63,17 @@ namespace FinalDemo
                 {
                     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore; // Ignore null values
                     options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented; // Pretty-print JSON
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; // Prevent circular references
-                    options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(); // Use camelCase
+                    //options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; // Prevent circular references
+                    //options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(); // Use camelCase
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // Custom date format
-                    options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
-                    {
-                        IgnoreSerializableAttribute = true // Ignore [Serializable] attributes
-                    };
+                    //options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
+                    //{
+                    //    IgnoreSerializableAttribute = true // Ignore [Serializable] attributes
+                    //};
                 });
 
             // Register HTTP Context Accessor
             services.AddHttpContextAccessor();
-
-            // Add global exception filter
-            services.AddControllers(options =>
-            {
-                options.Filters.Add<CustomExceptionFilter>();
-            });
 
             // Enable API documentation
             services.AddEndpointsApiExplorer();
