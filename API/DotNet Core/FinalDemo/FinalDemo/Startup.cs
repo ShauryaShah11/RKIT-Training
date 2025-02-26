@@ -69,7 +69,7 @@ namespace FinalDemo
             services.AddControllers(options =>
             {
                 // [ERROR HANDLING] A global exception filter
-                options.Filters.A<CustomExceptionFilter>();
+                options.Filters.Add<CustomExceptionFilter>();
             })
                 .ConfigureApiBehaviorOptions(options =>
                 {

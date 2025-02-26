@@ -1,3 +1,6 @@
+using NLog;
+using NLog.Web;
+
 namespace FinalDemo
 {
     /// <summary>
@@ -13,6 +16,20 @@ namespace FinalDemo
         {
             // Create a new WebApplication builder.
             var builder = WebApplication.CreateBuilder(args);
+
+            /// <summary>
+            /// Setup NLog for logging.
+            /// Loads configuration from "nlog.config".
+            /// </summary>
+            var logger = LogManager.Setup().LoadConfigurationFromFile("nlog.config").GetCurrentClassLogger();
+            logger.Info("Application is starting...");
+
+            // <summary>
+            /// Configure Logging settings.
+            /// </summary>
+            builder.Logging.ClearProviders(); /// <remarks>Removes default logging providers (e.g., Console, Debug).</remarks>
+            builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace); /// <remarks>Sets the minimum logging level to capture detailed logs.</remarks>
+            builder.Host.UseNLog(); /// <remarks>Integrates NLog as the logging provider for the application.</remarks>
 
             // Instantiate the Startup class with configuration settings.
             var startup = new Startup(builder.Configuration);
