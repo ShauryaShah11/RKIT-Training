@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevExtreme Load Indicator Demo</title>
+    <style>
+        #button,
+        #button .dx-button-content {
+            padding: 0;
+        }
+
+            #button .button-indicator {
+                height: 32px;
+                width: 32px;
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 5px;
+            }
+
+        .indicators {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <script src="./Scripts//jquery-3.5.1.min.js"></script>
+
+    <link rel="stylesheet" href="./Content/dx.common.css" />
+    <link rel="stylesheet" href="./Content/dx.light.css" />
+    <script type="text/javascript" src="./Scripts/dx.all.js"></script>
+</head>
+
+<body>
+    <div>
+        <h1>Custom Size</h1>
+        <div id="small-indicator"></div>
+        <div id="medium-indicator"></div>
+        <div id="large-indicator"></div>
+    </div>
+
+    <div>
+        <h1>Load Image</h1>
+        <div id="image-indicator"></div>
+    </div>
+
+    <div>
+        <h1>Using With Other Widgets</h1>
+        <div id="button"></div>
+    </div>
+
+    <script src="loadIndicator.js"></script>
+
+</body>
+
+</html>

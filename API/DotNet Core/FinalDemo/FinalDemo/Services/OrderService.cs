@@ -19,7 +19,7 @@ namespace FinalDemo.Services
         private IDbConnection _dbConnection;
 
         /// <summary>
-        /// Gets or sets the operation type (Add, Update, Delete).
+        /// Gets or sets the operation type (A, U, D).
         /// </summary>
         public EnmOperationType type { get; set; }
 
@@ -150,13 +150,13 @@ namespace FinalDemo.Services
             {
                 using (_dbConnection = _dbFactory.OpenConnection())
                 {
-                    if ((type & EnmOperationType.Add) == EnmOperationType.Add)
+                    if ((type & EnmOperationType.A) == EnmOperationType.A)
                     {
                         _dbConnection.Insert(poco);
                         return new Response { Message = "Order added successfully" };
                     }
 
-                    if ((type & EnmOperationType.Update) == EnmOperationType.Update)
+                    if ((type & EnmOperationType.U) == EnmOperationType.U)
                     {
                         _dbConnection.Update(poco);
                         return new Response { Message = "Order updated successfully" };
@@ -198,7 +198,7 @@ namespace FinalDemo.Services
         }
 
         /// <summary>
-        /// Validates the order before saving (Add or Update).
+        /// Validates the order before saving (A or U).
         /// </summary>
         /// <param name="poco">POCO representing the order to be validated.</param>
         /// <returns>A response indicating the result of the validation.</returns>
@@ -208,7 +208,7 @@ namespace FinalDemo.Services
             {
                 using (_dbConnection = _dbFactory.OpenConnection())
                 {
-                    if ((type & EnmOperationType.Add) == EnmOperationType.Add)
+                    if ((type & EnmOperationType.A) == EnmOperationType.A)
                     {
                         bool isExist = _dbConnection.Exists<YMO01>(x => x.O01F02 == poco.O01F02 && x.O01F02 == poco.O01F02);
                         if (isExist)
@@ -217,7 +217,7 @@ namespace FinalDemo.Services
                         }
                     }
 
-                    if ((type & EnmOperationType.Update) == EnmOperationType.Update)
+                    if ((type & EnmOperationType.U) == EnmOperationType.U)
                     {
                         YMO01? existingOrder = _dbConnection.SingleById<YMO01>(poco.O01F01);
                         if (existingOrder == null)

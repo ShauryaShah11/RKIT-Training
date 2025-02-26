@@ -121,7 +121,7 @@ namespace FinalDemo.Controllers
         public IActionResult AddStockPriceHistory([FromBody] DTOYMH01 dto)
         {
             Response response;
-            _stockPriceHistoryService.SetOperationType(EnmOperationType.Add);
+            _stockPriceHistoryService.SetOperationType(EnmOperationType.A);
             YMH01 poco = _stockPriceHistoryService.PreSave(dto);
             response = _stockPriceHistoryService.ValidateOnSave(poco);
             if (response.IsError)
@@ -144,7 +144,7 @@ namespace FinalDemo.Controllers
         {
             Response response;
             dto.H01F01 = id;
-            _stockPriceHistoryService.SetOperationType(EnmOperationType.Update);
+            _stockPriceHistoryService.SetOperationType(EnmOperationType.U);
             YMH01 poco = _stockPriceHistoryService.PreSave(dto);
             response = _stockPriceHistoryService.ValidateOnSave(poco);
             if (response.IsError)
@@ -165,7 +165,7 @@ namespace FinalDemo.Controllers
         public IActionResult DeleteStockPriceHistory(int id)
         {
             DTOYMH01 dto = new DTOYMH01 { H01F01 = id }; // Assuming H01F01 is the ID field
-            _stockPriceHistoryService.SetOperationType(EnmOperationType.Delete);
+            _stockPriceHistoryService.SetOperationType(EnmOperationType.D);
             YMH01 poco = _stockPriceHistoryService.PreDelete(dto);
             Response response = _stockPriceHistoryService.ValidateOnDelete(poco);
             if (response.IsError)

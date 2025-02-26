@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace FinalDemo.Models
+﻿namespace FinalDemo.Models
 {
     /// <summary>
     /// Represents a standard API response model.

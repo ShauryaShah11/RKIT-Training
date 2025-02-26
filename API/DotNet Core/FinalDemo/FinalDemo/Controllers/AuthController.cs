@@ -3,7 +3,6 @@ using FinalDemo.Interfaces;
 using FinalDemo.Models.POCO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ServiceStack.OrmLite;
 
 namespace FinalDemo.Controllers
 {
@@ -14,7 +13,7 @@ namespace FinalDemo.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IOrmLiteDbFactory _ormLiteDbFactory;
+        private readonly IUserService _userService;
         private readonly JwtHelper _jwtHelper;
 
         /// <summary>
@@ -22,9 +21,9 @@ namespace FinalDemo.Controllers
         /// </summary>
         /// <param name="ormLiteDbFactory">Factory to handle database connection.</param>
         /// <param name="jwtHelper">Helper class for generating JWT tokens.</param>
-        public AuthController(IOrmLiteDbFactory ormLiteDbFactory, JwtHelper jwtHelper)
+        public AuthController(IUserService userService, JwtHelper jwtHelper)
         {
-            _ormLiteDbFactory = ormLiteDbFactory;
+            _userService = userService;
             _jwtHelper = jwtHelper;
         }
 
@@ -37,29 +36,20 @@ namespace FinalDemo.Controllers
         [AllowAnonymous]
         public IActionResult Login([FromBody] LoginRequest loginRequest)
         {
-            if (loginRequest == null || string.IsNullOrEmpty(loginRequest.Email) || string.IsNullOrEmpty(loginRequest.Password))
+            YMU01 user = _userService.Authenticate(loginRequest.Email, loginRequest.Password);
+
+            if (user == null)
             {
-                return BadRequest(new { Message = "Email and password are required." });
+                return Unauthorized(new { Message = "Invalid credentials" });
             }
 
-            // Open DB connection per request
-            using (var db = _ormLiteDbFactory.OpenConnection())
+            // Generate JWT token for the authenticated user
+            var token = _jwtHelper.GenerateJwtToken(user, "user");
+
+            return Ok(new
             {
-                YMU01 user = db.Select<YMU01>(u => u.U01F03 == loginRequest.Email && u.U01F04 == loginRequest.Password).FirstOrDefault();
-
-                if (user == null)
-                {
-                    return Unauthorized(new { Message = "Invalid credentials" });
-                }
-
-                // Generate JWT token for the authenticated user
-                var token = _jwtHelper.GenerateJwtToken(user, "user");
-
-                return Ok(new
-                {
-                    Token = token // Return the generated token
-                });
-            }
+                Token = token // Return the generated token
+            });
         }
     }
 

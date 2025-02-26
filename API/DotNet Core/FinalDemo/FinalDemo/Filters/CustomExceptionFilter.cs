@@ -36,6 +36,4 @@ namespace FinalDemo.Filters
             context.Result = result; // Return custom response
         }
     }
-
-
 }

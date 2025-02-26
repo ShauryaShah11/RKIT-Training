@@ -12,7 +12,7 @@ namespace FinalDemo.Services
 {
     /// <summary>
     /// StockPriceHistoryService is a service that handles operations related to stock price history.
-    /// It supports CRUD operations (Create, Read, Update, Delete) for stock price data and provides 
+    /// It supports CRUD operations (Create, Read, U, D) for stock price data and provides 
     /// methods for validation, saving, and retrieving stock price history records.
     /// </summary>
     public class StockPriceHistoryService : IStockPriceHistoryService
@@ -21,7 +21,7 @@ namespace FinalDemo.Services
         private IDbConnection _dbConnection;
 
         /// <summary>
-        /// Gets or sets the operation type (Add, Update, Delete).
+        /// Gets or sets the operation type (A, U, D).
         /// </summary>
         public EnmOperationType type { get; set; }
 
@@ -180,13 +180,13 @@ namespace FinalDemo.Services
             {
                 using (_dbConnection = _dbFactory.OpenConnection())
                 {
-                    if ((type & EnmOperationType.Add) == EnmOperationType.Add)
+                    if ((type & EnmOperationType.A) == EnmOperationType.A)
                     {
                         _dbConnection.Insert(poco);
                         return new Response { Message = "Stock price history added successfully" };
                     }
 
-                    if ((type & EnmOperationType.Update) == EnmOperationType.Update)
+                    if ((type & EnmOperationType.U) == EnmOperationType.U)
                     {
                         _dbConnection.Update(poco);
                         return new Response { Message = "Stock price history updated successfully" };
@@ -238,7 +238,7 @@ namespace FinalDemo.Services
             {
                 using (_dbConnection = _dbFactory.OpenConnection())
                 {
-                    if ((type & EnmOperationType.Add) == EnmOperationType.Add)
+                    if ((type & EnmOperationType.A) == EnmOperationType.A)
                     {
                         bool isExist = _dbConnection.Exists<YMH01>(x => x.H01F02 == poco.H01F02 && x.H01F03 == poco.H01F03);
                         if (isExist)
@@ -247,7 +247,7 @@ namespace FinalDemo.Services
                         }
                     }
 
-                    if ((type & EnmOperationType.Update) == EnmOperationType.Update)
+                    if ((type & EnmOperationType.U) == EnmOperationType.U)
                     {
                         YMH01? existingHistory = _dbConnection.SingleById<YMH01>(poco.H01F01);
                         if (existingHistory == null)
@@ -276,12 +276,12 @@ namespace FinalDemo.Services
             {
                 using (_dbConnection = _dbFactory.OpenConnection())
                 {
-                    var q = _dbConnection.From<YMH01>()
+                    SqlExpression<YMH01>? q = _dbConnection.From<YMH01>()
                          .Where(x => x.H01F02 == stockId)
                          .OrderByDescending(x => x.H01F03)
                          .Take(1);
 
-                    var maxPriceRecord = _dbConnection.Select(q);
+                    List<YMH01> maxPriceRecord = _dbConnection.Select(q);
 
                     if (maxPriceRecord == null)
                     {
@@ -297,17 +297,23 @@ namespace FinalDemo.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves the date when the stock price was at its minimum.
+        /// </summary>
+        /// <param name="stockId">The stock ID to filter the stock price history by.</param>
+        /// <returns>A response containing the date when the stock price was at its minimum.</returns>
         public Response GetMinStockPriceDate(int stockId)
         {
             try
             {
                 using (_dbConnection = _dbFactory.OpenConnection())
                 {
-                    var q = _dbConnection.From<YMH01>()
+                    SqlExpression<YMH01>? q = _dbConnection.From<YMH01>()
                          .Where(x => x.H01F02 == stockId)
                          .OrderBy(x => x.H01F03)
                          .Take(1);
-                    var minPriceRecord = _dbConnection.Select(q);
+
+                    List<YMH01> minPriceRecord = _dbConnection.Select(q);
 
                     if (minPriceRecord == null)
                     {

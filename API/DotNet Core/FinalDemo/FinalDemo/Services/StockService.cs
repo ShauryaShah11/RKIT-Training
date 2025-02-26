@@ -20,7 +20,7 @@ namespace FinalDemo.Services
         private IDbConnection _dbConnection; // Database connection instance
 
         /// <summary>
-        /// Gets or sets the operation type (Add, Update, Delete).
+        /// Gets or sets the operation type (A, U, D).
         /// </summary>
         public EnmOperationType type { get; set; }
 
@@ -183,14 +183,14 @@ namespace FinalDemo.Services
                 using (_dbConnection = _dbFactory.OpenConnection())
                 {
                     // Insert a new stock record
-                    if ((type & EnmOperationType.Add) == EnmOperationType.Add)
+                    if ((type & EnmOperationType.A) == EnmOperationType.A)
                     {
                         _dbConnection.Insert(poco);
                         return new Response { IsError = false, Message = "Stock added successfully" };
                     }
 
-                    // Update an existing stock record
-                    if ((type & EnmOperationType.Update) == EnmOperationType.Update)
+                    // U an existing stock record
+                    if ((type & EnmOperationType.U) == EnmOperationType.U)
                     {
                         _dbConnection.Update(poco);
                         return new Response { IsError = false, Message = "Stock updated successfully" };
@@ -233,7 +233,7 @@ namespace FinalDemo.Services
         }
 
         /// <summary>
-        /// Validates the stock record before saving (Add or Update).
+        /// Validates the stock record before saving (A or U).
         /// </summary>
         /// <param name="poco">The POCO object representing the stock to validate.</param>
         /// <returns>A Response object indicating the validation result.</returns>
@@ -243,8 +243,8 @@ namespace FinalDemo.Services
             {
                 using (_dbConnection = _dbFactory.OpenConnection())
                 {
-                    // Validation for Add operation (checks if the stock name already exists)
-                    if ((type & EnmOperationType.Add) == EnmOperationType.Add)
+                    // Validation for A operation (checks if the stock name already exists)
+                    if ((type & EnmOperationType.A) == EnmOperationType.A)
                     {
                         bool isExist = _dbConnection.Exists<YMS01>(x => x.S01F02 == poco.S01F02); // Assume S01F02 is stock name
                         if (isExist)
@@ -253,8 +253,8 @@ namespace FinalDemo.Services
                         }
                     }
 
-                    // Validation for Update operation (checks if the stock exists)
-                    if ((type & EnmOperationType.Update) == EnmOperationType.Update)
+                    // Validation for U operation (checks if the stock exists)
+                    if ((type & EnmOperationType.U) == EnmOperationType.U)
                     {
                         YMS01? existingStock = _dbConnection.SingleById<YMS01>(poco.S01F01);
                         if (existingStock == null)

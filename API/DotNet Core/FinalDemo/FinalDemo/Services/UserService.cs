@@ -20,7 +20,7 @@ namespace FinalDemo.Services
         private IDbConnection _dbConnection;
 
         /// <summary>
-        /// Gets or sets the operation type (Add, Update, Delete).
+        /// Gets or sets the operation type (A, U, D).
         /// </summary>
         public EnmOperationType type { get; set; }
 
@@ -43,6 +43,20 @@ namespace FinalDemo.Services
         public void SetOperationType(EnmOperationType operationType)
         {
             type = operationType;
+        }
+
+        /// <summary>
+        /// Authenticates a user by their email and password.
+        /// </summary>
+        /// <param name="email">The email of the user.</param>
+        /// <param name="password">The password of the user.</param>
+        /// <returns>The authenticated user if credentials are valid; otherwise, null.</returns>
+        public YMU01? Authenticate(string email, string password)
+        {
+            using (_dbConnection = _dbFactory.OpenConnection())
+            {
+                return _dbConnection.Select<YMU01>(u => u.U01F03 == email && u.U01F04 == password).FirstOrDefault();
+            }
         }
 
         /// <summary>
@@ -172,17 +186,17 @@ namespace FinalDemo.Services
                 // Open the connection inside the try-catch block using 'using'
                 using (_dbConnection = _dbFactory.OpenConnection())
                 {
-                    // Add Operation: Insert the new user record into the database
-                    if ((type & EnmOperationType.Add) == EnmOperationType.Add)
+                    // A Operation: Insert the new user record into the database
+                    if ((type & EnmOperationType.A) == EnmOperationType.A)
                     {
                         _dbConnection.Insert(poco); // Insert the new user record
                         return new Response { Message = "User added successfully" };
                     }
 
-                    // Update Operation: Update the existing user record
-                    if ((type & EnmOperationType.Update) == EnmOperationType.Update)
+                    // U Operation: U the existing user record
+                    if ((type & EnmOperationType.U) == EnmOperationType.U)
                     {
-                        _dbConnection.Update(poco); // Update the existing user record
+                        _dbConnection.Update(poco); // U the existing user record
                         return new Response { Message = "User updated successfully" };
                     }
 
@@ -240,8 +254,8 @@ namespace FinalDemo.Services
             {
                 using (_dbConnection = _dbFactory.OpenConnection())
                 {
-                    // Add Operation: Check if user already exists (e.g., based on email or username)
-                    if ((type & EnmOperationType.Add) == EnmOperationType.Add)
+                    // A Operation: Check if user already exists (e.g., based on email or username)
+                    if ((type & EnmOperationType.A) == EnmOperationType.A)
                     {
                         bool isExist = _dbConnection.Exists<YMU01>(x => x.U01F03 == poco.U01F03); // Assume U01F03 is the email field
                         if (isExist)
@@ -250,8 +264,8 @@ namespace FinalDemo.Services
                         }
                     }
 
-                    // Update Operation: Ensure the user exists and can be updated
-                    if ((type & EnmOperationType.Update) == EnmOperationType.Update)
+                    // U Operation: Ensure the user exists and can be updated
+                    if ((type & EnmOperationType.U) == EnmOperationType.U)
                     {
                         YMU01? existingUser = _dbConnection.SingleById<YMU01>(poco.U01F01);
                         if (existingUser == null)

@@ -77,7 +77,7 @@ namespace FinalDemo.Controllers
             }
             dto.O01F01 = userId.Value;
             Response response;
-            _orderService.SetOperationType(EnmOperationType.Add);
+            _orderService.SetOperationType(EnmOperationType.A);
             YMO01 poco = _orderService.PreSave(dto);
             response = _orderService.ValidateOnSave(poco);
             if (response.IsError)
@@ -103,7 +103,7 @@ namespace FinalDemo.Controllers
             }
             dto.O01F01 = userId.Value;
             Response response;
-            _orderService.SetOperationType(EnmOperationType.Add);
+            _orderService.SetOperationType(EnmOperationType.A);
             YMO01 poco = _orderService.PreSave(dto);
             response = _orderService.ValidateOnSave(poco);
             if (response.IsError)

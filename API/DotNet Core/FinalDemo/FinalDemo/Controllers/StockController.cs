@@ -88,7 +88,7 @@ namespace FinalDemo.Controllers
         public IActionResult AddStock([FromBody] DTOYMS01 stock)
         {
             Response response;
-            _stockService.SetOperationType(EnmOperationType.Add);
+            _stockService.SetOperationType(EnmOperationType.A);
             YMS01 poco = _stockService.PreSave(stock);
             response = _stockService.ValidateOnSave(poco);
             if (response.IsError)
@@ -111,7 +111,7 @@ namespace FinalDemo.Controllers
         {
             Response response;
             stock.S01F01 = id;
-            _stockService.SetOperationType(EnmOperationType.Update);
+            _stockService.SetOperationType(EnmOperationType.U);
             YMS01 poco = _stockService.PreSave(stock);
             response = _stockService.ValidateOnSave(poco);
             if (response.IsError)

@@ -72,7 +72,7 @@ namespace FinalDemo.Controllers
         public IActionResult AddUser([FromBody] DTOYMU01 dto)
         {
             Response response;
-            _userService.SetOperationType(EnmOperationType.Add);
+            _userService.SetOperationType(EnmOperationType.A);
             YMU01 poco = _userService.PreSave(dto);
             response = _userService.ValidateOnSave(poco);
             if (response.IsError)
@@ -100,7 +100,7 @@ namespace FinalDemo.Controllers
             }
             Response response;
             dto.U01F01 = id;
-            _userService.SetOperationType(EnmOperationType.Update);
+            _userService.SetOperationType(EnmOperationType.U);
             YMU01 poco = _userService.PreSave(dto);
             response = _userService.ValidateOnSave(poco);
             if (response.IsError)
@@ -125,7 +125,7 @@ namespace FinalDemo.Controllers
                 return Unauthorized();
             }
             DTOYMU01 dto = new DTOYMU01 { U01F01 = id }; // Assuming U01F01 is the ID field
-            _userService.SetOperationType(EnmOperationType.Delete);
+            _userService.SetOperationType(EnmOperationType.D);
             YMU01 poco = _userService.PreDelete(dto);
             Response response = _userService.ValidateOnDelete(poco);
             if (response.IsError)

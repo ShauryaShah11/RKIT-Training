@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Reflection;
+﻿using System.Data;
 using System.Diagnostics;
 
 namespace FinalDemo.ExtensionMethods
@@ -24,7 +21,7 @@ namespace FinalDemo.ExtensionMethods
             var dataTable = new DataTable(typeof(T).Name);
             var properties = typeof(T).GetProperties();
 
-            // Add columns
+            // A columns
             foreach (var prop in properties)
             {
                 Type propType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
@@ -46,7 +43,7 @@ namespace FinalDemo.ExtensionMethods
                 // Additional logging to verify what types are being processed
                 Debug.WriteLine($"Property: {prop.Name}, Type: {propType}");
 
-                // Add the column to the DataTable
+                // A the column to the DataTable
                 try
                 {
                     dataTable.Columns.Add(prop.Name, propType);
@@ -57,7 +54,7 @@ namespace FinalDemo.ExtensionMethods
                 }
             }
 
-            // Add rows
+            // A rows
             foreach (var item in data)
             {
                 var row = dataTable.NewRow();

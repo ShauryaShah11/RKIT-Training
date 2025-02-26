@@ -30,7 +30,19 @@ namespace FinalDemo.Interfaces
         /// <param name="stockId">The ID of the stock.</param>
         /// <returns>A response containing a list of stock price history records for the specified stock.</returns>
         Response GetStockPriceHistoryByStockId(int stockId);
+
+        /// <summary>
+        /// Retrieves the date of the minimum stock price for a specific stock.
+        /// </summary>
+        /// <param name="stockId">The ID of the stock.</param>
+        /// <returns>A response containing the date of the minimum stock price for the specified stock.</returns>
         Response GetMinStockPriceDate(int stockId);
+
+        /// <summary>
+        /// Retrieves the date of the maximum stock price for a specific stock.
+        /// </summary>
+        /// <param name="stockId">The ID of the stock.</param>
+        /// <returns>A response containing the date of the maximum stock price for the specified stock.</returns>
         Response GetMaxStockPriceDate(int stockId);
     }
 }

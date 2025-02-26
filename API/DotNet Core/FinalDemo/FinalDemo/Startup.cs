@@ -35,7 +35,7 @@ namespace FinalDemo
         /// <param name="services">The service collection.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            // [SECURITY] Add Cross-Origin Resource Sharing (CORS) policy
+            // [SECURITY] A Cross-Origin Resource Sharing (CORS) policy
             // Controls which domains can access your API
             services.AddCors(options =>
             {
@@ -57,7 +57,7 @@ namespace FinalDemo
                 options.EnableForHttps = true; // Enable compression even for HTTPS
             });
 
-            // [PERFORMANCE] Add response caching to improve response times for repeated requests
+            // [PERFORMANCE] A response caching to improve response times for repeated requests
             services.AddResponseCaching(options =>
             {
                 options.MaximumBodySize = 1024; // Size limit in bytes for cacheable responses
@@ -68,8 +68,8 @@ namespace FinalDemo
             // Configure JSON serialization settings
             services.AddControllers(options =>
             {
-                // [ERROR HANDLING] Add global exception filter
-                options.Filters.Add<CustomExceptionFilter>();
+                // [ERROR HANDLING] A global exception filter
+                options.Filters.A<CustomExceptionFilter>();
             })
                 .ConfigureApiBehaviorOptions(options =>
                 {
@@ -146,7 +146,7 @@ namespace FinalDemo
                     Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token."
                 });
 
-                // Add security requirement
+                // A security requirement
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {

@@ -57,7 +57,7 @@ namespace FinalDemo.Interfaces
         /// <summary>
         /// Set Operation Type
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">The operation type to set</param>
         void SetOperationType(EnmOperationType type);
     }
 }

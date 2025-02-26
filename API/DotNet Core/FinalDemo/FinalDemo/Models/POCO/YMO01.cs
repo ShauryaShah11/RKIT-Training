@@ -5,7 +5,6 @@ namespace FinalDemo.Models.POCO
     /// <summary>
     /// The YMO01 class represents the User OrderBook entity.
     /// </summary>
-    [CompositeKey("O01F01", "O01F02")] // Defines composite primary key
     public class YMO01
     {
         /// <summary>
