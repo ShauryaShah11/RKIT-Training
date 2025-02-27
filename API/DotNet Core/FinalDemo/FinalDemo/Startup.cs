@@ -238,6 +238,8 @@ namespace FinalDemo
             // [ROUTING] Enable endpoint routing
             app.UseRouting();
 
+            app.UseRequestCulture();
+
             // [SECURITY] Enable CORS
             app.UseCors("DefaultCorsPolicy");
 
