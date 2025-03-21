@@ -79,6 +79,7 @@
         }
     });
 
+
     // Create Operation Buttons
     $("#loadButton").dxButton({
         text: "Load Data",

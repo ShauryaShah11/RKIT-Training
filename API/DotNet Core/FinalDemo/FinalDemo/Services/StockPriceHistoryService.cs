@@ -276,12 +276,16 @@ namespace FinalDemo.Services
             {
                 using (_dbConnection = _dbFactory.OpenConnection())
                 {
-                    SqlExpression<YMH01>? q = _dbConnection.From<YMH01>()
-                         .Where(x => x.H01F02 == stockId)
-                         .OrderByDescending(x => x.H01F03)
-                         .Take(1);
+                    string sql = "SELECT * FROM YMH01 WHERE H01F02 = @stockId ORDER BY H01F03 DESC LIMIT 1";
+                    var parameters = new { stockId = stockId };
+                    List<YMH01> maxPriceRecord = _dbConnection.SqlList<YMH01>(sql, parameters);
 
-                    List<YMH01> maxPriceRecord = _dbConnection.Select(q);
+                    //SqlExpression<YMH01> ? q = _dbConnection.From<YMH01>()
+                    //     .Where(x => x.H01F02 == stockId)
+                    //     .OrderByDescending(x => x.H01F03)
+                    //     .Take(1);
+
+                    //List<YMH01> maxPriceRecord = _dbConnection.Select(q);
 
                     if (maxPriceRecord == null)
                     {
@@ -308,12 +312,16 @@ namespace FinalDemo.Services
             {
                 using (_dbConnection = _dbFactory.OpenConnection())
                 {
-                    SqlExpression<YMH01>? q = _dbConnection.From<YMH01>()
-                         .Where(x => x.H01F02 == stockId)
-                         .OrderBy(x => x.H01F03)
-                         .Take(1);
+                    string sql = "SELECT * FROM YMH01 WHERE H01F02 = @stockId ORDER BY H01F03 ASC LIMIT 1";
+                    var parameters = new { stockId = stockId };
+                    List<YMH01> minPriceRecord = _dbConnection.SqlList<YMH01>(sql, parameters);
 
-                    List<YMH01> minPriceRecord = _dbConnection.Select(q);
+                    //SqlExpression<YMH01>? q = _dbConnection.From<YMH01>()
+                    //     .Where(x => x.H01F02 == stockId)
+                    //     .OrderBy(x => x.H01F03)
+                    //     .Take(1);
+
+                    //List<YMH01> minPriceRecord = _dbConnection.Select(q);
 
                     if (minPriceRecord == null)
                     {

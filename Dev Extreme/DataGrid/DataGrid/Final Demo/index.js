@@ -68,6 +68,7 @@ $(function () {
 
     let gridInstance = $('#gridContainer').dxDataGrid({
         dataSource: store,
+        // remoteOperations: true,
         columns: [
             {
                 dataField: 'id',
@@ -209,6 +210,86 @@ $(function () {
                 title: 'User Information',
                 showTitle: true,
                 width: 800,
+            },
+            form: {
+                // Specify which items appear in the form and in what order
+                items: [
+                    // Group basic information
+                    {
+                        itemType: 'group',
+                        caption: 'Personal Details',
+                        colCount: 1,
+                        items: [
+                            {
+                                dataField: 'firstName',
+                                editorOptions: {
+                                    placeholder: 'Enter first name'
+                                }
+                            },
+                            {
+                                dataField: 'lastName',
+                                editorOptions: {
+                                    placeholder: 'Enter last name'
+                                },
+                            },
+                            {
+                                dataField: 'gender',
+                                editorType: 'dxSelectBox',
+                                editorOptions: {
+                                    items: ['Male', 'Female', 'Other'],
+                                    placeholder: 'Select gender',
+                                    searchEnabled: true,
+                                    showClearButton: true,
+                                    valueExpr: 'this',  // Use the item itself as the value
+                                    displayExpr: 'this', // Display the item as is
+                                    searchMode: 'contains',
+                                    searchTimeout: 200,
+                                    minSearchLength: 0,
+                                    showDropDownButton: true,
+
+                                },
+                                validationRules: [
+                                    { type: 'required', message: 'Gender is required' }
+                                ]
+                            },
+                            {
+                                dataField: 'birthDate',
+                                editorType: 'dxDateBox'
+                            }
+                        ]
+                    },
+                    // Group account information
+                    {
+                        itemType: 'group',
+                        caption: 'Account Information',
+                        colCount: 1,
+                        items: [
+                            {
+                                dataField: 'username',
+                                visible: true
+                            },
+                            {
+                                dataField: 'email'
+                            },
+                            {
+                                dataField: 'image',
+                                label: {
+                                    text: 'Profile Picture URL'
+                                },
+                            }
+                        ]
+                    },
+                    // Group location
+                    {
+                        itemType: 'group',
+                        caption: 'Location',
+                        colCount: 2,
+                        items: [
+                            'stateId',
+                            'cityId'
+                        ]
+                    }
+                ]
             }
         },
 
@@ -243,9 +324,16 @@ $(function () {
             visible: true, // Enabling header filter dropdowns
             allowSearch: true // Allowing search functionality within header filters
         },
-        // searchPanel: {
-        //     visible: true, // Enabling the search panel at the top of the grid
-        // },
+        searchPanel: {
+            visible: true,                    // Shows the search panel
+            width: 240,                       // Sets width in pixels
+            placeholder: "Search...",         // Custom placeholder text
+            highlightCaseSensitive: false,    // Case sensitivity for highlighting
+            highlightSearchText: true,        // Highlights matching text in the grid
+            searchVisibleColumnsOnly: false,  // Search only visible columns or all
+            text: "",                         // Initial search text
+            searchMode: "contains"            // Search mode (contains, startswith, equals)
+        },
         filterSyncEnabled: false, // Disabling sync between different filter panels
         filterPanel: { visible: true }, // Enabling the filter panel on the grid's right side
 
@@ -358,13 +446,13 @@ $(function () {
         //     // ignore: ["sorting", "filtering"]
         // },
 
-        summary:{
+        summary: {
             totalItems: [
                 {
                     column: "id",
                     summaryType: "count",
                     showInColumn: 'firstName',
-                    customizeText: function(data){
+                    customizeText: function (data) {
                         return `Total Count: ${data.value}`;
                     }
                 },
@@ -382,18 +470,18 @@ $(function () {
                 {
                     column: 'id',
                     summaryType: 'count',
-                    displayFormat: 'Total People: {0}',    
+                    displayFormat: 'Total People: {0}',
                     showInGroupFooter: true,
                     showInColumn: 'cityId'
                 }
             ],
             calculateCustomSummary: function (options) {
-                if(options.name == 'customAgeSummary'){
-                    if(options.summaryProcess == 'start'){
+                if (options.name == 'customAgeSummary') {
+                    if (options.summaryProcess == 'start') {
                         options.totalValue = 0;
                     }
-                    if(options.summaryProcess == 'calculate'){
-                        if(options.value >= 18){
+                    if (options.summaryProcess == 'calculate') {
+                        if (options.value >= 18) {
                             options.totalValue += 1;
                         }
                     }

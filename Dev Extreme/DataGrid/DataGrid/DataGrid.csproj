@@ -193,6 +193,8 @@
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.node.js" />
     <Content Include="Scrolling\index.html" />
     <Content Include="Scrolling\index.js" />
+    <Content Include="Task\index.html" />
+    <Content Include="Task\index.js" />
     <Content Include="Template\index.html" />
     <Content Include="Template\index.js" />
     <Content Include="Web.config" />

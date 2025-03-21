@@ -1,71 +1,69 @@
 ﻿$(function () {
-    // ✅ Basic DateBox with Custom Value Support
     let dateBoxInstance = $("#dateBoxContainer").dxDateBox({
-        // Allows users to enter custom dates via keyboard
-        acceptCustomValue: true,
+        // ✅ Allows users to manually enter dates via keyboard
+        acceptCustomValue: true, // Default: true
 
-        // Customizes button text for the calendar popup
-        applyButtonText: 'Apply',
-        cancelButtonText: 'Cancel',
+        // ✅ Button text for the popup
+        applyButtonText: 'Apply',   // Default: "OK"
+        cancelButtonText: 'Cancel', // Default: "Cancel"
+        todayButtonText: "Today",   // Default: "Today"
 
-        // Enable/disable the entire widget
-        disabled: false,
+        // ✅ Enable/Disable DateBox
+        disabled: false, // Default: false
 
-        // Sets the display format for the date
-        // Supported formats: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
-        displayFormat: "EEEE, d 'of' MMM", // "Tuesday, 16 of Oct" 
-        useMaskBehavior: true,
+        // ✅ Date Display Format (Supports Unicode Tokens)
+        displayFormat: "EEEE, d 'of' MMM", // Default: "shortDate"
+        useMaskBehavior: true, // Default: false (if true, enforces input format)
 
-        // Set date range constraints
-        min: new Date(2020, 0, 1),    // January 1, 2020
-        max: new Date(2025, 11, 31),  // December 31, 2025
-        dateOutOfRangeMessage: "Date is out of range",
+        // ✅ Date Range Constraints
+        min: new Date(2020, 0, 1),  // January 1, 2020 (Default: undefined)
+        max: new Date(2025, 11, 31), // December 31, 2025 (Default: undefined)
+        dateOutOfRangeMessage: "Date is out of range", // Default: "Value is out of range"
 
-        // Event handler for date changes
-        onChange: function (e) {
-            console.log("Date Changed:", e.component._changedValue);
-        },
+        // ✅ Default Selected Value
+        value: new Date(), // Default: undefined
 
-        // Default value (current date)
-        value: new Date(),
+        // ✅ Input Placeholder
+        placeholder: "Select Date", // Default: ""
 
-        // ✅ Additional Options
+        // ✅ Picker Type (How the date picker appears)
+        pickerType: 'calendar', // Options: 'calendar' | 'rollers' | 'list' | 'native'
 
-        // Keyboard navigation
-        focusStateEnabled: true,   // Enable focus state styling
-        hoverStateEnabled: true,   // Enable hover state styling
+        // ✅ Type of Date Selection
+        type: 'datetime', // Options: 'date' | 'time' | 'datetime'
 
-        // Accessibility
+        // ✅ Show Analog Clock in Time Picker
+        showAnalogClock: true, // Default: true
+
+        // ✅ Allow Opening Calendar on Input Click
+        openOnFieldClick: true, // Default: true
+
+        // ✅ Keyboard & Mouse Behavior
+        focusStateEnabled: true, // Default: true
+        hoverStateEnabled: true, // Default: true
+
+        // ✅ Styling & Appearance
+        stylingMode: "filled", // Options: 'outlined' | 'underlined' | 'filled'
+        width: 'auto', // Default: undefined (auto-sizing)
+
+        // ✅ Calendar-Specific Options
+        firstDayOfWeek: 1, // 0 = Sunday, 1 = Monday (Default: undefined)
+        showWeekNumbers: true, // Show week numbers in calendar (Default: false)
+
+        // ✅ Accessibility
         inputAttr: {
             'aria-label': 'Date Input',
             'aria-required': 'true'
         },
 
-        // Calendar popup configuration
-        openOnFieldClick: true,    // Open calendar when clicking the input
-        type: 'datetime',
-        // type: 'time',
-        pickerType: 'list',    // 'calendar' or 'rollers'
-        // list is available when type is time
-        interval: 20,
-        showAnalogClock: true,     // Show analog clock in time picker
+        // ✅ Validation
+        invalidDateMessage: "Please enter a valid date", // Default: "Value is not a valid date"
+        validationMessageMode: "auto", // Options: 'always' | 'auto' (Default: 'auto')
 
-        // Validation
-        invalidDateMessage: "Please enter a valid date",
-        validation: {
-            required: true,
-            message: "Date is required"
+        // ✅ Events
+        onValueChanged: function (e) {
+            console.log("New Date Selected:", e.value);
         },
-
-        // Styling
-        stylingMode: "filled",   // "outlined" | "underlined" | "filled"
-        width: 'auto',            // Widget width
-
-        // Calendar specific options
-        firstDayOfWeek: 2,        // 0 = Sunday, 1 = Monday
-        showWeekNumbers: true,    // Show week numbers in calendar
-
-        // Advanced event handlers
         onClosed: function () {
             console.log("Calendar popup closed");
         },
@@ -79,123 +77,105 @@
 
     // ✅ Dynamic Updates
     $("#updateButton").click(function () {
-        const newDate = new Date(2024, 5, 15); // Example new date
+        const newDate = new Date(2024, 5, 15);
         dateBoxInstance.option("value", newDate);
         console.log("DateBox value updated to:", newDate);
     });
 
-    dateBoxInstance.beginUpdate();
-
+    // ✅ Blur and Focus Methods
     $("#blur").click(function () {
         dateBoxInstance.blur();
     });
-
     $("#focus").click(function () {
         dateBoxInstance.focus();
     });
 
-    dateBoxInstance.endUpdate();
-
+    // ✅ Getting and Setting Options
     let value = dateBoxInstance.option("value");
     console.log(value);
-
     dateBoxInstance.option("value", new Date(2023, 0, 5));
 
-    let format = dateBoxInstance.option("displayFormat");
-    console.log(format);
+    console.log("Display Format:", dateBoxInstance.option("displayFormat"));
+    console.log("Type:", dateBoxInstance.option("type"));
+    console.log("Min Date:", dateBoxInstance.option("min"));
+    console.log("Max Date:", dateBoxInstance.option("max"));
+    console.log("Placeholder:", dateBoxInstance.option("placeholder"));
 
-    let type = dateBoxInstance.option("type");
-    console.log(type);
+    console.log("Disabled State:", dateBoxInstance.option("disabled"));
 
-    let minDate = dateBoxInstance.option("min");
-    let maxDate = dateBoxInstance.option("max");
-    console.log(minDate, maxDate);
-
-    let placeholder = dateBoxInstance.option("placeholder");
-    console.log(placeholder);
-
-    // dateBoxInstance.option("disabled", true); // Disables
-    console.log(dateBoxInstance.option("disabled")); // true
-
+    // ✅ Setting a Custom Event for Value Change
     dateBoxInstance.option("onValueChanged", function (e) {
-        console.log("New Date Selected:", e.value);
+        console.log("Updated Date:", e.value);
     });
 
     const now = new Date();
 
-    // ✅ Date Only Picker
+    // ✅ Different DateBox Configurations
     $('#date').dxDateBox({
-        type: 'date',              // Shows only date picker
+        type: 'date',
         value: now,
         inputAttr: { 'aria-label': 'Date' },
-        useMaskBehavior: true,     // Enable input masking
-        placeholder: "Select date" // Placeholder text
+        useMaskBehavior: true,
+        placeholder: "Select date"
     });
 
-    // ✅ Time Only Picker
     $('#time').dxDateBox({
-        type: 'time',              // Shows only time picker
+        type: 'time',
         value: now,
         inputAttr: { 'aria-label': 'Time' },
-        interval: 30,              // Time interval in minutes
-        showAnalogClock: true      // Show analog clock in popup
+        interval: 30,
+        showAnalogClock: true
     });
 
-    // ✅ Date and Time Picker
     $('#date-time').dxDateBox({
-        type: 'datetime',          // Shows both date and time picker
+        type: 'datetime',
         value: now,
         inputAttr: { 'aria-label': 'Date Time' },
-        dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss", // Format for value serialization
-        showClearButton: true      // Show clear button
+        dateSerializationFormat: "yyyy-MM-ddTHH:mm:ss",
+        showClearButton: true
     });
 
-    // ✅ Custom Format Display
     $('#custom').dxDateBox({
-        displayFormat: 'EEEE, MMM dd', // Custom display format
+        displayFormat: 'EEEE, MMM dd',
         value: now,
         inputAttr: { 'aria-label': 'Custom Date' },
-        calendarOptions: {         // Custom calendar options
-            firstDayOfWeek: 1,     // Start week on Monday
+        calendarOptions: {
+            firstDayOfWeek: 1,
             cellTemplate: function (data) {
                 return $(`<span>${data.text}</span>`);
             }
         }
     });
 
-    // ✅ Roller Picker Type
     $('#date-by-picker').dxDateBox({
-        pickerType: 'rollers',     // Use roller picker instead of calendar
+        pickerType: 'rollers',
         value: now,
         inputAttr: { 'aria-label': 'Picker Date' },
-        adaptivityEnabled: true    // Enable adaptive rendering
+        adaptivityEnabled: true
     });
 
-    // ✅ Disabled State Example
     $('#disabled').dxDateBox({
         type: 'datetime',
-        disabled: true,            // Disable the widget
+        disabled: true,
         value: now,
         inputAttr: { 'aria-label': 'Disabled' },
-        readOnly: false           // Make input read-only
+        readOnly: false
     });
 
-    // ✅ Disabled Dates Example
     $('#disabledDates').dxDateBox({
         type: 'date',
         pickerType: 'calendar',
         value: new Date(2017, 0, 3),
-        disabledDates: federalHolidays, // Disable specific dates
+        disabledDates: federalHolidays,
         inputAttr: { 'aria-label': 'Disabled' },
         onDisabledDate: function (e) {
             console.log("Attempted to select disabled date:", e.date);
         }
     });
 
-    // ✅ Clear Button Example
     $('#clear').dxDateBox({
         type: 'time',
-        showClearButton: true,     // Show clear button
+        showClearButton: true,
         value: new Date(2015, 11, 1, 6),
         inputAttr: { 'aria-label': 'Clear Date' },
         onValueCleared: function () {
@@ -206,15 +186,14 @@
     // ✅ Birthday Picker with Age Calculation
     const startDate = new Date(1981, 3, 27);
     $('#birthday').dxDateBox({
-        applyValueMode: 'useButtons', // Use buttons to apply value
+        applyValueMode: 'useButtons',
         value: startDate,
-        max: new Date(),           // Can't select future dates
-        min: new Date(1900, 0, 1), // Minimum selectable date
+        max: new Date(),
+        min: new Date(1900, 0, 1),
         inputAttr: { 'aria-label': 'Birth Date' },
         onValueChanged(data) {
             dateDiff(new Date(data.value));
         },
-        // Additional validation
         isValid: true,
         validationError: {
             message: "Please select a valid birth date"
@@ -230,7 +209,7 @@
     dateDiff(startDate);
 });
 
-// ✅ Federal Holidays Array (Disabled Dates)
+// ✅ List of Disabled Dates (Federal Holidays)
 const federalHolidays = [
     new Date(2017, 0, 1),  // New Year's Day
     new Date(2017, 0, 2),  // New Year's Day (observed)

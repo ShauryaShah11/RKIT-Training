@@ -1,24 +1,24 @@
 ﻿$(function () {
     // Initialize the main NumberBox with various configurations
     var numberBox = $("#numberBoxContainer").dxNumberBox({
-        value: 20,                  // Initial Value
-        min: 16,                    // Minimum Value
-        max: 100,                   // Maximum Value
-        showSpinButtons: true,      // Show + and - Buttons
-        buttons: ['clear', 'spins'],// Show Clear & Spin Buttons
-        showClearButton: true,      // Show Clear Button
-        rtlEnabled: false,          // Left-to-Right Layout
-        stylingMode: 'filled',      // Styling (filled, outlined, or underlined)
-        useLargeSpinButtons: true,  // Large Spin Buttons
-        readOnly: false,            // Allow Editing
-        disabled: false,            // Enable/Disable Input
-        inputAttr: { 'aria-label': 'Number Input' }, // Accessibility Label
-        placeholder: "Enter a number", // Placeholder Text
-        format: "#,##0.##",         // Number Format (Thousands Separator)
-        valueChangeEvent: "input",  // Fire Value Change Event on Input
-        invalidValueMessage: "Invalid number!", // Validation Message
-        validationMessageMode: "auto", // Show Validation Messages on Error
-        validationError: { message: "Number is out of range" }, // Custom Validation
+        value: 20,                      // Initial Value (default: null)
+        min: 16,                        // Minimum Value (default: -Infinity)
+        max: 100,                       // Maximum Value (default: Infinity)
+        showSpinButtons: true,          // Show + and - Buttons (true/false) (default: false)
+        buttons: ['clear', 'spins'],    // Buttons to show: ['clear', 'spins'] (default: [])
+        showClearButton: true,          // Show Clear Button (true/false) (default: false)
+        rtlEnabled: false,              // Right-to-Left Layout (true/false) (default: false)
+        stylingMode: 'filled',          // Styling options: 'filled', 'outlined', 'underlined' (default: 'outlined')
+        useLargeSpinButtons: true,      // Use large spin buttons (true/false) (default: false)
+        readOnly: false,                // Make input read-only (true/false) (default: false)
+        disabled: false,                // Enable/disable input (true/false) (default: false)
+        inputAttr: { 'aria-label': 'Number Input' }, // Accessibility attributes (object) (default: {})
+        placeholder: "Enter a number",  // Placeholder text (string) (default: "")
+        format: "#,##0.##",             // Number format (default: null, example: "#,##0.00")
+        valueChangeEvent: "input",      // Value change trigger: 'change', 'input', 'keyup' (default: "change")
+        invalidValueMessage: "Invalid number!", // Validation message (string) (default: "Value is invalid")
+        validationMessageMode: "auto",  // Validation message display mode: 'auto', 'always' (default: "auto")
+        validationError: { message: "Number is out of range" }, // Custom validation error message (default: null)
 
         // 🔹 Event Listeners
         onFocusIn: function () {
@@ -82,29 +82,31 @@
 
     // Basic NumberBox with minimal configuration
     $("#basicNumberBoxContainer").dxNumberBox({
-        showSpinButtons: true,
-        min: 0,
-        showClearButton: true,
-        stylingMode: 'outlined'
+        showSpinButtons: true,         // Show spin buttons (true/false) (default: false)
+        min: 0,                        // Minimum value (default: -Infinity)
+        showClearButton: true,         // Show clear button (true/false) (default: false)
+        stylingMode: 'outlined'        // Styling mode: 'filled', 'outlined', 'underlined' (default: 'outlined')
     });
 
-    // // Update the value
+    // Additional functionalities (Examples)
+
+    // // Update the value dynamically
     // numberBox.option("value", newValue);
 
-    // // Enable or disable the NumberBox
+    // // Enable or disable the NumberBox dynamically
     // numberBox.option("disabled", true);  // Disable
     // numberBox.option("disabled", false); // Enable
 
-    // // Update the placeholder
+    // // Update the placeholder dynamically
     // numberBox.option("inputAttr", { placeholder: "New Placeholder" });
 
-    // // Update the minimum and maximum values
+    // // Update the minimum and maximum values dynamically
     // numberBox.option("min", newMinValue);
     // numberBox.option("max", newMaxValue);
 
-    // // Update the styling mode
+    // // Update the styling mode dynamically
     // numberBox.option("stylingMode", "outlined");
 
-    // // Update the format
+    // // Update the format dynamically
     // numberBox.option("format", "#,##0.00");
 });

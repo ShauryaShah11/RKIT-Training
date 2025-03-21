@@ -84,6 +84,7 @@ namespace FinalDemo.Controllers
             {
                 return BadRequest(response.Message);
             }
+            response = _orderService.Save(poco);
             return CreatedAtAction(nameof(GetOrderById), new { id = (dto.O01F01) }, dto);
         }
 

@@ -1,104 +1,91 @@
-﻿// Data items used in the radio group
-const priorities = ['Low', 'Normal', 'Urgent', 'High'];
+﻿$(function () {
+    // Define the initial and updated data items for the radio group
+    const dataItems = [
+        { text: "Low", color: "grey" },
+        { text: "Normal", color: "green" },
+        { text: "Urgent", color: "yellow" },
+        { text: "High", color: "red" }
+    ];
 
-const dataItems = [
-    { text: "Low", color: "grey" },
-    { text: "Normal", color: "green" },
-    { text: "Urgent", color: "yellow" },
-    { text: "High", color: "red" }
-];
+    const newItems = [
+        { text: "Low", color: "grey" },
+        { text: "Normal", color: "green" },
+        { text: "Urgent", color: "yellow" },
+        { text: "High", color: "red" },
+        { text: "Very High", color: "black" }
+    ];
 
-// New items for the radio group to be updated later
-const newItems = [
-    { text: "Low", color: "grey" },
-    { text: "Normal", color: "green" },
-    { text: "Urgent", color: "yellow" },
-    { text: "High", color: "red" },
-    { text: "Very High", color: "black" }
-];
-
-$(function() {
-
-    // First RadioGroup - Simple use case with basic configuration
-    $("#radioGroupContainer").dxRadioGroup({
-        dataSource: dataItems,           // Array of items to display
-        displayExpr: "text",             // Property to display (default: 'text')
-        value: dataItems[1],             // Initial selected value (default: null)
-        // layout: "horizontal",         // Layout of the radio group (options: 'horizontal', 'vertical'; default: 'vertical')
-        onValueChanged: function (e) {  
-            // Event triggered when the value changes
-            let previousValue = e.previousValue;  // Previous selected value
-            let newValue = e.value;               // New selected value
-            console.log(previousValue, newValue);
-            // Event handling logic goes here
+    // 🔹 Initialize the Main Radio Group with all default values set
+    let radioGroupInstance = $("#radioGroupContainer").dxRadioGroup({
+        dataSource: dataItems,        // List of items
+        displayExpr: "text",          // Property to display
+        valueExpr: "color",           // Property to store as the selected value
+        value: dataItems[1].color,    // Default selected value -> "Normal" (green)
+        layout: "horizontal",         // Default layout
+        disabled: false,              // Default: Not disabled
+        readOnly: false,              // Default: Not read-only
+        rtlEnabled: false,            // Default: Left-to-right
+        hoverStateEnabled: true,      // Default: Hover effect enabled
+        focusStateEnabled: true,      // Default: Focus effect enabled
+        activeStateEnabled: true,     // Default: Active state enabled
+        hint: "Select priority",      // Tooltip hint
+        visible: true,                // Default: Visible
+        validationMessageMode: "auto", // Default: Auto validation message display
+        stylingMode: "outlined",      // Styling: Outlined (options: filled, outlined, underlined)
+        name: "priorityLevel",        // Name attribute for the group
+        accessKey: "p",               // Keyboard shortcut (Alt + P)
+        tabIndex: 0,                  // Default tab index
+        height: "auto",               // Default height
+        width: "auto",                // Default width
+        onInitialized: function () {
+            console.log("RadioGroup Initialized");
+        },
+        onValueChanged: function (e) {
+            console.log(`Value Changed: ${e.previousValue} -> ${e.value}`);
+        },
+        onOptionChanged: function (e) {
+            console.log(`Option Changed: ${e.name} -> ${e.value}`);
         }
-    });
-
-    // Custom RadioGroup with custom item template
-    $("#customRadioGroupContainer").dxRadioGroup({
-        dataSource: dataItems,           // Array of items to display
-        itemTemplate: function(itemData, itemIndex, itemElement){
-            // Custom template for each radio item
-            itemElement.append($("<div />")).attr("style", "color:"+itemData.color)  // Set color of text based on item data
-                                                            .text(itemData.text);    // Display text of each item
-        },
-        layout: "horizontal"             // Layout of the radio group (default: 'vertical')
-    });
-
-    // RadioGroup with various options and event handlers
-    let radioGroupInstance = $("#radioGroupContainer2").dxRadioGroup({
-        accessKey: 'x',                  // Access key for the radio group (default: null)
-        activeStateEnabled: true,        // Enables/disables the active state (default: true)
-        dataSource: dataItems,           // Array of items to display
-        disabled: false,                 // If the widget is disabled (default: false)
-        displayExpr: "text",             // Property to display (default: 'text')
-        valueExpr: "color",              // Property to store as the selected value (default: 'value')
-        focusStateEnabled: true,         // Enables/disables the focus state (default: false)
-        // height: function() {
-        //     return window.innerHeight / 1.5; // Function to determine the height (default: auto)
-        // },
-        hint: "Select an option",        // Hint to display when the widget is focused (default: null)
-        hoverStateEnabled: true,         // Enables/disables the hover state (default: true)
-        name: "color",                   // Name of the radio group (default: null)
-        onOptionChanged: function(e) {
-            // Event triggered when any option is changed (default: no event handler)
-            console.log("Option changed:", e);
-        },
-        onValueChanged: function(e) {
-            // Event triggered when the value changes
-            console.log("Value changed:", e);
-        },
-        readonly: false,                 // Makes the widget read-only (default: false)
-        rtlEnabled: false,               // Enables/disables right-to-left mode (default: false)
-        visible: true,                   // Makes the widget visible (default: true)
-        // width: "500px",                // Width of the widget (default: auto)
-        layout: "horizontal"             // Layout of the radio group (default: 'vertical')
     }).dxRadioGroup("instance");
 
-    // Update radio group items when the button is clicked
-    $("#button").click(function() {
-        radioGroupInstance.option("items", newItems);  // Change the items of the radio group
+    // 🔹 Custom Styled Radio Group
+    $("#customRadioGroupContainer").dxRadioGroup({
+        dataSource: dataItems,
+        itemTemplate: function (itemData, _, itemElement) {
+            $("<div />")
+                .text(itemData.text)
+                .css("color", itemData.color)
+                .appendTo(itemElement);
+        },
+        value: dataItems[1].color,   // Default selected value -> "Normal" (green)
+        layout: "horizontal"         // Default layout
     });
 
-    // Reset the layout option to its default value
-    radioGroupInstance.resetOption("layout");
+    // 🔹 Event Listeners & Dynamic Updates
+    $("#updateItems").click(function () {
+        radioGroupInstance.option("dataSource", newItems);
+        console.log("Radio Group Updated with New Items");
+    });
 
-    // Events:
-    // contentReady: Triggered when the widget's content is ready.
-    // disposing: Triggered when the widget is disposed.
-    // initialized: Triggered when the widget is initialized.
-    // optionChanged: Triggered when any option changes.
-    // valueChanged: Triggered when the value changes.
+    $("#disableRadio").click(function () {
+        radioGroupInstance.option("disabled", true);
+        console.log("Radio Group Disabled");
+    });
+
+    $("#enableRadio").click(function () {
+        radioGroupInstance.option("disabled", false);
+        console.log("Radio Group Enabled");
+    });
+
+    $("#resetRadio").click(function () {
+        radioGroupInstance.option("value", dataItems[1].color);
+        console.log("Radio Group Reset to Default");
+    });
+
+    $("#toggleLayout").click(function () {
+        let currentLayout = radioGroupInstance.option("layout");
+        let newLayout = currentLayout === "horizontal" ? "vertical" : "horizontal";
+        radioGroupInstance.option("layout", newLayout);
+        console.log(`Layout Changed to: ${newLayout}`);
+    });
 });
-
-// Example of dynamically updating the API reference
-// function updateRadioGroupOptions() {
-//     // Dynamically update the dataSource and layout of the radio group
-//     radioGroupInstance.option({
-//         dataSource: newItems, // Update the data source
-//         layout: "vertical"    // Change the layout to vertical
-//     });
-// }
-
-// // Call the function to update the radio group options
-// updateRadioGroupOptions();
