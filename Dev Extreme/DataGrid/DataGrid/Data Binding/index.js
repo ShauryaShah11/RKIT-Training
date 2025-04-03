@@ -45,16 +45,18 @@ $(function () {
         showBorders: true,  // Show grid borders
         allowColumnReordering: true,  // Allow users to reorder columns
         paging: {
-            pageSize: 10 // Display 10 rows per page
+            pageSize: 10,               // Default: 20 - Number of rows per page
+            enabled: true,              // Default: true - Enable or disable paging
+            pageIndex: 0                // Default: 0 - The index of the current page
         },
         pager: {
-            showPageSizeSelector: true,  // Allow the user to select page size
-            allowedPageSizes: [10, 20, 30],  // Page size options
-            showInfo: true,  // Show current page information
-            displayMode: 'adaptive',  // Adaptive mode for better UI on small screens
-            infoText: 'Page {0} of {1} ({2} items)',  // Custom information text
-            showNavigationButtons: true,  // Display navigation buttons for paging
-            visible: 'auto'  // Automatically show/hide the pager based on data size
+            showPageSizeSelector: true,  // Default: false - Allow the user to select page size
+            allowedPageSizes: [10, 20, 30],  // Default: [5, 10, 20] - Page size options
+            showInfo: true,  // Default: false - Show current page information
+            displayMode: 'adaptive',  // Default: 'full' - Adaptive mode for better UI on small screens
+            infoText: 'Page {0} of {1} ({2} items)',  // Default: 'Page {0} of {1} ({2} items)' - Custom information text
+            showNavigationButtons: true,  // Default: false - Display navigation buttons for paging
+            visible: 'auto'  // Default: 'auto' - Automatically show/hide the pager based on data size
         }
     });    
 });

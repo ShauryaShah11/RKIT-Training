@@ -65,11 +65,11 @@ $(function () {
             'City',  // Simple column with the city name
             {
                 dataField: 'Zipcode',
-                groupIndex: 1,  // Group by Zipcode, which is the second grouping level
+                // groupIndex: 1,  // Group by Zipcode, which is the second grouping level
             },
             {
                 dataField: 'State',
-                groupIndex: 0,  // Group by State, which is the first grouping level
+                groupIndex: 7,  // Group by State, which is the first grouping level
             }
         ],
 

@@ -1,4 +1,4 @@
-﻿$(() => {
+$(() => {
     function isNotEmpty(value) {
         return value !== undefined && value !== null && value !== '';
     }
@@ -30,8 +30,8 @@
                 data: args,
                 success(result) {
                     deferred.resolve(result.data, {
-                        totalCount: result.totalCount,
-                        summary: result.summary,
+                        totalCount: getCustomCount(result.data),
+                        summary: getCustomSummary(result.data),
                         groupCount: result.groupCount,
                     });
                 },
@@ -44,6 +44,14 @@
             return deferred.promise();
         },
     });
+
+    function getCustomCount(data){
+        return data.length | 0;
+    }
+
+    function getCustomSummary(data){
+        
+    }
 
     const dataStore = new DevExpress.data.DataSource({
         store: store,
@@ -78,7 +86,7 @@
         // Grouping options
         grouping: {
             // Automatically expand all groups when the grid is loaded
-            autoExpandAll: false,
+            autoExpandAll: true,
         },
         // Display the group panel where users can drag columns for grouping
         groupPanel: {
@@ -140,7 +148,6 @@
         }, {
             dataField: 'StoreCity',
             dataType: 'string',
-            autoExpandGroup: true
             // grouped: true
         }, {
             dataField: 'StoreState',

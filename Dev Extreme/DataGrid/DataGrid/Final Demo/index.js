@@ -1,12 +1,46 @@
 $(function () {
+    function isNotEmpty(value) {
+        return value !== undefined && value !== null && value !== '';
+    }
     let store = new DevExpress.data.CustomStore({
         key: 'id',  // Unique identifier for each record
+        loadMode: 'processed',  // Load data in processed mode (default is 'raw')
 
         // Function to load data from API
-        load: async function () {
+        load: function (loadOptions) {
+            const deferred = $.Deferred();
+
             try {
-                let data = await $.get("https://67ac7b0a5853dfff53dae5a1.mockapi.io/api/v1/users");
-                return data;
+                const paramNames = [
+                    'skip', 'take', 'requireTotalCount', 'requireGroupCount',
+                    'sort', 'filter', 'totalSummary', 'group', 'groupSummary',
+                ];
+    
+                const args = {};
+
+                paramNames
+                    .filter((paramName) => isNotEmpty(loadOptions[paramName]))
+                    .forEach((paramName) => { args[paramName] = JSON.stringify(loadOptions[paramName]); });
+
+                $.ajax({
+                    url: 'https://67ac7b0a5853dfff53dae5a1.mockapi.io/api/v1/users',
+                    dataType: 'json',
+                    data: args,
+                    success(result) {
+                        console.log("Success", result)
+                        deferred.resolve(result, {
+                            totalCount: result.totalCount,
+                            summary: result.summary,
+                            groupCount: result.groupCount,
+                        });
+                    },
+                    error() {
+                        deferred.reject('Data Loading Error');
+                    },
+                    timeout: 5000,
+                });
+    
+                return deferred.promise();
             } catch (error) {
                 DevExpress.ui.notify('Error loading data', 'error', 2000);
                 console.error('Load Error:', error);
@@ -200,6 +234,15 @@ $(function () {
             }
         ],
 
+        // remoteOperations: {
+        //     filtering: true,
+        //     sorting: true,
+        //     paging: true,
+        //     grouping: true,
+        //     groupPaging: true,
+        //     summary: true
+        // },
+
         columnAutoWidth: true,
         editing: {
             mode: 'popup',
@@ -246,7 +289,7 @@ $(function () {
                                     searchTimeout: 200,
                                     minSearchLength: 0,
                                     showDropDownButton: true,
-
+    
                                 },
                                 validationRules: [
                                     { type: 'required', message: 'Gender is required' }
@@ -298,6 +341,41 @@ $(function () {
             applyFilter: 'auto' // Automatically applying the filter as you type
         },
 
+        onRowPrepared: function(e) {
+            console.log("onRowPrepared triggered", e);
+            if (e.rowType === "data" && e.data.age > 50) {
+                console.log("Highlighting row with age > 50");
+                $(e.rowElement).css("background-color", "lightyellow"); // Apply background color
+            }
+            if (e.rowType === "group") {
+                $(e.rowElement).css({
+                    "font-weight": "bold",
+                    "font-size": "16px",
+                    "background-color": "#f0f8ff"
+                });
+            }
+            if (e.rowType === "header") {
+                $(e.rowElement).css("background-color", "#f4f4f4");
+            }
+            if (e.rowType === 'groupFooter') {
+                $(e.rowElement).css({
+                    'background-color': 'blue', // Set background color for groupFooter rows
+                    'font-weight': 'bold', // Set font weight for groupFooter rows
+                    'color': 'white', // Set text color for groupFooter rows
+                });
+            }
+            if (e.rowType === "totalFooter") {
+                $(e.rowElement).css({
+                    "font-weight": "bold",
+                    "background-color": "pink"
+                });
+            }
+            // isExpanded, isNewRow, isSelected
+        },
+
+        groupPanel:{
+            // allowColumnDragging: true,
+        },
         // Grouping options
         grouping: {
             // Automatically expand all groups when the grid is loaded
@@ -305,9 +383,6 @@ $(function () {
 
             // Enable the context menu for groups
             contextMenuEnabled: true,
-
-            // Disable column dragging within groups
-            allowColumnDragging: true,
 
             // Set the mode of expansion to row click (clicking a row expands it)
             expandMode: "rowClick",
@@ -446,13 +521,13 @@ $(function () {
         //     // ignore: ["sorting", "filtering"]
         // },
 
-        summary: {
+        summary:{
             totalItems: [
                 {
                     column: "id",
                     summaryType: "count",
                     showInColumn: 'firstName',
-                    customizeText: function (data) {
+                    customizeText: function(data){
                         return `Total Count: ${data.value}`;
                     }
                 },
@@ -470,27 +545,39 @@ $(function () {
                 {
                     column: 'id',
                     summaryType: 'count',
-                    displayFormat: 'Total People: {0}',
+                    displayFormat: 'Total People: {0}',    
                     showInGroupFooter: true,
                     showInColumn: 'cityId'
-                }
+                },
+                {
+                    column: 'age',
+                    summaryType: 'avg', // Calculate the average age for each group
+                    displayFormat: 'Average Age: {0}', // Display format for the summary
+                    showInGroupFooter: true, // Show this summary in the groupFooter row
+                },
             ],
             calculateCustomSummary: function (options) {
-                if (options.name == 'customAgeSummary') {
-                    if (options.summaryProcess == 'start') {
+                if(options.name == 'customAgeSummary'){
+                    if(options.summaryProcess == 'start'){
                         options.totalValue = 0;
                     }
-                    if (options.summaryProcess == 'calculate') {
-                        if (options.value >= 18) {
+                    if(options.summaryProcess == 'calculate'){
+                        if(options.value >= 18){
                             options.totalValue += 1;
                         }
                     }
                 }
             }
-        }
+        },
 
         // scrolling: {
-        //     mode: 'virtual'
+        //     mode: 'virtual',              // Scrolling strategy: 'standard' (default), 'virtual', or 'infinite'
+        //     rowRenderingMode: 'standard', // How rows are rendered: 'standard' (default) or 'virtual'
+        //     columnRenderingMode: 'standard', // How columns are rendered: 'standard' (default) or 'virtual'
+        //     useNative: false,             // Default: true on mobile, false on desktop
+        //     showScrollbar: 'always',      // Default: 'onHover' on desktop, 'never' on touch devices
+        //     scrollByContent: true,        // Default: true
+        //     scrollByThumb: false,         // Default: false
         // },
     });
 })
