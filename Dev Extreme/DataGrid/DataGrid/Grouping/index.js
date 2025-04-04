@@ -25,7 +25,6 @@ $(function () {
             contextMenuEnabled: true,
 
             // Disable column dragging within groups
-            allowColumnDragging: false,
 
             // Set the mode of expansion to row click (clicking a row expands it)
             expandMode: "rowClick",
@@ -52,6 +51,8 @@ $(function () {
         // Display the group panel where users can drag columns for grouping
         groupPanel: {
             visible: true,
+            allowColumnDragging: false,
+
         },
 
         // Define columns to display in the grid, including data fields and custom settings

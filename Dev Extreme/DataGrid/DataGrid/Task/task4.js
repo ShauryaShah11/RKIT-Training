@@ -183,7 +183,6 @@ $(function () {
         // focusedRowIndex: 2,
         // focusedRowKey: 1,
         // columnMinWidth: 500, // Sets a minimum width for columns
-        cacheEnabled: true, // Enables caching for better performance
         columnResizingMode: 'widget', // nextColumn
         dateSerializationFormat: "yyyy-MM-dd", // Sets the date serialization format
         errorRowEnabled: true, // Enables error row for displaying validation errors default: false
@@ -194,7 +193,7 @@ $(function () {
         keyboardNavigation: {
             editOnKeyPress: false,
             enabled: true, // default : true
-            enterKeyAction: 'startEdit', // default: 'startEdit'
+            enterKeyAction: 'startEdit', // default: 'startEdit' // moveFocus
             enterKeyDirection: 'column' // default: 'none', possible Values: 'none', 'row', 'column'
         }
     }).dxDataGrid("instance");
