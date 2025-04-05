@@ -23,7 +23,7 @@ $(function () {
                     .forEach((paramName) => { args[paramName] = JSON.stringify(loadOptions[paramName]); });
 
                 $.ajax({
-                    url: 'https://67ac7b0a5853dfff53dae5a1.mockapi.io/api/v1/users',
+                    url: 'https://67ac7b0a5853dfff53dae5a1.mockapi.io/api/v1/users?page=1&limit=3',
                     dataType: 'json',
                     data: args,
                     success(result) {
@@ -342,6 +342,7 @@ $(function () {
         },
 
         onRowPrepared: function(e) {
+
             console.log("onRowPrepared triggered", e);
             if (e.rowType === "data" && e.data.age > 50) {
                 console.log("Highlighting row with age > 50");
@@ -439,7 +440,8 @@ $(function () {
         columnHidingEnabled: true, // Enable column hiding for responsiveness
 
         export: {
-            enabled: true // Enable data export feature
+            enabled: true, // Enable data export feature
+            allowExportSelectedData: true, // Allow exporting only selected data
         },
 
         columnHidingEnabled: true, // Enable column hiding for responsiveness
