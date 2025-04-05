@@ -376,6 +376,51 @@ var customStore = new DevExpress.data.CustomStore({
 | `onRemoving` | Triggered before a record is removed |
 | `onRemoved` | Triggered after a record is removed |
 
+## LoadMode & Caching Options
+
+## LoadMode Option
+
+Controls how data processing occurs in CustomStore.
+
+| Value | Description |
+|-------|-------------|
+| `"processed"` | Server handles filtering/sorting (default) |
+| `"raw"` | Client-side processing after loading |
+
+```javascript
+new DevExpress.data.CustomStore({
+    loadMode: "raw",  // Client-side processing
+    load: function(loadOptions) {
+        return fetch("https://api.example.com/data")
+            .then(response => response.json());
+    }
+});
+```
+
+**When to use:**
+- `"processed"`: Large datasets, server-side operations available
+- `"raw"`: Small datasets, offline functionality needed
+
+## CacheEnabled Option
+
+Controls data caching to reduce redundant server requests.
+
+```javascript
+const store = new DevExpress.data.CustomStore({
+    key: "id",
+    cacheEnabled: true,  // Enable caching
+    load: function(loadOptions) {
+        return fetchDataFromServer(loadOptions);
+    }
+});
+
+// Clear cache when needed
+store.clearCache();
+```
+
+**Advanced options:**
+- `cacheRawData: true` - Cache unprocessed data
+
 ## Best Practices
 
 - Always handle errors gracefully in each CRUD operation.
@@ -383,6 +428,9 @@ var customStore = new DevExpress.data.CustomStore({
 - Implement caching mechanisms for optimized performance.
 - Validate data before sending requests to avoid unnecessary API calls.
 - Use pagination (`skip`, `take`) to improve data fetching efficiency.
+- Enable for static/reference data
+- Disable for frequently changing data
+- Clear cache after CRUD operations
 
 ## Conclusion
 
