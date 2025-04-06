@@ -1,7 +1,5 @@
 # Dialogues & Notification
 
-# Dialogues & Notification
-
 ## Table of Contents
 
 1. Overview
